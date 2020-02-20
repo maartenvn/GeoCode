@@ -11,13 +11,12 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Navigation from "@/components/layout/Navigation";
+import Navigation from "@/components/layout/Navigation.vue";
 
-export default Vue.extend({
+export default {
     name: "App",
     components: {
         Navigation
     }
-});
+};
 </script>

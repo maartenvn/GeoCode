@@ -103,8 +103,9 @@
 
                 <v-row class="mt-4" align-content="center" justify="center">
                     <iframe
-                        width="425"
-                        height="350"
+                        class="elevation-1"
+                        width="800"
+                        height="400"
                         frameborder="0"
                         scrolling="no"
                         marginheight="0"
