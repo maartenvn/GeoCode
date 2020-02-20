@@ -2,7 +2,7 @@
 set -e
 
 # Build
-yarn build
+yarn build --mode demo
 
 # Navigate into the build output directory
 cd dist
