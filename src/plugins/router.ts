@@ -15,11 +15,17 @@ const routes = [
         path: "/locations",
         name: "Locations",
         component: () => import("../views/Locations.vue")
+    },
+
+    {
+        path: "/location/:secretId",
+        name: "Location",
+        component: () => import("../views/Location.vue")
     }
 ];
 
 const router = new VueRouter({
-    mode: process.env.ROUTER_MODE,
+    mode: process.env.VUE_APP_ROUTER_MODE,
     base: process.env.BASE_URL,
     routes
 });
