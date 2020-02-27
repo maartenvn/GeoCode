@@ -20,3 +20,17 @@ export default {
     }
 };
 </script>
+
+<style lang="scss">
+.section {
+    &__title {
+        font-size: 2em;
+    }
+}
+
+.divider {
+    &--vertical {
+        margin: 15px;
+    }
+}
+</style>
