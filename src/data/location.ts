@@ -8,6 +8,14 @@ import Location from "./models/Location";
  */
 export function getLocation(secretId: string): Promise<Location> {
     return fetchData<Location>({
+        url: "http://localhost:3000/location.json",
+        create: createModel(Location),
+        method: "GET"
+    });
+}
+
+export function getLocations(): Promise<Array<Location>> {
+    return fetchData<Array<Location>>({
         url: "http://localhost:3000/locations.json",
         create: createModel(Location),
         method: "GET"

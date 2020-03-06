@@ -13,7 +13,7 @@
         <v-row>
             <v-col cols="12">
                 <v-tabs v-model="tab" centered icons-and-text>
-                    <v-tabs-slider></v-tabs-slider>
+                    <v-tabs-slider />
 
                     <v-tab href="#tab-information">
                         Information
@@ -81,4 +81,3 @@ export default class LocationView extends Vue {
     }
 }
 </script>
-c

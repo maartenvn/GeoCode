@@ -1,6 +1,6 @@
 import Model from "./Model";
 
-export default class Query<T extends Model> {
+export default class Query<T extends Model | any> {
     public loading: boolean;
     public data: T;
     public error: string;
