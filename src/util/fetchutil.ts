@@ -2,6 +2,7 @@ import axios, { AxiosError, Method } from "axios";
 import Model from "@/data/struct/Model";
 import Vue from "vue";
 import Query from "@/data/struct/Query";
+import ErrorMixin, { ErrorOptions } from "./error/errormixin";
 
 export class FetchOptions {
     // URL/endpoint to fetch.
@@ -33,9 +34,7 @@ export class FetchOptions {
  * Fetch data from an external API.
  * @param options Fetch options
  */
-export function fetchData<T extends Model>(
-    options: FetchOptions
-): Promise<T | AxiosError> {
+export function fetchData<T extends Model>(options: FetchOptions): Promise<T> {
     return new Promise((resolve, reject) => {
         axios({
             method: options.method,
@@ -70,7 +69,21 @@ export function fetchData<T extends Model>(
                 resolve(data);
             })
             .catch(error => {
-                reject(error);
+                // Convert the AxiosError to an ErrorValue.
+                const errorValue = {
+                    message: error.message,
+                    code: error.response ? error.response.status : 0,
+                    stacktrace: error
+                };
+
+                // Use some filtering to add some custom error codes.
+
+                // NETWORK ERROR: code network_error
+                if (errorValue.message.toLowerCase() == "network error") {
+                    errorValue.code = "network_error";
+                }
+
+                reject(errorValue);
             });
     });
 }
@@ -78,9 +91,11 @@ export function fetchData<T extends Model>(
 /**
  * Fetch data from an external API and parse it inside a "Query" wrapper for easy use inside Vue components.
  * @param fetchData Result of calling the "fetchData" function.
+ * @param errorOptions Error options.
  */
 export function fetchQuery<T extends Model>(
-    fetchData: Promise<T | AxiosError>
+    fetchData: Promise<T>,
+    errorOptions: ErrorOptions
 ): Query<T> {
     // Create the initial query object.
     const query = new Query<T>();
@@ -96,6 +111,13 @@ export function fetchQuery<T extends Model>(
         .catch(error => {
             // Update the error in the query.
             Vue.set(query, "error", error);
+
+            // Set an delay between setting the error and sending it to the error bus.
+            // This way we give Vue the time to render the ErrorHandler component.
+            setTimeout(() => {
+                // Spawn the error.
+                new ErrorMixin().$error(error, errorOptions);
+            }, 1);
         })
         .finally(() => {
             // Update the loading in the query.
