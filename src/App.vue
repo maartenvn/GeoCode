@@ -40,6 +40,11 @@ export default {
         display: flex;
     }
 
+    &__description {
+        color: rgba(0, 0, 0, 0.6);
+        padding-top: 5px;
+    }
+
     &__content {
         padding-top: 16px;
         padding-bottom: 16px;
@@ -53,6 +58,8 @@ export default {
 }
 
 .container {
+    margin-top: 20px;
+
     &--small {
         max-width: 1250px;
     }

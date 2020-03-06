@@ -34,7 +34,9 @@ export class FetchOptions {
  * Fetch data from an external API.
  * @param options Fetch options
  */
-export function fetchData<T extends Model>(options: FetchOptions): Promise<T> {
+export function fetchData<T extends Model | any>(
+    options: FetchOptions
+): Promise<T> {
     return new Promise((resolve, reject) => {
         axios({
             method: options.method,
@@ -93,7 +95,7 @@ export function fetchData<T extends Model>(options: FetchOptions): Promise<T> {
  * @param fetchData Result of calling the "fetchData" function.
  * @param errorOptions Error options.
  */
-export function fetchQuery<T extends Model>(
+export function fetchQuery<T extends Model | any>(
     fetchData: Promise<T>,
     errorOptions: ErrorOptions
 ): Query<T> {

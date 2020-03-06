@@ -1,3 +1,121 @@
 <template>
-    <div></div>
+    <v-container class="container--small">
+        <!-- Loading -->
+        <template v-if="locations.loading">
+            <v-skeleton-loader dense type="table" />
+        </template>
+
+        <!-- Data -->
+        <template v-else-if="locations.data">
+            <div class="section">
+                <v-row
+                    class="section__title"
+                    no-gutters
+                    justify="space-between"
+                    align="center"
+                >
+                    <v-col>Locations</v-col>
+
+                    <v-col cols="auto">
+                        <v-btn color="primary" text>
+                            Create new location
+                            <v-icon right>
+                                mdi-plus-circle-outline
+                            </v-icon>
+                        </v-btn>
+                    </v-col>
+                </v-row>
+
+                <div class="section__description">
+                    GeoCode contains user defined locations in various countries
+                    and cities in the world.
+                </div>
+
+                <div class="section__content mt-8">
+                    <v-data-table
+                        :headers="tableHeaders"
+                        :search="tableSearch"
+                        :items="locations.data"
+                    >
+                        <template v-slot:top>
+                            <v-text-field
+                                v-model="tableSearch"
+                                append-icon="mdi-magnify"
+                                label="Search"
+                                single-line
+                                dense
+                            />
+                        </template>
+
+                        <template v-slot:no-data>
+                            No locations available
+                        </template>
+
+                        <template v-slot:no-results>
+                            No locations found with the given parameters
+                        </template>
+
+                        <template v-slot:item.action="{ item }">
+                            <v-btn
+                                :to="`location/${item.secretId}`"
+                                color="primary"
+                                text
+                            >
+                                View
+                                <v-icon right>mdi-arrow-right</v-icon>
+                            </v-btn>
+                        </template>
+                    </v-data-table>
+                </div>
+            </div>
+        </template>
+
+        <!-- Error -->
+        <template v-else>
+            <error-handler errorId="location" />
+        </template>
+    </v-container>
 </template>
+
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import { fetchQuery } from "../util/fetchutil";
+import { getLocations } from "../data/location";
+import LocationHeader from "@/components/layout/views/location/LocationHeader.vue";
+import LocationInformation from "@/components/layout/views/location/LocationInformation.vue";
+import LocationRatings from "@/components/layout/views/location/LocationRatings.vue";
+import Query from "@/data/struct/Query";
+import Location from "@/data/models/Location";
+
+@Component
+export default class LocationView extends Vue {
+    tableHeaders: Array<any>;
+    tableSearch: string;
+
+    locations: Query<Array<Location>>;
+
+    constructor() {
+        super();
+
+        this.tableHeaders = [
+            {
+                text: "Name",
+                value: "name"
+            },
+            {
+                text: "",
+                value: "action",
+                sortable: false,
+                align: "end"
+            }
+        ];
+        this.tableSearch = "";
+
+        this.locations = fetchQuery(getLocations(), {
+            id: "location",
+            style: "CARD",
+            displayFullpage: true
+        });
+    }
+}
+</script>
