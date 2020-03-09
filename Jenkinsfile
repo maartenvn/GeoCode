@@ -29,13 +29,10 @@ pipeline {
         branch 'development'
       }
       steps {
-        sh 'cd dist'
-        sh 'zip dev.zip -r .'
+        sh 'cd dist && zip dev.zip -r .'
         sh 'rm -rf /home/groep29/frontend/development/*'
-        sh 'mv dev.zip /home/groep29/frontend/development/dev.zip'
-        sh 'cd /home/groep29/frontend/development/'
-        sh 'unzip dev.zip'
-        sh 'rm dev.zip'
+        sh 'cd dist && mv dev.zip /home/groep29/frontend/development/dev.zip'
+        sh 'cd /home/groep29/frontend/development/ && unzip dev.zip && rm dev.zip'
       }
     }
     stage('Deploy - Production') {
@@ -43,13 +40,10 @@ pipeline {
         branch 'master'
       }
       steps {
-        sh 'cd dist'
-        sh 'zip prod.zip -r .'
+        sh 'cd dist && zip prod.zip -r .'
         sh 'rm -rf /home/groep29/frontend/production/*'
-        sh 'mv prod.zip /home/groep29/frontend/production/prod.zip'
-        sh 'cd /home/groep29/frontend/production/'
-        sh 'unzip prod.zip'
-        sh 'rm prod.zip'
+        sh 'cd dist && mv prod.zip /home/groep29/frontend/production/prod.zip'
+        sh 'cd /home/groep29/frontend/production/ && unzip prod.zip && rm prod.zip'
       }
     }
   }  
