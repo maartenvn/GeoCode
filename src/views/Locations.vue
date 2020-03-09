@@ -17,7 +17,7 @@
                     <v-col>Locations</v-col>
 
                     <v-col cols="auto">
-                        <v-btn color="primary" text>
+                        <v-btn color="primary" text @click="openCreateLocation">
                             Create new location
                             <v-icon right>
                                 mdi-plus-circle-outline
@@ -81,15 +81,14 @@
 import { Component, Vue } from "vue-property-decorator";
 import { fetchQuery } from "../util/fetchutil";
 import { getLocations } from "../data/location";
-import LocationHeader from "@/components/layout/views/location/LocationHeader.vue";
-import LocationInformation from "@/components/layout/views/location/LocationInformation.vue";
-import LocationRatings from "@/components/layout/views/location/LocationRatings.vue";
+import { DataTableHeader } from "vuetify";
+import LocationCreateModal from "@/components/layout/modals/LocationCreateModal.vue";
 import Query from "@/data/struct/Query";
 import Location from "@/data/models/Location";
 
 @Component
 export default class LocationView extends Vue {
-    tableHeaders: Array<any>;
+    tableHeaders: Array<DataTableHeader>;
     tableSearch: string;
 
     locations: Query<Array<Location>>;
@@ -115,6 +114,16 @@ export default class LocationView extends Vue {
             id: "location",
             style: "CARD",
             displayFullpage: true
+        });
+    }
+
+    /**
+     * Open a modal to create a new location.
+     */
+    openCreateLocation() {
+        this.$store.dispatch("modal/open", {
+            component: LocationCreateModal,
+            width: 700
         });
     }
 }

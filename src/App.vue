@@ -9,6 +9,9 @@
 
             <!-- Snackbar -->
             <snackbar />
+
+            <!-- Modal -->
+            <modal />
         </v-content>
     </v-app>
 </template>
@@ -17,13 +20,15 @@
 import Navigation from "@/components/layout/Navigation.vue";
 import RouterViewWrapper from "@/components/util/RouterViewWrapper.vue";
 import Snackbar from "@/components/layout/Snackbar.vue";
+import Modal from "@/components/layout/Modal.vue";
 
 export default {
     name: "App",
     components: {
         Navigation,
         RouterViewWrapper,
-        Snackbar
+        Snackbar,
+        Modal
     }
 };
 </script>
@@ -75,5 +80,13 @@ export default {
         display: block;
         margin-bottom: 15px;
     }
+}
+
+.input__title {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 16px;
+    line-height: 1;
+    min-height: 8px;
+    margin-top: 20px;
 }
 </style>

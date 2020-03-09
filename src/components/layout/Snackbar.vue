@@ -15,7 +15,7 @@
         <v-spacer />
 
         <v-btn text @click="close">
-            x
+            close
         </v-btn>
     </v-snackbar>
 </template>

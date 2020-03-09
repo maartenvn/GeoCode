@@ -11,17 +11,14 @@
     "dependencies": {
         "axios": "^0.19.2",
         "core-js": "^3.6.4",
-        "tiptap-vuetify": "^2.13.2",
         "vue": "^2.6.11",
         "vue-class-component": "^7.2.2",
         "vue-property-decorator": "^8.3.0",
         "vue-router": "^3.1.5",
-        "vue2-editor": "^2.10.2",
         "vuetify": "^2.2.11",
         "vuex": "^3.1.2"
     },
     "devDependencies": {
-        "@types/vue2-editor": "^2.6.0",
         "@typescript-eslint/eslint-plugin": "^2.18.0",
         "@typescript-eslint/parser": "^2.18.0",
         "@vue/cli-plugin-babel": "~4.2.0",
@@ -52,8 +49,5 @@
             "vue-cli-service lint",
             "git add"
         ]
-    },
-    "resolutions": {
-        "prosemirror-model": "1.8.2"
     }
 }

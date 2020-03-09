@@ -68,7 +68,7 @@ export function fetchData<T extends Model | any>(
                     model.parse(data);
                 }
 
-                resolve(data);
+                resolve(model);
             })
             .catch(error => {
                 // Convert the AxiosError to an ErrorValue.

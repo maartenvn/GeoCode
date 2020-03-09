@@ -1,0 +1,64 @@
+<template>
+    <v-dialog
+        v-model="open"
+        persistent
+        :max-width="modalData.width"
+        :fullscreen="modalData.fullscreen"
+    >
+        <!-- Other -->
+        <v-card>
+            <!-- Component -->
+            <component
+                v-if="modalData.component"
+                :is="modalData.component"
+                :action="modalData.action"
+            />
+        </v-card>
+    </v-dialog>
+</template>
+
+<script lang="ts">
+import { Component, Vue, Prop } from "vue-property-decorator";
+import { mapState, mapActions } from "vuex";
+import { ModalData } from "../../store/modules/modal";
+
+@Component({
+    computed: {
+        ...mapState("modal", ["data"])
+    },
+
+    methods: {
+        ...mapActions("modal", ["close"])
+    }
+})
+export default class Modal extends Vue {
+    /**
+     * Get the data for the modal.
+     */
+    get modalData(): ModalData {
+        // Create a clone of the object to prevent Vue from mutating the data from store directly.
+        return Object.assign({}, this.$store.state.modal.data);
+    }
+
+    /**
+     * Set the data for the modal.
+     */
+    set modalData(value: ModalData) {
+        this.$store.commit("modal/SET_DATA", value);
+    }
+
+    /**
+     * Get if the snackbar should be open.
+     */
+    get open(): boolean {
+        return this.$store.state.modal.open;
+    }
+
+    /**
+     * Set if the snackbar should be open/closed.
+     */
+    set open(value: boolean) {
+        this.$store.commit("modal/SET_OPEN", value);
+    }
+}
+</script>
