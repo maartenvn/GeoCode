@@ -81,7 +81,7 @@ export function fetchData<T extends Model | any>(
                 // Use some filtering to add some custom error codes.
 
                 // NETWORK ERROR: code network_error
-                if (errorValue.message.toLowerCase() == "network error") {
+                if (error.response === undefined) {
                     errorValue.code = "network_error";
                 }
 
