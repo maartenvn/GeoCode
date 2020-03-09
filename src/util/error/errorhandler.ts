@@ -1,6 +1,7 @@
 import Vue from "vue";
 import { Component } from "vue";
 import { ErrorValue, ErrorOptions } from "./errormixin";
+import store from "@/store/store";
 import ErrorBus from "./errorbus";
 import ErrorCard from "@/components/error/ErrorCard.vue";
 import ErrorSection from "@/components/error/ErrorSection.vue";
@@ -72,14 +73,18 @@ export function handleError(binding: ErrorComponentBinding): void {
             component = ErrorCard;
         }
 
-        // SNACKBAR
-        else if (options.style === "SNACKBAR") {
-            component = ErrorSnackbar;
-        }
-
         // SECTION
         else if (options.style === "SECTION") {
             component = ErrorSection;
+        }
+
+        // SNACKBAR
+        // Snackbars are not rendered, they are displayed using the snackbar API.
+        if (options.style == "SNACKBAR") {
+            store.dispatch("snackbar/open", {
+                message: payload.value.message,
+                color: "error"
+            });
         }
 
         Vue.set(binding, "component", component);

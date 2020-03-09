@@ -8,19 +8,28 @@
         <!-- Data -->
         <template v-else-if="location.data">
             <v-row>
-                <v-col class="section" cols="8">
+                <v-col class="section" cols="12" sm="8">
                     <div class="section__title">
                         Overview
                     </div>
 
-                    <div class="section__content">
-                        {{ location.data.description }}
-                    </div>
+                    <div
+                        class="section__content"
+                        v-html="location.data.description"
+                    ></div>
                 </v-col>
 
                 <v-divider class="ml-10" vertical />
 
-                <v-col class="section" cols="auto">
+                <v-col
+                    :class="
+                        `section ${
+                            $vuetify.breakpoint.smAndDown ? 'text-center' : ''
+                        }`
+                    "
+                    cols="12"
+                    sm="auto"
+                >
                     <div class="section__title">
                         Extra information
                     </div>

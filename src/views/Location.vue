@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
 import { fetchQuery } from "../util/fetchutil";
 import { getLocation } from "../data/location";
 import LocationHeader from "@/components/layout/views/location/LocationHeader.vue";
@@ -66,17 +66,25 @@ import Location from "@/data/models/Location";
     }
 })
 export default class LocationView extends Vue {
+    /**
+     * Secret ID of the location.
+     * Should be passed by Vue Router.
+     */
+    @Prop()
+    secretId: string;
+
     location: Query<Location>;
     tab: any;
 
     constructor() {
         super();
 
-        this.location = fetchQuery(getLocation("123"), {
+        this.location = fetchQuery(getLocation(this.secretId), {
             id: "location",
             style: "CARD",
             displayFullpage: true
         });
+
         this.tab = null;
     }
 }
