@@ -146,7 +146,9 @@ export default class LocationCreateModal extends Vue {
         createLocation({
             name: this.fields.name.value,
             description: this.fields.description.value,
-            listed: this.fields.listed.value
+            listed: this.fields.listed.value,
+            lat: 51.026197,
+            long: 3.709145
         })
             .then(response => {
                 this.$store.dispatch("snackbar/open", {
