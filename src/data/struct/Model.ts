@@ -1,5 +1,5 @@
 export default interface Model {
-    parse(json: any): void;
+    parse(json: unknown): void;
 }
 
 /**

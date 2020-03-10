@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { handleError, ErrorComponentBinding } from "@/util/error/errorhandler";
 
 @Component
@@ -46,7 +46,8 @@ export default class RouterViewWrapper extends Vue {
             this.errorBinding.component &&
             this.errorBinding.payload &&
             this.errorBinding.payload.options &&
-            this.errorBinding.payload.options.displayFullpage!!
+            this.errorBinding.payload.options.displayFullpage !== undefined &&
+            this.errorBinding.payload.options.displayFullpage
         );
     }
 }

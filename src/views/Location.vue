@@ -74,15 +74,23 @@ export default class LocationView extends Vue {
     secretId: string;
 
     location: Query<Location>;
-    tab: any;
+    tab: unknown;
 
     constructor() {
         super();
 
         this.location = fetchQuery(getLocation(this.secretId), {
             id: "location",
-            style: "CARD",
-            displayFullpage: true
+            style: "SECTION",
+            displayFullpage: true,
+            customMessages: [
+                {
+                    code: "400",
+                    message: "Location does not exist.",
+                    description:
+                        "This location does not exist or was removed by the original creator or an administrator. Sorry for the inconvenience."
+                }
+            ]
         });
 
         this.tab = null;

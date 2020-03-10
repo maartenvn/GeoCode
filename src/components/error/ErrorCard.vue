@@ -36,7 +36,6 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { ErrorValue, ErrorOptions } from "../../util/error/errormixin";
 import { ErrorPayload } from "../../util/error/errorhandler";
 import { reloadRoute } from "@/util/routerutil";
 

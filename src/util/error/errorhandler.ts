@@ -5,7 +5,6 @@ import store from "@/store/store";
 import ErrorBus from "./errorbus";
 import ErrorCard from "@/components/error/ErrorCard.vue";
 import ErrorSection from "@/components/error/ErrorSection.vue";
-import ErrorSnackbar from "@/components/error/ErrorSnackbar.vue";
 import Router from "@/plugins/router";
 
 /**
@@ -66,7 +65,7 @@ export function handleError(binding: ErrorComponentBinding): void {
 
         const customErrors =
             options.customMessages !== undefined
-                ? [...options.customMessages!!, ...globalCustomErrors]
+                ? [...options.customMessages, ...globalCustomErrors]
                 : globalCustomErrors;
 
         // Ajust some errors that can be displayed better based on the given error code.

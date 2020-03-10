@@ -110,7 +110,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import TutorialStep from "@/components/layout/views/home/TutorialStep.vue";
 import LocationsMap from "@/components/LocationsMap.vue";
 import Query from "../data/struct/Query";

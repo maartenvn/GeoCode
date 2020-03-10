@@ -19,6 +19,11 @@
                 />
             </l-map>
         </template>
+
+        <!-- Error -->
+        <template v-else>
+            <error-handler id="locations" />
+        </template>
     </div>
 </template>
 
@@ -29,12 +34,14 @@ import { latLng, LatLng } from "leaflet";
 import Config from "@/config";
 import Query from "../data/struct/Query";
 import Location from "../data/models/Location";
+import ErrorHandler from "@/components/error/ErrorHandler.vue";
 
 @Component({
     components: {
         LMap,
         LTileLayer,
-        LMarker
+        LMarker,
+        ErrorHandler
     }
 })
 export default class LocationsMap extends Vue {

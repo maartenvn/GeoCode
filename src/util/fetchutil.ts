@@ -1,4 +1,4 @@
-import axios, { AxiosError, Method } from "axios";
+import axios, { Method } from "axios";
 import Model from "@/data/struct/Model";
 import Vue from "vue";
 import Query from "@/data/struct/Query";
@@ -15,7 +15,7 @@ export class FetchOptions {
     public method?: Method;
 
     // Axios options.
-    public options?: Record<string, any>;
+    public options?: Record<string, unknown>;
 
     // Key inside the json that contains the data
     // Leave empty for no key.
@@ -34,7 +34,7 @@ export class FetchOptions {
  * Fetch data from an external API.
  * @param options Fetch options
  */
-export function fetchData<T extends Model | any>(
+export function fetchData<T extends Model | unknown>(
     options: FetchOptions
 ): Promise<T> {
     return new Promise((resolve, reject) => {
@@ -95,7 +95,7 @@ export function fetchData<T extends Model | any>(
  * @param fetchData Result of calling the "fetchData" function.
  * @param errorOptions Error options.
  */
-export function fetchQuery<T extends Model | any>(
+export function fetchQuery<T extends Model | unknown>(
     fetchData: Promise<T>,
     errorOptions: ErrorOptions
 ): Query<T> {

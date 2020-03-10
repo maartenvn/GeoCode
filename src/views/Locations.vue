@@ -112,7 +112,7 @@ export default class LocationView extends Vue {
 
         this.locations = fetchQuery(getLocations(), {
             id: "location",
-            style: "CARD",
+            style: "SECTION",
             displayFullpage: true
         });
     }

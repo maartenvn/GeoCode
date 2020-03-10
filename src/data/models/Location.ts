@@ -7,7 +7,7 @@ export default class Location implements Model {
     public lat: number;
     public long: number;
 
-    public parse(json: any): void {
+    public parse(json: unknown): void {
         this.secretId = json.secret_id;
         this.name = json.name;
         this.description = json.description;

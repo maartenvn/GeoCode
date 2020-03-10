@@ -48,7 +48,7 @@ export const snackbar = {
          * @param state
          * @param open
          */
-        SET_OPEN(state: any, open: boolean) {
+        SET_OPEN(state: unknown, open: boolean) {
             state.open = open;
         },
 
@@ -58,7 +58,7 @@ export const snackbar = {
          * @param state
          * @param data
          */
-        SET_DATA(state: any, data: SnackbarData) {
+        SET_DATA(state: unknown, data: SnackbarData) {
             // Join a new snackbar with the given data.
             // This is so you only have to provide the changes.
             state.data = {
@@ -75,7 +75,7 @@ export const snackbar = {
          * @param context
          * @param data
          */
-        open(context: any, data: SnackbarData) {
+        open(context: unknown, data: SnackbarData) {
             context.commit("SET_OPEN", false);
             context.commit("SET_DATA", data);
             context.commit("SET_OPEN", true);
@@ -86,7 +86,7 @@ export const snackbar = {
          *
          * @param context
          */
-        close(context: any) {
+        close(context: unknown) {
             context.commit("SET_OPEN", false);
         }
     }

@@ -1,7 +1,7 @@
 import Model from "./Model";
 import { ErrorValue } from "@/util/error/errormixin";
 
-export default class Query<T extends Model | any> {
+export default class Query<T extends Model | unknown> {
     public loading: boolean;
     public data: T;
     public error: ErrorValue;

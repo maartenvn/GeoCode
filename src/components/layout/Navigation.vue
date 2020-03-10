@@ -61,7 +61,7 @@ import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class Navigation extends Vue {
     drawer: boolean;
-    links: Array<any>;
+    links: Array<{ title: string; to: string; icon: string }>;
 
     constructor() {
         super();
