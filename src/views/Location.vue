@@ -74,7 +74,7 @@ export default class LocationView extends Vue {
     secretId: string;
 
     location: Query<Location>;
-    tab: unknown;
+    tab: any;
 
     constructor() {
         super();

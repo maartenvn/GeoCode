@@ -6,7 +6,7 @@ export class InputField {
     /**
      * Value of the input field.
      */
-    value: string;
+    value: any;
 
     /**
      * Rules that the input value has to comply with.

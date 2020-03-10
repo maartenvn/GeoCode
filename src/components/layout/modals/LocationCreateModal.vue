@@ -96,7 +96,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { createLocation } from "@/data/location";
 import Editor from "@/components/Editor.vue";
-import { Fields } from "../../../util/fieldsutil";
+import { InputFields } from "../../../util/fieldsutil";
 
 @Component({
     components: {
@@ -105,7 +105,7 @@ import { Fields } from "../../../util/fieldsutil";
 })
 export default class LocationCreateModal extends Vue {
     stepper: number;
-    fields: Fields;
+    fields: InputFields;
 
     constructor() {
         super();
