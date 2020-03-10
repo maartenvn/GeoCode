@@ -20,7 +20,8 @@ const routes = [
     {
         path: "/location/:secretId",
         name: "Location",
-        component: () => import("../views/Location.vue")
+        component: () => import("../views/Location.vue"),
+        props: true
     }
 ];
 

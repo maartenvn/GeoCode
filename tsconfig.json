@@ -10,9 +10,11 @@
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
         "strictPropertyInitialization": false,
+        "allowJs": true,
         "sourceMap": true,
         "baseUrl": ".",
         "types": ["webpack-env", "vuetify"],
+        "typeRoots": ["./node_modules/tiptap-vuetify/types/"],
         "paths": {
             "@/*": ["src/*"]
         },
