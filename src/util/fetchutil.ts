@@ -15,7 +15,7 @@ export class FetchOptions {
     public method?: Method;
 
     // Axios options.
-    public options?: Record<string, unknown>;
+    public options?: Record<string, any>;
 
     // Key inside the json that contains the data
     // Leave empty for no key.
@@ -34,7 +34,7 @@ export class FetchOptions {
  * Fetch data from an external API.
  * @param options Fetch options
  */
-export function fetchData<T extends Model | unknown>(
+export function fetchData<T extends Model | any>(
     options: FetchOptions
 ): Promise<T> {
     return new Promise((resolve, reject) => {
@@ -95,7 +95,7 @@ export function fetchData<T extends Model | unknown>(
  * @param fetchData Result of calling the "fetchData" function.
  * @param errorOptions Error options.
  */
-export function fetchQuery<T extends Model | unknown>(
+export function fetchQuery<T extends Model | any>(
     fetchData: Promise<T>,
     errorOptions: ErrorOptions
 ): Query<T> {

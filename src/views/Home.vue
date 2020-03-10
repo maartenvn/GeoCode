@@ -64,7 +64,7 @@
                 </template>
 
                 <template v-slot:description>
-                    Find the hidden treasure containing a QR-code & some unknown
+                    Find the hidden treasure containing a QR-code & some any
                     loot.
                 </template>
             </tutorial-step>
