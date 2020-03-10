@@ -5,7 +5,7 @@ import store from "./store/store";
 import vuetify from "./plugins/vuetify";
 import ErrorMixin from "./util/error/errormixin";
 
-import "leaflet/dist/leaflet.css";
+import "./plugins/leaflet";
 
 Vue.config.productionTip = false;
 

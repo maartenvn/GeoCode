@@ -102,7 +102,11 @@
                 </v-row>
 
                 <v-row class="mt-4" align-content="center" justify="center">
-                    <locations-map :locations="locations" />
+                    <locations-map
+                        style="height: 300px; width: 70%"
+                        :locations="locations"
+                        :zoom="2"
+                    />
                 </v-row>
             </v-responsive>
         </div>
@@ -112,7 +116,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import TutorialStep from "@/components/layout/views/home/TutorialStep.vue";
-import LocationsMap from "@/components/LocationsMap.vue";
+import LocationsMap from "@/components/map/LocationsMap.vue";
 import Query from "../data/struct/Query";
 import Location from "../data/models/Location";
 import { getLocations } from "../data/location";
