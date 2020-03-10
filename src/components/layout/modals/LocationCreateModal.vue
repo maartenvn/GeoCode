@@ -70,7 +70,42 @@
                 <!-- Step 2: Location -->
                 <v-stepper-content step="2">
                     <v-form class="pt-1 pl-3">
-                        // TODO: Map here
+                        <set-location-map
+                            :marker.sync="latLng"
+                            :zoom="20"
+                            :center="[51.026197, 3.709145]"
+                            style="height: 400px; width: 100%;"
+                        />
+
+                        <v-card-subtitle>Advanced control</v-card-subtitle>
+
+                        <v-row>
+                            <v-col cols="6">
+                                <!-- Latitude -->
+                                <v-text-field
+                                    v-model="fields.latitude.value"
+                                    :rules="fields.latitude.rules"
+                                    :error-messages="fields.latitude.error"
+                                    label="Latitude"
+                                    placeholder="Latitude of the location"
+                                    outlined
+                                    required
+                                />
+                            </v-col>
+
+                            <v-col cols="6">
+                                <!-- Longitude -->
+                                <v-text-field
+                                    v-model="fields.longitude.value"
+                                    :rules="fields.longitude.rules"
+                                    :error-messages="fields.longitude.error"
+                                    label="Longitude"
+                                    placeholder="Longitude of the location"
+                                    outlined
+                                    required
+                                />
+                            </v-col>
+                        </v-row>
                     </v-form>
 
                     <v-card-actions>
@@ -93,24 +128,40 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import { createLocation } from "@/data/location";
-import Editor from "@/components/Editor.vue";
+import { LatLng } from "leaflet";
 import { InputFields } from "../../../util/fieldsutil";
+import Editor from "@/components/Editor.vue";
+import SetLocationMap from "@/components/map/SetLocationMap.vue";
 
 @Component({
     components: {
-        Editor
+        Editor,
+        SetLocationMap
     }
 })
 export default class LocationCreateModal extends Vue {
+    /**
+     * Stepper counter used for knowing in which stage of the configuration the user is.
+     */
     stepper: number;
+
+    /**
+     * Input fields values & properties.
+     */
     fields: InputFields;
+
+    /**
+     * Object containing the selected latitude & longitude on the map.
+     */
+    latLng: LatLng;
 
     constructor() {
         super();
 
         this.stepper = 1;
+        this.latLng = new LatLng(0, 0);
         this.fields = {
             name: {
                 value: "",
@@ -128,8 +179,45 @@ export default class LocationCreateModal extends Vue {
                 value: true,
                 rules: [],
                 error: ""
+            },
+
+            latitude: {
+                value: 0,
+                rules: [],
+                error: ""
+            },
+
+            longitude: {
+                value: 0,
+                rules: [],
+                error: ""
             }
         };
+    }
+
+    /**
+     * Update the latitude & longitude fields when the selected marker on the map changes.
+     */
+    @Watch("latLng")
+    updateLocationFields(val: LatLng, oldVal: LatLng) {
+        this.fields.latitude.value = val.lat;
+        this.fields.longitude.value = val.lng;
+    }
+
+    /**
+     * Update the latitude of the "latLng"-object when the field changes.
+     */
+    @Watch("fields.latitude.value")
+    updateLat(val: number, oldVal: number) {
+        this.latLng = new LatLng(val, this.latLng.lng);
+    }
+
+    /**
+     * Update the longitude of the "latLng"-object when the field changes.
+     */
+    @Watch("fields.longitude.value")
+    updateLng(val: number, oldVal: number) {
+        this.latLng = new LatLng(this.latLng.lat, val);
     }
 
     /**
@@ -147,8 +235,8 @@ export default class LocationCreateModal extends Vue {
             name: this.fields.name.value,
             description: this.fields.description.value,
             listed: this.fields.listed.value,
-            lat: 51.026197,
-            long: 3.709145
+            latitude: this.fields.latitude.value,
+            longitude: this.fields.longitude.value
         })
             .then(response => {
                 this.$store.dispatch("snackbar/open", {

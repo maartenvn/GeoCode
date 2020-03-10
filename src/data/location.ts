@@ -28,8 +28,8 @@ export class LocationCreate {
     public name: string;
     public description: string;
     public listed: boolean;
-    public lat: number;
-    public long: number;
+    public latitude: number;
+    public longitude: number;
 }
 
 /**
