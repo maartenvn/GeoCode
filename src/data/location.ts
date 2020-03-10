@@ -37,7 +37,6 @@ export class LocationCreate {
  * @param locationCreate Location parameters for the new location.
  */
 export function createLocation(locationCreate: LocationCreate): Promise<Value> {
-    console.log(locationCreate);
     return fetchData<Value>({
         url: `${Config.BACKEND.URL}${Config.BACKEND.ENDPOINTS.LOCATIONS}`,
         create: createModel(Value),
