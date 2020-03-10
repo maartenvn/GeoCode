@@ -39,6 +39,29 @@ export class ErrorOptions {
 
     // Should the error stacktrace be displayed.
     public displayStacktrace?: boolean;
+
+    // List with custom error messages for a specific HTTP status code.
+    public customMessages?: Array<ErrorCustomMessage>;
+}
+
+/**
+ * Custom error message for a specific HTTP status code.
+ */
+export class ErrorCustomMessage {
+    /**
+     * HTTP status code.
+     */
+    public code: string;
+
+    /**
+     * Custom message to display when an error with the specified code occurs.
+     */
+    public message: string;
+
+    /**
+     * Custom description to display with the error message.
+     */
+    public description: string;
 }
 
 @Component

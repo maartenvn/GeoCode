@@ -95,8 +95,8 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { createLocation } from "@/data/location";
-import { ErrorValue } from "../../../util/error/errormixin";
 import Editor from "@/components/Editor.vue";
+import { Fields } from "../../../util/fieldsutil";
 
 @Component({
     components: {
@@ -105,7 +105,7 @@ import Editor from "@/components/Editor.vue";
 })
 export default class LocationCreateModal extends Vue {
     stepper: number;
-    fields: any;
+    fields: Fields;
 
     constructor() {
         super();
@@ -146,7 +146,9 @@ export default class LocationCreateModal extends Vue {
         createLocation({
             name: this.fields.name.value,
             description: this.fields.description.value,
-            listed: this.fields.listed.value
+            listed: this.fields.listed.value,
+            lat: 51.026197,
+            long: 3.709145
         })
             .then(response => {
                 this.$store.dispatch("snackbar/open", {

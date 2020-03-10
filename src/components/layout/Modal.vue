@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { mapState, mapActions } from "vuex";
 import { ModalData } from "../../store/modules/modal";
 

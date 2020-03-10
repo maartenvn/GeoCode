@@ -5,5 +5,9 @@ export default {
         ENDPOINTS: {
             LOCATIONS: "locations"
         }
+    },
+
+    LEAFLET: {
+        TILE_SERVER: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     }
 };

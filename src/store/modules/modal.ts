@@ -36,7 +36,7 @@ export const modal = {
          * @param state
          * @param open
          */
-        SET_OPEN(state: any, open: boolean) {
+        SET_OPEN(state: unknown, open: boolean) {
             state.open = open;
         },
 
@@ -46,7 +46,7 @@ export const modal = {
          * @param state
          * @param data
          */
-        SET_DATA(state: any, data: ModalData) {
+        SET_DATA(state: unknown, data: ModalData) {
             // Join a new modal with the given data.
             // This is so you only have to provide the changes.
             state.data = {
@@ -63,7 +63,7 @@ export const modal = {
          * @param context
          * @param data
          */
-        open(context: any, data: ModalData) {
+        open(context: unknown, data: ModalData) {
             context.commit("SET_OPEN", false);
             context.commit("SET_DATA", data);
             context.commit("SET_OPEN", true);
@@ -74,7 +74,7 @@ export const modal = {
          *
          * @param context
          */
-        close(context: any) {
+        close(context: unknown) {
             context.commit("SET_OPEN", false);
         }
     }
