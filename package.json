@@ -12,6 +12,7 @@
         "axios": "^0.19.2",
         "core-js": "^3.6.4",
         "leaflet": "^1.6.0",
+        "leaflet-geosearch": "^2.7.0",
         "vue": "^2.6.11",
         "vue-class-component": "^7.2.2",
         "vue-property-decorator": "^8.3.0",
@@ -22,6 +23,7 @@
     },
     "devDependencies": {
         "@types/leaflet": "^1.5.10",
+        "@types/leaflet-geosearch": "^2.7.1",
         "@typescript-eslint/eslint-plugin": "^2.18.0",
         "@typescript-eslint/parser": "^2.18.0",
         "@vue/cli-plugin-babel": "~4.2.0",

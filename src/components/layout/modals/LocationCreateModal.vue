@@ -1,13 +1,31 @@
 <template>
     <div>
-        <v-card-title>
-            <span>Create a new location</span>
+        <v-toolbar dark color="primary">
+            <v-btn icon dark @click="close">
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+
+            <v-toolbar-title>Create new location</v-toolbar-title>
 
             <v-spacer />
 
-            <v-btn icon @click="close">
-                <v-icon>mdi-close</v-icon>
-            </v-btn>
+            <v-toolbar-items>
+                <v-btn v-if="stepper === 1" dark text @click="stepper = 2">
+                    Continue
+                </v-btn>
+
+                <v-btn
+                    v-else-if="stepper === 2"
+                    dark
+                    text
+                    @click="createLocation"
+                    >Save</v-btn
+                >
+            </v-toolbar-items>
+        </v-toolbar>
+
+        <v-card-title>
+            Create a new location
         </v-card-title>
 
         <v-card-text>
@@ -69,12 +87,18 @@
 
                 <!-- Step 2: Location -->
                 <v-stepper-content step="2">
+                    <v-card-text>
+                        Click on a location on the map to set the location. You
+                        can also use the latitude or longitude values below.
+                    </v-card-text>
+
                     <v-form class="pt-1 pl-3">
                         <set-location-map
                             :marker.sync="latLng"
-                            :zoom="20"
+                            :zoom="15"
                             :center="[51.026197, 3.709145]"
-                            style="height: 400px; width: 100%;"
+                            :searchEnabled="true"
+                            height="400px"
                         />
 
                         <v-card-subtitle>Advanced control</v-card-subtitle>
@@ -218,6 +242,19 @@ export default class LocationCreateModal extends Vue {
     @Watch("fields.longitude.value")
     updateLng(val: number, oldVal: number) {
         this.latLng = new LatLng(this.latLng.lat, val);
+    }
+
+    /**
+     * Due to a bug in Leaflet, when a map is created and not visible (such in modals or steppers),
+     * it will not render properly.
+     *
+     * By sending a fake resize event, we force Leaflet to refresh the map and display it properly.
+     */
+    @Watch("stepper")
+    updateMap() {
+        if (this.stepper == 2) {
+            window.dispatchEvent(new Event("resize"));
+        }
     }
 
     /**
