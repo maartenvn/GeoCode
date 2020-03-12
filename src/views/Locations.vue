@@ -68,6 +68,15 @@
                     </v-data-table>
                 </div>
             </div>
+
+            <div class="section">
+                <!-- <location-map
+                    height="400px"
+                    width="70%"
+                    :locations="locations.data"
+                    :zoom="2"
+                /> -->
+            </div>
         </template>
 
         <!-- Error -->
@@ -85,13 +94,22 @@ import { DataTableHeader } from "vuetify";
 import LocationCreateModal from "@/components/layout/modals/LocationCreateModal.vue";
 import Query from "@/data/struct/Query";
 import Location from "@/data/models/Location";
+import LocationMap from "@/components/map/LocationMap.vue";
 
-@Component
+@Component({
+    components: {
+        LocationMap
+    }
+})
 export default class LocationView extends Vue {
     tableHeaders: Array<DataTableHeader>;
     tableSearch: string;
 
-    locations: Query<Array<Location>>;
+    locations: Query<Array<Location>> = fetchQuery(getLocations(), {
+        id: "location",
+        style: "SECTION",
+        displayFullpage: true
+    });
 
     constructor() {
         super();

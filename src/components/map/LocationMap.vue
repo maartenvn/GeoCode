@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="height: 100%; width: 100%;">
         <!-- Loading -->
         <template v-if="locationsQuery.loading">
             <v-skeleton-loader dense type="image" />
@@ -7,17 +7,17 @@
 
         <!-- Data -->
         <template v-else-if="locationsQuery.data">
-            <l-map :zoom="zoom" :center="center">
-                <l-tile-layer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-
-                <l-marker
-                    v-for="(location, index) of locationsQuery.data"
-                    :key="index"
-                    :lat-lng="getLocationLatLng(location)"
-                />
-            </l-map>
+            <marker-map
+                class="ma-auto"
+                :height="height"
+                :width="width"
+                :zoom="zoom"
+                :center="center"
+                :markers="markers"
+                :popupComponent="popupComponent"
+                :searchEnabled="searchEnabled"
+                @searchClick="onSearchClick"
+            />
         </template>
 
         <!-- Error -->
@@ -29,22 +29,23 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
-import { latLng, LatLng } from "leaflet";
+import { latLng, LatLng, Map } from "leaflet";
+import { MapMarker } from "../../types/mapmarker";
 import Config from "@/config";
 import Query from "@/data/struct/Query";
 import Location from "@/data/models/Location";
 import ErrorHandler from "@/components/error/ErrorHandler.vue";
+import MarkerMap from "@/components/map/MarkerMap.vue";
+import LocationPopup from "@/components/map/popups/LocationPopup.vue";
+import { LocationPopupPayload } from "../../types/map/popup/locationpopup";
 
 @Component({
     components: {
-        LMap,
-        LTileLayer,
-        LMarker,
-        ErrorHandler
+        ErrorHandler,
+        MarkerMap
     }
 })
-export default class LocationsMap extends Vue {
+export default class LocationMap extends Vue {
     /**
      * Single location to display on the map
      */
@@ -58,6 +59,18 @@ export default class LocationsMap extends Vue {
     locations: Query<Array<Location>>;
 
     /**
+     * Height of the map.
+     */
+    @Prop()
+    height: number;
+
+    /**
+     * Width of the map.
+     */
+    @Prop()
+    width: number;
+
+    /**
      * Center of the map.
      */
     @Prop()
@@ -69,30 +82,58 @@ export default class LocationsMap extends Vue {
     @Prop()
     zoom: number;
 
-    /**
-     * Value to display inside the editor.
-     */
-    @Prop()
-    value: LatLng;
+    @Prop({ default: false })
+    searchEnabled: boolean;
 
     /**
      * URL of the tile provider server.
      */
     tileServer: string;
 
+    /**
+     * Component to display inside the popup of a marker.
+     */
+    popupComponent: unknown;
+
     constructor() {
         super();
 
-        this.tileServer = Config.LEAFLET.TILE_SERVER;
+        this.popupComponent = LocationPopup;
+    }
+    /**
+     * When the user clicks on a search result.
+     * Go to the coordinates on the map.
+     * @param result Search result of a search provider.
+     * @param map Map object.
+     */
+    onSearchClick(result: any, map: Map) {
+        // Go to the marker location.
+        map.flyTo([result.y, result.x], 15);
     }
 
     /**
-     * Get the latitude and longitude of a locations object.
-     *
-     * @param location Location object
+     * Get a list with markers, based on the list with locations.
      */
-    getLocationLatLng(location: Location): LatLng {
-        return latLng(location.latitude, location.longitude);
+    get markers(): Array<MapMarker> {
+        if (this.locationsQuery.data) {
+            const data = this.locationsQuery.data.map(
+                (location: Location): MapMarker => {
+                    const latLng = new LatLng(
+                        location.latitude,
+                        location.longitude
+                    );
+
+                    const marker = new MapMarker(latLng);
+                    marker.setPopupPayload(new LocationPopupPayload(location));
+
+                    return marker;
+                }
+            );
+
+            return data;
+        } else {
+            return [];
+        }
     }
 
     /**
