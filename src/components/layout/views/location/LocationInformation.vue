@@ -77,13 +77,14 @@
 
                 <div class="section__content">
                     <location-map
+                        height="500px"
+                        width="100%"
                         :location="location"
                         :center="[
                             location.data.latitude,
                             location.data.longitude
                         ]"
                         :zoom="15"
-                        style="height: 500px"
                     />
                 </div>
             </div>
@@ -101,7 +102,7 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import Query from "@/data/struct/Query";
 import Location from "@/data/models/Location";
 import ErrorHandler from "@/components/error/ErrorHandler.vue";
-import LocationMap from "@/components/map/LocationsMap.vue";
+import LocationMap from "@/components/map/LocationMap.vue";
 
 @Component({
     components: {

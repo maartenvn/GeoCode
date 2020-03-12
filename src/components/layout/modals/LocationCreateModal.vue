@@ -94,9 +94,9 @@
 
                     <v-form class="pt-1 pl-3">
                         <set-location-map
-                            :marker.sync="latLng"
-                            :zoom="15"
-                            :center="[51.026197, 3.709145]"
+                            :marker.sync="marker"
+                            :zoom="1"
+                            :center="[0, 0]"
                             :searchEnabled="true"
                             height="400px"
                         />
@@ -153,9 +153,10 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
-import { createLocation } from "@/data/location";
 import { LatLng } from "leaflet";
-import { InputFields } from "../../../util/fieldsutil";
+import { createLocation } from "@/data/location";
+import { InputFields } from "@/util/fieldsutil";
+import { MapMarker } from "@/types/mapmarker";
 import Editor from "@/components/Editor.vue";
 import SetLocationMap from "@/components/map/SetLocationMap.vue";
 
@@ -177,15 +178,15 @@ export default class LocationCreateModal extends Vue {
     fields: InputFields;
 
     /**
-     * Object containing the selected latitude & longitude on the map.
+     * Object containing the selected marker on the map.
      */
-    latLng: LatLng;
+    marker: MapMarker;
 
     constructor() {
         super();
 
         this.stepper = 1;
-        this.latLng = new LatLng(0, 0);
+        this.marker = new MapMarker(new LatLng(0, 0));
         this.fields = {
             name: {
                 value: "",
@@ -222,26 +223,26 @@ export default class LocationCreateModal extends Vue {
     /**
      * Update the latitude & longitude fields when the selected marker on the map changes.
      */
-    @Watch("latLng")
-    updateLocationFields(val: LatLng, oldVal: LatLng) {
-        this.fields.latitude.value = val.lat;
-        this.fields.longitude.value = val.lng;
+    @Watch("marker", { deep: true })
+    updateLocationFields(val: MapMarker) {
+        this.fields.latitude.value = val.getLatLng().lat;
+        this.fields.longitude.value = val.getLatLng().lng;
     }
 
     /**
-     * Update the latitude of the "latLng"-object when the field changes.
+     * Update the latitude of the "marker"-object when the field changes.
      */
     @Watch("fields.latitude.value")
-    updateLat(val: number, oldVal: number) {
-        this.latLng = new LatLng(val, this.latLng.lng);
+    updateLat(val: number) {
+        this.marker.setLatLng(new LatLng(val, this.marker.getLatLng().lng));
     }
 
     /**
-     * Update the longitude of the "latLng"-object when the field changes.
+     * Update the longitude of the "marker"-object when the field changes.
      */
     @Watch("fields.longitude.value")
-    updateLng(val: number, oldVal: number) {
-        this.latLng = new LatLng(this.latLng.lat, val);
+    updateLng(val: number) {
+        this.marker.setLatLng(new LatLng(this.marker.getLatLng().lat, val));
     }
 
     /**
