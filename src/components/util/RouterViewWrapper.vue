@@ -33,6 +33,7 @@ export default class RouterViewWrapper extends Vue {
     }
 
     created() {
+        // Create a listener that will update the error component binding when an error occurs.
         handleError(this.errorBinding);
     }
 
