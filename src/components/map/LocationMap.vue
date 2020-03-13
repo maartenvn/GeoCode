@@ -180,6 +180,7 @@ export default class LocationMap extends Vue {
 
         if (error !== undefined) {
             query.error = error;
+            query.data = undefined;
         }
 
         return query;
