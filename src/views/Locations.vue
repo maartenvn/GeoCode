@@ -57,7 +57,7 @@
                             <v-tabs-items v-model="tab">
                                 <v-tab-item value="tab-map">
                                     <location-map
-                                        height="400px"
+                                        height="55vh"
                                         width="100%"
                                         :locations="locations"
                                         :zoom="2"
