@@ -15,7 +15,9 @@
             />
 
             <!-- Title -->
-            <v-toolbar-title>GeoCode</v-toolbar-title>
+            <v-toolbar-title class="navbar__title" @click="$router.push('/')">
+                GeoCode
+            </v-toolbar-title>
 
             <v-spacer />
 
@@ -141,3 +143,11 @@ export default class Navigation extends Vue {
     }
 }
 </script>
+
+<style lang="scss">
+.navbar {
+    &__title {
+        cursor: pointer;
+    }
+}
+</style>
