@@ -38,7 +38,7 @@
 
             <v-row>
                 <v-col cols="12">
-                    <v-tabs v-model="tab" centered icons-and-text>
+                    <v-tabs v-model="tab" centered show-arrows icons-and-text>
                         <v-tabs-slider />
 
                         <v-tab href="#tab-map">

@@ -21,15 +21,7 @@
 
                 <v-divider class="ml-10" vertical />
 
-                <v-col
-                    :class="
-                        `section ${
-                            $vuetify.breakpoint.smAndDown ? 'text-center' : ''
-                        }`
-                    "
-                    cols="12"
-                    sm="auto"
-                >
+                <v-col cols="12" sm="auto">
                     <div class="section__title">
                         Extra information
                     </div>

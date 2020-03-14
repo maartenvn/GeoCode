@@ -42,7 +42,6 @@ export default {
         font-size: 1.25rem;
         font-weight: 500;
         line-height: 2rem;
-        display: flex;
     }
 
     &__description {
