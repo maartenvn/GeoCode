@@ -17,6 +17,15 @@ export class InputField {
      * Error message to display.
      */
     error: string;
+
+    /**
+     * Constructor without values
+     */
+    constructor(rules: Array<Function> = []) {
+        this.value = "";
+        this.rules = rules;
+        this.error = "";
+    }
 }
 
 export class InputErrors {

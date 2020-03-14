@@ -6,8 +6,8 @@ export default {
             LOCATIONS: "locations",
             USERS: "users",
             SESSION: "user",
-            OAUTH: {
-                GOOGLE: "oauth/google"
+            AUTH: {
+                REGISTER: "auth/register"
             }
         }
     },

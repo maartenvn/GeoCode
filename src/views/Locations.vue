@@ -177,7 +177,6 @@ export default class LocationView extends Vue {
     openCreateLocation() {
         this.$store.dispatch("modal/open", {
             component: LocationCreateModal,
-            width: 800,
             fullscreen: true
         });
     }
