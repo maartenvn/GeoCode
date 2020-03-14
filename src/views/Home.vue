@@ -13,6 +13,12 @@
                             Find & create amazing locations to explore and share
                             with others. GeoCode is the new way of Geocaching
                             you have been dreaming of.
+
+                            <div class="mt-10">
+                                <v-btn to="/login" color="secondary" large>
+                                    Register for free
+                                </v-btn>
+                            </div>
                         </div>
                     </v-col>
                     <v-col cols="12" sm="6">
@@ -122,6 +128,7 @@ import Query from "../data/struct/Query";
 import Location from "../data/models/Location";
 import { getLocations } from "../data/location";
 import { fetchQuery } from "../util/fetchutil";
+import { StoreGetter } from "../store/decorator";
 
 @Component({
     components: {
@@ -134,6 +141,12 @@ export default class Home extends Vue {
      * List with all the locations in the database.
      */
     locations: Query<Array<Location>>;
+
+    /**
+     * If the client is logged in.
+     */
+    @StoreGetter("session/isAuthenticated")
+    isAuthenticated: boolean;
 
     constructor() {
         super();

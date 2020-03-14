@@ -50,6 +50,15 @@ export const session = {
          */
         currentUser(state: any): Query<User> {
             return state.currentUser;
+        },
+
+        /**
+         * Get if the client is authenticated (logged in).
+         *
+         * @param state
+         */
+        isAuthenticated(state: any): boolean {
+            return state.currentUser.data;
         }
     }
 };
