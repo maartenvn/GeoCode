@@ -14,7 +14,7 @@
                             with others. GeoCode is the new way of Geocaching
                             you have been dreaming of.
 
-                            <div class="mt-4">
+                            <div class="mt-10">
                                 <v-btn to="/login" color="secondary" large>
                                     Register for free
                                 </v-btn>
