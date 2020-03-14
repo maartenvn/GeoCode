@@ -55,7 +55,9 @@ export class GeneralError {
  * @param fields Object containing all the different InputField-objects
  */
 export function getFieldValues(fields: InputFields): any {
-    return Object.keys(fields).map(key => fields[key].value);
+    return Object.fromEntries(
+        Object.entries(fields).map(([key, _]) => [key, fields[key].value])
+    );
 }
 
 /**
@@ -64,6 +66,11 @@ export function getFieldValues(fields: InputFields): any {
  * @param error Error object containing the different errors.
  */
 export function setFieldErrors(fields: InputFields, error: InputErrors): void {
+    // Check if the input errors are defined.
+    if (error !== undefined && error.inputErrors !== undefined) {
+        return;
+    }
+
     for (const inputError of error.inputErrors) {
         const field = fields[inputError.field];
         field.error = inputError.message;
