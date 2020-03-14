@@ -16,6 +16,9 @@ export function getLocation(secretId: string): Promise<Location> {
     });
 }
 
+/**
+ * Get a list with locations.
+ */
 export function getLocations(): Promise<Array<Location>> {
     return fetchData<Array<Location>>({
         url: `${Config.BACKEND.URL}${Config.BACKEND.ENDPOINTS.LOCATIONS}`,

@@ -1,33 +1,15 @@
 import Vue from "vue";
-import { Component } from "vue";
-import { ErrorValue, ErrorOptions, ErrorCustomMessage } from "./errormixin";
 import store from "@/store/store";
 import ErrorBus from "./errorbus";
 import ErrorCard from "@/components/error/ErrorCard.vue";
 import ErrorSection from "@/components/error/ErrorSection.vue";
 import Router from "@/plugins/router";
-
-/**
- * Component that will be used to update & pass error components & payload to another Vue component.
- */
-export class ErrorComponentBinding {
-    // Component to render when an error occurs.
-    public component: Component;
-
-    // Payload to pass to the component.
-    public payload: ErrorPayload;
-}
-
-/**
- * Payload that will be passed to the component specified in the error component binding.
- */
-export class ErrorPayload {
-    // Error value
-    public value: ErrorValue;
-
-    // Error options
-    public options: ErrorOptions;
-}
+import {
+    ErrorComponentBinding,
+    ErrorOptions,
+    ErrorValue,
+    ErrorCustomMessage
+} from "./error";
 
 /**
  * List with custom error messages for certain response codes/messages

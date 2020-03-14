@@ -3,7 +3,12 @@ export default {
         URL: process.env.VUE_APP_BACKEND_URL,
 
         ENDPOINTS: {
-            LOCATIONS: "locations"
+            LOCATIONS: "locations",
+            USERS: "users",
+            SESSION: "user",
+            OAUTH: {
+                GOOGLE: "oauth/google"
+            }
         }
     },
 

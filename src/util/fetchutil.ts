@@ -2,7 +2,8 @@ import axios, { Method } from "axios";
 import Model from "@/data/struct/Model";
 import Vue from "vue";
 import Query from "@/data/struct/Query";
-import ErrorMixin, { ErrorOptions } from "./error/errormixin";
+import { ErrorOptions } from "./error/error";
+import ErrorMixin from "./error/errormixin";
 
 export class FetchOptions {
     // URL/endpoint to fetch.

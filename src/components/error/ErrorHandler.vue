@@ -8,7 +8,8 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { ErrorComponentBinding, handleError } from "@/util/error/errorhandler";
+import { handleError } from "@/util/error/errorhandler";
+import { ErrorComponentBinding } from "../../util/error/error";
 
 @Component
 export default class ErrorHandler extends Vue {
