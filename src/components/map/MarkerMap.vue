@@ -19,9 +19,11 @@
             ref="map"
             :zoom="zoom"
             :center="center"
+            :options="mapOptions"
             :style="
                 `height: ${height}; width: ${width}; z-index: 1; margin: auto;`
             "
+            gestureHandling
             @click="handleMapClick"
         >
             <l-tile-layer
@@ -49,7 +51,7 @@
 import { Component, Vue, Prop, Watch, Emit } from "vue-property-decorator";
 import { LMap, LTileLayer, LMarker, LPopup } from "vue2-leaflet";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
-import { LatLng, Map, LeafletMouseEvent } from "leaflet";
+import { LatLng, Map, LeafletMouseEvent, MapOptions } from "leaflet";
 import { MapMarker } from "@/types/mapmarker";
 
 @Component({
@@ -145,6 +147,11 @@ export default class MarkerMap extends Vue {
      */
     map: Map;
 
+    /**
+     * Map options
+     */
+    mapOptions: MapOptions & { gestureHandling: boolean };
+
     constructor() {
         super();
 
@@ -153,6 +160,10 @@ export default class MarkerMap extends Vue {
         this.searchLoading = false;
         this.searchSelected = null;
         this.searchProvider = new OpenStreetMapProvider();
+        this.mapOptions = {
+            zoomSnap: 0.5,
+            gestureHandling: true
+        };
     }
 
     mounted() {
