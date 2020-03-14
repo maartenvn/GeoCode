@@ -29,6 +29,49 @@
                 >
                     {{ link.title }}
                 </v-btn>
+
+                <!-- User: logged in -->
+                <template v-if="currentUser.data">
+                    <v-menu transition="slide-y-transition" offset-y bottom>
+                        <template v-slot:activator="{ attrs, on }">
+                            <v-btn v-on="on" v-bind="attrs" text>
+                                {{ currentUser.username }}
+                                <v-icon right>mdi-menu-down</v-icon>
+                            </v-btn>
+                        </template>
+                        <v-list dense nav>
+                            <v-list>
+                                <!-- Logout -->
+                                <v-list-item to="/logout">
+                                    <v-list-item-icon>
+                                        <v-icon>mdi-logout</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-title>
+                                        Logout
+                                    </v-list-item-title>
+                                </v-list-item>
+
+                                <!-- Profile -->
+                                <v-list-item to="/profile">
+                                    <v-list-item-icon>
+                                        <v-icon>mdi-account-box</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-title>
+                                        Profile
+                                    </v-list-item-title>
+                                </v-list-item>
+                            </v-list>
+                        </v-list>
+                    </v-menu>
+                </template>
+
+                <!-- User: not logged in -->
+                <template v-else>
+                    <v-btn to="/login" text>
+                        <v-icon left>mdi-login</v-icon>
+                        Login
+                    </v-btn>
+                </template>
             </v-toolbar-items>
         </v-toolbar>
 
@@ -57,11 +100,19 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { fetchQuery } from "@/util/fetchutil";
+import { getCurrentUser } from "@/data/user";
+import { StoreGetter } from "@/store/decorator";
+import Query from "@/data/struct/Query";
+import User from "@/data/models/User";
 
 @Component
 export default class Navigation extends Vue {
     drawer: boolean;
     links: Array<{ title: string; to: string; icon: string }>;
+
+    @StoreGetter("session/currentUser")
+    currentUser: Query<User>;
 
     constructor() {
         super();

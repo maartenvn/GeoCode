@@ -1,5 +1,5 @@
 import Model from "./Model";
-import { ErrorValue } from "@/util/error/errormixin";
+import { ErrorValue } from "@/util/error/error";
 
 export default class Query<T extends Model | any> {
     public loading: boolean;

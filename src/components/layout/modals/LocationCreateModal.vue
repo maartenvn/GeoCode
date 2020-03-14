@@ -155,7 +155,7 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { LatLng } from "leaflet";
 import { createLocation } from "@/data/location";
-import { InputFields } from "@/util/fieldsutil";
+import { InputFields, getFieldValues, setFieldErrors } from "@/util/fieldsutil";
 import { MapMarker } from "@/types/mapmarker";
 import Editor from "@/components/Editor.vue";
 import SetLocationMap from "@/components/map/SetLocationMap.vue";
@@ -269,13 +269,7 @@ export default class LocationCreateModal extends Vue {
      * Create a new location with the given parameters.
      */
     createLocation() {
-        createLocation({
-            name: this.fields.name.value,
-            description: this.fields.description.value,
-            listed: this.fields.listed.value,
-            latitude: this.fields.latitude.value,
-            longitude: this.fields.longitude.value
-        })
+        createLocation(getFieldValues(this.fields))
             .then(response => {
                 this.$store.dispatch("snackbar/open", {
                     message: "Location was succesfully created",
@@ -289,6 +283,8 @@ export default class LocationCreateModal extends Vue {
                 this.$router.push(`/location/${response.value}`);
             })
             .catch(error => {
+                setFieldErrors(this.fields, error);
+
                 this.$error(error, {
                     style: "SNACKBAR",
                     id: "location_create"

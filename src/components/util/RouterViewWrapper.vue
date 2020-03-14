@@ -17,7 +17,8 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { handleError, ErrorComponentBinding } from "@/util/error/errorhandler";
+import { handleError } from "@/util/error/errorhandler";
+import { ErrorComponentBinding } from "../../util/error/error";
 
 @Component
 export default class RouterViewWrapper extends Vue {

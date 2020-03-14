@@ -18,3 +18,54 @@ export class InputField {
      */
     error: string;
 }
+
+export class InputErrors {
+    /**
+     * Array containing all the different input errors.
+     */
+    inputErrors: Array<InputError>;
+
+    /**
+     * Array containing all the different general errors.
+     */
+    generalErrors: Array<GeneralError>;
+}
+
+export class InputError {
+    /**
+     * Name of the field.
+     */
+    field: string;
+
+    /**
+     * Error message for the corresponding field.
+     */
+    message: string;
+}
+
+export class GeneralError {
+    /**
+     * Error message.
+     */
+    message: string;
+}
+
+/**
+ * Map the InputField-objects on an object with values.
+ * @param fields Object containing all the different InputField-objects
+ */
+export function getFieldValues(fields: InputFields): any {
+    return Object.keys(fields).map(key => fields[key].value);
+}
+
+/**
+ * Update the error message of each "InputField" with data from an InputError.
+ * @param fields Object containing all the different InputField-objects.
+ * @param error Error object containing the different errors.
+ */
+export function setFieldErrors(fields: InputFields, error: InputErrors): void {
+    for (const inputError of error.inputErrors) {
+        const field = fields[inputError.field];
+        field.error = inputError.message;
+    }
+}
