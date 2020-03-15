@@ -43,16 +43,6 @@
                         </template>
                         <v-list dense nav>
                             <v-list>
-                                <!-- Logout -->
-                                <v-list-item to="/logout">
-                                    <v-list-item-icon>
-                                        <v-icon>mdi-logout</v-icon>
-                                    </v-list-item-icon>
-                                    <v-list-item-title>
-                                        Logout
-                                    </v-list-item-title>
-                                </v-list-item>
-
                                 <!-- Profile -->
                                 <v-list-item to="/profile">
                                     <v-list-item-icon>
@@ -60,6 +50,16 @@
                                     </v-list-item-icon>
                                     <v-list-item-title>
                                         Profile
+                                    </v-list-item-title>
+                                </v-list-item>
+
+                                <!-- Logout -->
+                                <v-list-item to="/logout">
+                                    <v-list-item-icon>
+                                        <v-icon>mdi-logout</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-title>
+                                        Logout
                                     </v-list-item-title>
                                 </v-list-item>
                             </v-list>
@@ -100,6 +100,70 @@
                         <v-list-item-title>{{ link.title }}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
+
+                <!-- User: logged in -->
+                <template v-if="currentUser.data">
+                    <v-list-group prepend-icon="mdi-person" no-action>
+                        <template v-slot:activator>
+                            <v-list-item-title>
+                                {{ currentUser.username }}
+                            </v-list-item-title>
+                        </template>
+
+                        <!-- Profile -->
+                        <v-list-item to="/profile">
+                            <v-list-item-title>
+                                Profile
+                            </v-list-item-title>
+                            <v-list-item-icon>
+                                <v-icon>mdi-account-box</v-icon>
+                            </v-list-item-icon>
+                        </v-list-item>
+
+                        <!-- Logout -->
+                        <v-list-item to="/logout">
+                            <v-list-item-title>
+                                Logout
+                            </v-list-item-title>
+                            <v-list-item-icon>
+                                <v-icon>mdi-logout</v-icon>
+                            </v-list-item-icon>
+                        </v-list-item>
+                    </v-list-group>
+                </template>
+
+                <!-- User: not logged in -->
+                <template v-else>
+                    <!-- Login -->
+                    <v-list-item to="/login">
+                        <!-- Icon -->
+                        <v-list-item-icon>
+                            <v-icon>mdi-login</v-icon>
+                        </v-list-item-icon>
+
+                        <!-- Text -->
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                Login
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+
+                    <!-- Register -->
+                    <v-list-item to="/register">
+                        <!-- Icon -->
+                        <v-list-item-icon>
+                            <v-icon>mdi-account-plus</v-icon>
+                        </v-list-item-icon>
+
+                        <!-- Text -->
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                Register
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </template>
             </v-list>
         </v-navigation-drawer>
     </div>
