@@ -135,9 +135,8 @@ import {
     setFieldErrors,
     modifyGeneralError
 } from "@/util/fieldsutil";
+import { executeCaptcha } from "@/util/captchautil";
 import { registerUser } from "../data/user";
-
-declare const grecaptcha: any;
 
 @Component
 export default class Register extends Vue {
@@ -179,64 +178,45 @@ export default class Register extends Vue {
         // Set loading.
         this.loading = true;
 
-        // When the recaptcha is loaded.
-        grecaptcha.ready(() => {
-            grecaptcha
-                .execute(process.env.VUE_APP_RECAPTCHA_KEY, {
-                    action: "register"
-                })
-                .then((token: string) => {
-                    // Execute the register request.
-                    registerUser(
-                        Object.assign(getFieldValues(this.fields), {
-                            captcha: token
-                        })
-                    )
-                        .then(data => {
-                            // Finish loading
-                            this.loading = false;
+        // Execute the captcha.
+        executeCaptcha("register")
+            .then(token => {
+                // Execute the register request.
+                registerUser(
+                    Object.assign(getFieldValues(this.fields), {
+                        captcha: token
+                    })
+                )
+                    .then(data => {
+                        // Finish loading
+                        this.loading = false;
 
-                            // Send confirmation message.
-                            this.$store.dispatch("snackbar/open", {
-                                message: "Account was succesfully created",
-                                color: "success"
-                            });
-
-                            // Navigate to the login page.
-                            this.$router.push("/login");
-                        })
-                        .catch(error => {
-                            // Finish loading
-                            this.loading = false;
-
-                            this.$error(modifyGeneralError(error), {
-                                style: "SNACKBAR",
-                                id: "register"
-                            });
-
-                            // Handle field errors.
-                            setFieldErrors(this.fields, error);
+                        // Send confirmation message.
+                        this.$store.dispatch("snackbar/open", {
+                            message: "Account was succesfully created",
+                            color: "success"
                         });
-                })
-                .catch((error: string) => {
-                    // Finish loading
-                    this.loading = false;
 
-                    // Captcha failed to load. Throw an error.
-                    this.$error(
-                        {
-                            message:
-                                "Unable to progress captcha. Try again later.",
-                            stacktrace: error
-                        },
-                        {
+                        // Navigate to the login page.
+                        this.$router.push("/login");
+                    })
+                    .catch(error => {
+                        // Finish loading
+                        this.loading = false;
+
+                        this.$error(modifyGeneralError(error), {
                             style: "SNACKBAR",
-                            id: "register",
-                            displayConsole: true
-                        }
-                    );
-                });
-        });
+                            id: "register"
+                        });
+
+                        // Handle field errors.
+                        setFieldErrors(this.fields, error);
+                    });
+            })
+            .finally(() => {
+                // Finish loading
+                this.loading = false;
+            });
     }
 }
 </script>

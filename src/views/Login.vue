@@ -73,6 +73,7 @@ import {
     modifyGeneralError
 } from "@/util/fieldsutil";
 import { loginUser } from "../data/user";
+import { executeCaptcha } from "../util/captchautil";
 
 @Component
 export default class Login extends Vue {
@@ -103,31 +104,43 @@ export default class Login extends Vue {
         // Set loading.
         this.loading = true;
 
-        loginUser(getFieldValues(this.fields))
-            .then(data => {
-                // Send confirmation message.
-                this.$store.dispatch("snackbar/open", {
-                    message: "Successfully logged in",
-                    color: "success"
-                });
+        executeCaptcha("login")
+            .then(token => {
+                // Execute the login request.
+                loginUser(
+                    Object.assign(getFieldValues(this.fields), {
+                        captcha: token
+                    })
+                )
+                    .then(data => {
+                        // Send confirmation message.
+                        this.$store.dispatch("snackbar/open", {
+                            message: "Successfully logged in",
+                            color: "success"
+                        });
 
-                // Navigate to the home page.
-                this.$router.push("/");
+                        // Navigate to the home page.
+                        this.$router.push("/");
 
-                // Update the current user inside the store.
-                this.$store.dispatch("session/fetch");
+                        // Update the current user inside the store.
+                        this.$store.dispatch("session/fetch");
+                    })
+                    .catch(error => {
+                        // Finish loading
+                        this.loading = false;
+
+                        this.$error(modifyGeneralError(error), {
+                            style: "SNACKBAR",
+                            id: "login"
+                        });
+
+                        // Handle field errors.
+                        setFieldErrors(this.fields, error);
+                    });
             })
-            .catch(error => {
+            .finally(() => {
                 // Finish loading
                 this.loading = false;
-
-                this.$error(modifyGeneralError(error), {
-                    style: "SNACKBAR",
-                    id: "login"
-                });
-
-                // Handle field errors.
-                setFieldErrors(this.fields, error);
             });
     }
 }
