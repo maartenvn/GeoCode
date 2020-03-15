@@ -115,7 +115,8 @@ export function modifyGeneralError(error: ErrorValue): ErrorValue {
     if (
         error === undefined ||
         error.response === undefined ||
-        error.response.generalErrors === undefined
+        error.response.generalErrors === undefined ||
+        error.response.generalErrors.length <= 0
     ) {
         return error;
     }
