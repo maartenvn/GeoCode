@@ -135,8 +135,9 @@ import {
     setFieldErrors,
     modifyGeneralError
 } from "@/util/fieldsutil";
-import { load } from "recaptcha-v3";
 import { registerUser } from "../data/user";
+
+declare const grecaptcha: any;
 
 @Component
 export default class Register extends Vue {
@@ -178,13 +179,13 @@ export default class Register extends Vue {
         // Set loading.
         this.loading = true;
 
-        // Load the ReCaptcha.
-        load(process.env.VUE_APP_RECAPTCHA_KEY, {
-            autoHideBadge: true
-        }).then(recaptcha => {
-            recaptcha
-                .execute("register")
-                .then(token => {
+        // When the recaptcha is loaded.
+        grecaptcha.ready(() => {
+            grecaptcha
+                .execute(process.env.VUE_APP_RECAPTCHA_KEY, {
+                    action: "register"
+                })
+                .then((token: string) => {
                     // Execute the register request.
                     registerUser(
                         Object.assign(getFieldValues(this.fields), {
@@ -217,7 +218,7 @@ export default class Register extends Vue {
                             setFieldErrors(this.fields, error);
                         });
                 })
-                .catch(error => {
+                .catch((error: string) => {
                     // Finish loading
                     this.loading = false;
 
