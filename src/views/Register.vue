@@ -10,6 +10,18 @@
                     Follow the steps below to create a new account.
                 </p>
 
+                <p style="font-size: 0.8em;">
+                    This site is protected by reCAPTCHA and the Google
+                    <a href="https://policies.google.com/privacy"
+                        >Privacy Policy</a
+                    >
+                    and
+                    <a href="https://policies.google.com/terms"
+                        >Terms of Service</a
+                    >
+                    apply.
+                </p>
+
                 <v-form>
                     <v-row>
                         <v-col cols="12" sm="8">
@@ -116,7 +128,13 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
-import { InputFields, InputField, getFieldValues } from "@/util/fieldsutil";
+import {
+    InputFields,
+    InputField,
+    getFieldValues,
+    setFieldErrors,
+    modifyGeneralError
+} from "@/util/fieldsutil";
 import { load } from "recaptcha-v3";
 import { registerUser } from "../data/user";
 
@@ -161,7 +179,9 @@ export default class Register extends Vue {
         this.loading = true;
 
         // Load the ReCaptcha.
-        load(process.env.VUE_APP_RECAPTCHA_KEY).then(recaptcha => {
+        load(process.env.VUE_APP_RECAPTCHA_KEY, {
+            autoHideBadge: true
+        }).then(recaptcha => {
             recaptcha
                 .execute("register")
                 .then(token => {
@@ -185,13 +205,16 @@ export default class Register extends Vue {
                             this.$router.push("/login");
                         })
                         .catch(error => {
-                            this.$error(error, {
+                            // Finish loading
+                            this.loading = false;
+
+                            this.$error(modifyGeneralError(error), {
                                 style: "SNACKBAR",
                                 id: "register"
                             });
 
-                            // Finish loading
-                            this.loading = false;
+                            // Handle field errors.
+                            setFieldErrors(this.fields, error);
                         });
                 })
                 .catch(error => {

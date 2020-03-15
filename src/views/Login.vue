@@ -7,11 +7,11 @@
                         Login
                     </v-card-title>
 
-                    <v-card-subtitle>
-                        Login into your existing GeoCode account.
-                    </v-card-subtitle>
-
                     <v-card-text>
+                        <p class="pb-4">
+                            Login into your existing GeoCode account.
+                        </p>
+
                         <!-- Email -->
                         <v-text-field
                             v-model="fields.email.value"
@@ -65,7 +65,13 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
-import { InputFields, InputField, getFieldValues } from "@/util/fieldsutil";
+import {
+    InputFields,
+    InputField,
+    getFieldValues,
+    setFieldErrors,
+    modifyGeneralError
+} from "@/util/fieldsutil";
 import { loginUser } from "../data/user";
 
 @Component
@@ -107,15 +113,21 @@ export default class Login extends Vue {
 
                 // Navigate to the home page.
                 this.$router.push("/");
+
+                // Update the current user inside the store.
+                this.$store.dispatch("session/fetch");
             })
             .catch(error => {
-                this.$error(error, {
-                    style: "SNACKBAR",
-                    id: "register"
-                });
-
                 // Finish loading
                 this.loading = false;
+
+                this.$error(modifyGeneralError(error), {
+                    style: "SNACKBAR",
+                    id: "login"
+                });
+
+                // Handle field errors.
+                setFieldErrors(this.fields, error);
             });
     }
 }
