@@ -7020,6 +7020,11 @@ readdirp@~3.3.0:
   dependencies:
     picomatch "^2.0.7"
 
+recaptcha-v3@^1.7.2:
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/recaptcha-v3/-/recaptcha-v3-1.7.2.tgz#7de77a9e2f2023a8bbffd464773de02fcdc87ea7"
+  integrity sha512-cT5mlRGHg+SX3ARVv792XcjJFJEaoHqC3A/89927sojngKntxZhk7aabwTSIOLXqwF9oO0w5Jl+HOFAh6hKwfQ==
+
 rechoir@^0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/rechoir/-/rechoir-0.6.2.tgz#85204b54dba82d5742e28c96756ef43af50e3384"

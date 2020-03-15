@@ -15,6 +15,9 @@ export class ErrorValue {
 
     // Stacktrace of the error.
     public stacktrace?: string;
+
+    // Response message of the error.
+    public response?: any;
 }
 
 /**

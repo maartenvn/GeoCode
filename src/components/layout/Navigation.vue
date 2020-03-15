@@ -73,6 +73,11 @@
                         <v-icon left>mdi-login</v-icon>
                         Login
                     </v-btn>
+
+                    <v-btn to="/register" text>
+                        <v-icon left>mdi-account-plus</v-icon>
+                        Register
+                    </v-btn>
                 </template>
             </v-toolbar-items>
         </v-toolbar>
@@ -107,6 +112,7 @@ import { getCurrentUser } from "@/data/user";
 import { StoreGetter } from "@/store/decorator";
 import Query from "@/data/struct/Query";
 import User from "@/data/models/User";
+import RegisterModal from "./modals/RegisterModal.vue";
 
 @Component
 export default class Navigation extends Vue {

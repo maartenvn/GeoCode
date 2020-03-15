@@ -76,7 +76,8 @@ export function fetchData<T extends Model | any>(
                 const errorValue = {
                     message: error.message,
                     code: error.response ? error.response.status : 0,
-                    stacktrace: error
+                    stacktrace: error,
+                    response: error.response ? error.response.data : ""
                 };
 
                 // Use some filtering to add some custom error codes.

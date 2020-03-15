@@ -5,9 +5,10 @@ export default {
         ENDPOINTS: {
             LOCATIONS: "locations",
             USERS: "users",
-            SESSION: "user",
-            OAUTH: {
-                GOOGLE: "oauth/google"
+            AUTH: {
+                REGISTER: "auth/register",
+                LOGIN: "auth/login",
+                SESSION: "auth/session"
             }
         }
     },

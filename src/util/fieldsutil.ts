@@ -1,3 +1,5 @@
+import { ErrorValue } from "./error/error";
+
 export class InputFields {
     [prop: string]: InputField;
 }
@@ -17,6 +19,15 @@ export class InputField {
      * Error message to display.
      */
     error: string;
+
+    /**
+     * Constructor without values
+     */
+    constructor(rules: Array<Function> = []) {
+        this.value = "";
+        this.rules = rules;
+        this.error = "";
+    }
 }
 
 export class InputErrors {
@@ -65,14 +76,39 @@ export function getFieldValues(fields: InputFields): any {
  * @param fields Object containing all the different InputField-objects.
  * @param error Error object containing the different errors.
  */
-export function setFieldErrors(fields: InputFields, error: InputErrors): void {
-    // Check if the input errors are defined.
-    if (error !== undefined && error.inputErrors !== undefined) {
+export function setFieldErrors(fields: InputFields, error: ErrorValue): void {
+    // Check if the input errors are undefined.
+    if (
+        error === undefined ||
+        error.response === undefined ||
+        error.response.inputErrors === undefined
+    ) {
         return;
     }
 
-    for (const inputError of error.inputErrors) {
+    for (const inputError of error.response.inputErrors.reverse()) {
         const field = fields[inputError.field];
         field.error = inputError.message;
     }
+}
+
+/**
+ * Extract the general error from the input error.
+ * It will take the first element in the general errors list.
+ * @param error Error object containing the different errors.
+ */
+export function modifyGeneralError(error: ErrorValue): ErrorValue {
+    // Check if the input errors are undefined.
+    if (
+        error === undefined ||
+        error.response === undefined ||
+        error.response.generalErrors === undefined
+    ) {
+        return error;
+    }
+
+    // Modify the error message to contain the first general error.
+    error.message = error.response.generalErrors[0].message;
+
+    return error;
 }
