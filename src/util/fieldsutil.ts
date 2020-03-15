@@ -86,9 +86,22 @@ export function setFieldErrors(fields: InputFields, error: ErrorValue): void {
         return;
     }
 
-    for (const inputError of error.response.inputErrors.reverse()) {
-        const field = fields[inputError.field];
-        field.error = inputError.message;
+    // Set the error messages for every field.
+    for (const fieldName of Object.keys(fields)) {
+        const fieldValue = fields[fieldName];
+        const fieldNewError = error.response.inputErrors.find(
+            (inputError: InputError) => inputError.field === fieldName
+        );
+
+        // Set the new error message, when available.
+        if (fieldNewError !== undefined) {
+            fieldValue.error = fieldNewError.message;
+        }
+
+        // Otherwise set an empty error.
+        else {
+            fieldValue.error = "";
+        }
     }
 }
 
