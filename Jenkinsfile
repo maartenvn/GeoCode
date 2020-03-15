@@ -46,5 +46,10 @@ pipeline {
         sh 'cd /home/groep29/frontend/production/ && unzip prod.zip && rm prod.zip'
       }
     }
+    stage('Self Destruct') {
+      steps {
+        sh 'rm -rf .[!.]* *'
+      }
+    }
   }  
 }
