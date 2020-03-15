@@ -22,7 +22,7 @@
                     apply.
                 </p>
 
-                <v-form>
+                <v-form @submit.prevent>
                     <v-row>
                         <v-col cols="12" md="8">
                             <v-row>
@@ -110,6 +110,7 @@
                                     depressed
                                     @click="register"
                                     :disabled="loading"
+                                    type="submit"
                                 >
                                     Create account
                                 </v-btn>
