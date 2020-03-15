@@ -24,7 +24,7 @@
 
                 <v-form>
                     <v-row>
-                        <v-col cols="12" sm="8">
+                        <v-col cols="12" md="8">
                             <v-row>
                                 <v-col>
                                     <!-- Username -->
@@ -116,7 +116,11 @@
                             </v-card-actions>
                         </v-col>
 
-                        <v-col class="d-flex justify-center" cols="12" sm="4">
+                        <v-col
+                            class="hidden-sm-and-down text-center"
+                            cols="12"
+                            md="4"
+                        >
                             <img src="@/assets/img/logo.svg" height="80%" />
                         </v-col>
                     </v-row>
