@@ -15,7 +15,7 @@
                             you have been dreaming of.
 
                             <div class="mt-10">
-                                <v-btn to="/login" color="secondary" large>
+                                <v-btn to="/register" color="secondary" large>
                                     Register for free
                                 </v-btn>
                             </div>
