@@ -42,6 +42,7 @@ export function fetchData<T extends Model | any>(
         axios({
             method: options.method,
             url: options.url,
+            withCredentials: true,
             ...options.options
         })
             .then(response => {
