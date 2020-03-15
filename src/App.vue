@@ -88,4 +88,8 @@ export default {
     min-height: 8px;
     margin-top: 20px;
 }
+
+.grecaptcha-badge {
+    display: none !important;
+}
 </style>
