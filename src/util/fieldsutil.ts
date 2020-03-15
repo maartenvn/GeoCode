@@ -115,14 +115,16 @@ export function modifyGeneralError(error: ErrorValue): ErrorValue {
     if (
         error === undefined ||
         error.response === undefined ||
-        error.response.generalErrors === undefined ||
-        error.response.generalErrors.length <= 0
+        error.response.generalErrors === undefined
     ) {
         return error;
     }
 
-    // Modify the error message to contain the first general error.
-    error.message = error.response.generalErrors[0].message;
+    // Check if any general error was found.
+    if (error.response.generalErrors.length > 0) {
+        // Modify the error message to contain the first general error.
+        error.message = error.response.generalErrors[0].message;
+    }
 
     return error;
 }
