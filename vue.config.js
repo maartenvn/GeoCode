@@ -7,9 +7,7 @@ module.exports = {
         ? process.env.VUE_APP_PUBLIC_PATH
         : "",
     chainWebpack(config) {
-        config.plugins.delete("prefetch");
-
-        // and this line
+        // Add GZIP-compression to the build cycle.
         config.plugin("CompressionPlugin").use(CompressionPlugin);
     }
 };
