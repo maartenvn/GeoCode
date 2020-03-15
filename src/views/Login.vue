@@ -7,56 +7,59 @@
                         Login
                     </v-card-title>
 
-                    <v-card-text>
-                        <p class="pb-4">
-                            Login into your existing GeoCode account.
-                        </p>
+                    <v-form @submit.prevent>
+                        <v-card-text>
+                            <p class="pb-4">
+                                Login into your existing GeoCode account.
+                            </p>
 
-                        <!-- Email -->
-                        <v-text-field
-                            v-model="fields.email.value"
-                            :rules="fields.email.rules"
-                            :error-messages="fields.email.error"
-                            :disabled="loading"
-                            append-icon="mdi-email"
-                            label="Email"
-                            placeholder="Please enter your email address"
-                            type="email"
-                            outlined
-                            required
-                        />
+                            <!-- Email -->
+                            <v-text-field
+                                v-model="fields.email.value"
+                                :rules="fields.email.rules"
+                                :error-messages="fields.email.error"
+                                :disabled="loading"
+                                append-icon="mdi-email"
+                                label="Email"
+                                placeholder="Please enter your email address"
+                                type="email"
+                                outlined
+                                required
+                            />
 
-                        <!-- Password -->
-                        <v-text-field
-                            v-model="fields.password.value"
-                            :rules="fields.password.rules"
-                            :error-messages="fields.password.error"
-                            :disabled="loading"
-                            append-icon="mdi-lock"
-                            label="Password"
-                            placeholder="Enter your password"
-                            type="password"
-                            outlined
-                            required
-                        />
-                    </v-card-text>
+                            <!-- Password -->
+                            <v-text-field
+                                v-model="fields.password.value"
+                                :rules="fields.password.rules"
+                                :error-messages="fields.password.error"
+                                :disabled="loading"
+                                append-icon="mdi-lock"
+                                label="Password"
+                                placeholder="Enter your password"
+                                type="password"
+                                outlined
+                                required
+                            />
+                        </v-card-text>
 
-                    <v-card-actions>
-                        <v-btn to="/register" color="primary" text>
-                            Create an account
-                        </v-btn>
+                        <v-card-actions>
+                            <v-btn to="/register" color="primary" text>
+                                Create an account
+                            </v-btn>
 
-                        <v-spacer />
+                            <v-spacer />
 
-                        <v-btn
-                            color="primary"
-                            depressed
-                            @click="login"
-                            :disabled="loading"
-                        >
-                            Login
-                        </v-btn>
-                    </v-card-actions>
+                            <v-btn
+                                color="primary"
+                                depressed
+                                @click="login"
+                                :disabled="loading"
+                                type="submit"
+                            >
+                                Login
+                            </v-btn>
+                        </v-card-actions>
+                    </v-form>
                 </v-card>
             </v-col>
         </v-row>
