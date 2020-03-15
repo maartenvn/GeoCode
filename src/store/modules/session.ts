@@ -20,8 +20,8 @@ export const session = {
          * @param state
          * @param user User that is logged in.
          */
-        SET_CURRENTUSER(state: any, user: Query<User>) {
-            state.user = user;
+        SET_CURRENTUSER(state: any, currentUser: Query<User>) {
+            state.currentUser = currentUser;
         }
     },
 
