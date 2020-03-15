@@ -893,6 +893,11 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
+"@types/grecaptcha@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@types/grecaptcha/-/grecaptcha-3.0.1.tgz#359c46be0baeac15ae4021f002d1c0c9374ae3e4"
+  integrity sha512-eMA/2quQoxwSe8oOBB1H6KNXNqginzt9BHAt2vVVUoQswZNct2QwSAmEMsN/VHj/XSNxM3p+Py15B7omEaAC9w==
+
 "@types/json-schema@^7.0.3":
   version "7.0.4"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.4.tgz#38fd73ddfd9b55abb1e1b2ed578cb55bd7b7d339"
@@ -7019,11 +7024,6 @@ readdirp@~3.3.0:
   integrity sha512-zz0pAkSPOXXm1viEwygWIPSPkcBYjW1xU5j/JBh5t9bGCJwa6f9+BJa6VaB2g+b55yVrmXzqkyLf4xaWYM0IkQ==
   dependencies:
     picomatch "^2.0.7"
-
-recaptcha-v3@^1.7.2:
-  version "1.7.2"
-  resolved "https://registry.yarnpkg.com/recaptcha-v3/-/recaptcha-v3-1.7.2.tgz#7de77a9e2f2023a8bbffd464773de02fcdc87ea7"
-  integrity sha512-cT5mlRGHg+SX3ARVv792XcjJFJEaoHqC3A/89927sojngKntxZhk7aabwTSIOLXqwF9oO0w5Jl+HOFAh6hKwfQ==
 
 rechoir@^0.6.2:
   version "0.6.2"
