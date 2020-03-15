@@ -283,6 +283,7 @@ export default class LocationCreateModal extends Vue {
                 this.$router.push(`/location/${response.value}`);
             })
             .catch(error => {
+                // Handle field errors.
                 setFieldErrors(this.fields, error);
 
                 this.$error(error, {
