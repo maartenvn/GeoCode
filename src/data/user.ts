@@ -9,7 +9,7 @@ import Value from "./models/Value";
  */
 export function getCurrentUser(): Promise<User> {
     return fetchData<User>({
-        url: `${Config.BACKEND.URL}${Config.BACKEND.ENDPOINTS.AUTH.SESSION}`,
+        url: `${Config.BACKEND.URL}${Config.BACKEND.ENDPOINTS.SESSION.USER}`,
         create: createModel(User),
         method: "GET"
     });
