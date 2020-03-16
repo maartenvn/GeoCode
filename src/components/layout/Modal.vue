@@ -4,6 +4,11 @@
         persistent
         :max-width="modalData.width"
         :fullscreen="modalData.fullscreen"
+        :transition="
+            modalData.fullscreen
+                ? 'dialog-bottom-transition'
+                : 'dialog-transition'
+        "
     >
         <!-- Other -->
         <v-card>
@@ -66,11 +71,15 @@ export default class Modal extends Vue {
     /**
      * Get the component.
      */
-    get component(): Function {
-        return () => ({
-            component: this.$store.state.modal.data.component(),
-            loading: LoadingModal
-        });
+    get component(): unknown | Function {
+        if (this.$store.state.modal.data.component instanceof Promise) {
+            return () => ({
+                component: this.$store.state.modal.data.component(),
+                loading: LoadingModal
+            });
+        } else {
+            return this.$store.state.modal.data.component;
+        }
     }
 }
 </script>
