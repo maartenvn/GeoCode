@@ -44,7 +44,7 @@
 
                     <!-- View -->
                     <v-btn
-                        :to="`location/${item.secretId}`"
+                        :to="`/location/${item.secretId}`"
                         color="primary"
                         text
                     >
