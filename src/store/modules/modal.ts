@@ -2,7 +2,7 @@ export class ModalData {
     /**
      * Component to display inside the modal.
      */
-    public component: string;
+    public component: unknown | Function;
 
     /**
      * Payload to pass to the component.

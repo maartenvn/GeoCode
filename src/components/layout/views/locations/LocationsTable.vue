@@ -113,7 +113,7 @@ export default class LocationsTable extends Vue {
      */
     openConfirmDeleteLocation(location: Location) {
         this.$store.dispatch("modal/open", {
-            component: () => ConfirmationModal,
+            component: ConfirmationModal,
             componentPayload: {
                 message: `Are you sure you want to delete '${location.name}? This action is permanent and cannot be undone!'`,
                 action: () =>
