@@ -65,7 +65,7 @@
                                 </v-list-item>
 
                                 <!-- Logout -->
-                                <v-list-item to="/logout">
+                                <v-list-item @click="logout">
                                     <v-list-item-icon>
                                         <v-icon>mdi-logout</v-icon>
                                     </v-list-item-icon>
@@ -133,7 +133,7 @@
                             </v-list-item>
 
                             <!-- Logout -->
-                            <v-list-item to="/logout">
+                            <v-list-item @click="logout">
                                 <v-list-item-title>
                                     Logout
                                 </v-list-item-title>
@@ -185,7 +185,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { fetchQuery } from "@/util/fetchutil";
-import { getCurrentUser } from "@/data/user";
+import { getCurrentUser, logoutUser } from "@/data/user";
 import { StoreGetter } from "@/store/decorator";
 import Query from "@/data/struct/Query";
 import User from "@/data/models/User";
@@ -223,6 +223,13 @@ export default class Navigation extends Vue {
      */
     toggleDrawer(): void {
         this.drawer = !this.drawer;
+    }
+
+    /**
+     * Logout
+     */
+    logout(): void {
+        logoutUser();
     }
 }
 </script>
