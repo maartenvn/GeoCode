@@ -19,7 +19,11 @@
                     <v-col>Locations</v-col>
 
                     <v-col cols="auto">
-                        <v-btn color="primary" text @click="openCreateLocation">
+                        <v-btn
+                            color="primary"
+                            depressed
+                            @click="openCreateLocation"
+                        >
                             Create new location
                             <v-icon right>
                                 mdi-plus-circle-outline
@@ -124,7 +128,8 @@ export default class LocationView extends Vue {
      */
     openCreateLocation() {
         this.$store.dispatch("modal/open", {
-            component: LocationCreateModal,
+            component: () =>
+                import("@/components/layout/modals/LocationCreateModal.vue"),
             fullscreen: true
         });
     }

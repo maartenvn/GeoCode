@@ -61,10 +61,9 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import Query from "@/data/struct/Query";
 import { DataTableHeader } from "vuetify";
-import LocationCreateModal from "@/components/layout/modals/LocationCreateModal.vue";
-import ConfirmationModal from "@/components/layout/modals/ConfirmationModal.vue";
 import Location from "@/data/models/Location";
 import { deleteLocation } from "@/data/location";
+import ConfirmationModal from "@/components/layout/modals/ConfirmationModal.vue";
 
 @Component
 export default class LocationsTable extends Vue {
@@ -114,7 +113,7 @@ export default class LocationsTable extends Vue {
      */
     openConfirmDeleteLocation(location: Location) {
         this.$store.dispatch("modal/open", {
-            component: ConfirmationModal,
+            component: () => ConfirmationModal,
             componentPayload: {
                 message: `Are you sure you want to delete '${location.name}? This action is permanent and cannot be undone!'`,
                 action: () =>

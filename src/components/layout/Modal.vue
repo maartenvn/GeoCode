@@ -10,7 +10,7 @@
             <!-- Component -->
             <component
                 v-if="modalData.component"
-                :is="modalData.component"
+                :is="component"
                 :action="modalData.action"
                 :payload="modalData.componentPayload"
             />
@@ -22,6 +22,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { mapState, mapActions } from "vuex";
 import { ModalData } from "../../store/modules/modal";
+import LoadingModal from "./modals/LoadingModal.vue";
 
 @Component({
     computed: {
@@ -60,6 +61,16 @@ export default class Modal extends Vue {
      */
     set open(value: boolean) {
         this.$store.commit("modal/SET_OPEN", value);
+    }
+
+    /**
+     * Get the component.
+     */
+    get component(): Function {
+        return () => ({
+            component: this.$store.state.modal.data.component(),
+            loading: LoadingModal
+        });
     }
 }
 </script>
