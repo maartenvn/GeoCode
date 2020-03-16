@@ -35,7 +35,7 @@ import { logoutUser } from "../data/user";
 export default class Logout extends Vue {
     created() {
         // Attempt to logout the current user.
-        logoutUser().then(_ => {
+        logoutUser().then(() => {
             // Navigate to the home page.
             this.$router.push("/");
         });
