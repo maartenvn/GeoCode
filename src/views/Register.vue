@@ -163,7 +163,9 @@ export default class Register extends Vue {
             username: new InputField(),
             email: new InputField(),
             password: new InputField(),
-            passwordRepeat: new InputField([this.passwordConfirmationRule])
+            passwordRepeat: new InputField({
+                rules: [this.passwordConfirmationRule]
+            })
         };
     }
 

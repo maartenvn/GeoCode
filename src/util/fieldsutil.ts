@@ -23,11 +23,15 @@ export class InputField {
     /**
      * Constructor without values
      */
-    constructor(rules: Array<Function> = []) {
-        this.value = "";
-        this.rules = rules;
+    constructor(field: { value?: any; rules?: Array<Function> } = {}) {
+        this.value = field.value ? field.value : "";
+        this.rules = field.rules ? field.rules : [];
         this.error = "";
     }
+}
+
+export class InputFieldsUpdate {
+    [prop: string]: string;
 }
 
 export class InputErrors {

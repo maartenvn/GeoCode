@@ -5,6 +5,7 @@ import { fetchData } from "@/util/fetchutil";
 import { createModel } from "./struct/Model";
 import ErrorMixin from "@/util/error/errormixin";
 import store from "@/store/store";
+import { InputFieldsUpdate } from "@/util/fieldsutil";
 /**
  * Get the logged in user.
  */
@@ -65,7 +66,7 @@ export function logoutUser(): Promise<void> {
     // Send loading message.
     store.dispatch("snackbar/open", {
         message: "Logging out...",
-        color: "success",
+        color: "info",
         timeout: 120 * 1000
     });
 
@@ -91,4 +92,20 @@ export function logoutUser(): Promise<void> {
                 displayFullpage: true
             });
         });
+}
+
+/**
+ * Update the current user
+ * @param key Name of the field to update.
+ * @param value New value for the given field key.
+ */
+export function updateUser(changes: InputFieldsUpdate): Promise<Value> {
+    return fetchData<Value>({
+        url: `${Config.BACKEND.URL}${Config.BACKEND.ENDPOINTS.SESSION.USER}s`,
+        create: createModel(Value),
+        method: "PATCH",
+        options: {
+            data: changes
+        }
+    });
 }
