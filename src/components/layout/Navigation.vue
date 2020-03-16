@@ -115,7 +115,7 @@
                 <template v-if="!currentUser.loading">
                     <!-- User: logged in -->
                     <template v-if="currentUser.data">
-                        <v-list-group prepend-icon="mdi-person" no-action>
+                        <v-list-group prepend-icon="mdi-account" no-action>
                             <template v-slot:activator>
                                 <v-list-item-title>
                                     {{ currentUser.data.username }}
