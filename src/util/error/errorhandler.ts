@@ -16,6 +16,12 @@ import {
  */
 const globalCustomErrors: Array<ErrorCustomMessage> = [
     {
+        code: "401",
+        message: "You are not logged in",
+        description:
+            "You are currently nog logged in. Please login and try again!"
+    },
+    {
         code: "404",
         message: "Page not found",
         description:
