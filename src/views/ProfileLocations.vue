@@ -59,7 +59,8 @@ export default class ProfileLocations extends Vue {
      */
     openCreateLocation() {
         this.$store.dispatch("modal/open", {
-            component: LocationCreateModal,
+            component: () =>
+                import("@/components/layout/modals/LocationCreateModal.vue"),
             fullscreen: true
         });
     }
