@@ -32,54 +32,63 @@
                     {{ link.title }}
                 </v-btn>
 
-                <template v-if="!currentUser.loading">
-                    <!-- User: logged in -->
-                    <template v-if="currentUser.data">
-                        <v-menu transition="slide-y-transition" offset-y bottom>
-                            <template v-slot:activator="{ attrs, on }">
-                                <v-btn v-on="on" v-bind="attrs" text>
-                                    {{ currentUser.data.username }}
-                                    <v-icon right>mdi-menu-down</v-icon>
-                                </v-btn>
-                            </template>
-                            <v-list dense nav>
-                                <v-list>
-                                    <!-- Profile -->
-                                    <v-list-item to="/profile">
-                                        <v-list-item-icon>
-                                            <v-icon>mdi-account-box</v-icon>
-                                        </v-list-item-icon>
-                                        <v-list-item-title>
-                                            Profile
-                                        </v-list-item-title>
-                                    </v-list-item>
+                <!-- User: loading -->
+                <template v-if="currentUser.loading">
+                    <v-btn text>
+                        <v-skeleton-loader
+                            class="skeleton__user"
+                            width="100px"
+                            type="text"
+                        />
+                    </v-btn>
+                </template>
 
-                                    <!-- Logout -->
-                                    <v-list-item to="/logout">
-                                        <v-list-item-icon>
-                                            <v-icon>mdi-logout</v-icon>
-                                        </v-list-item-icon>
-                                        <v-list-item-title>
-                                            Logout
-                                        </v-list-item-title>
-                                    </v-list-item>
-                                </v-list>
+                <!-- User: logged in -->
+                <template v-else-if="currentUser.data">
+                    <v-menu transition="slide-y-transition" offset-y bottom>
+                        <template v-slot:activator="{ attrs, on }">
+                            <v-btn v-on="on" v-bind="attrs" text>
+                                {{ currentUser.data.username }}
+                                <v-icon right>mdi-menu-down</v-icon>
+                            </v-btn>
+                        </template>
+                        <v-list dense nav>
+                            <v-list>
+                                <!-- Profile -->
+                                <v-list-item to="/profile">
+                                    <v-list-item-icon>
+                                        <v-icon>mdi-account-box</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-title>
+                                        Profile
+                                    </v-list-item-title>
+                                </v-list-item>
+
+                                <!-- Logout -->
+                                <v-list-item @click="logout">
+                                    <v-list-item-icon>
+                                        <v-icon>mdi-logout</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-title>
+                                        Logout
+                                    </v-list-item-title>
+                                </v-list-item>
                             </v-list>
-                        </v-menu>
-                    </template>
+                        </v-list>
+                    </v-menu>
+                </template>
 
-                    <!-- User: not logged in -->
-                    <template v-else>
-                        <v-btn to="/login" text>
-                            <v-icon left>mdi-login</v-icon>
-                            Login
-                        </v-btn>
+                <!-- User: not logged in -->
+                <template v-else>
+                    <v-btn to="/login" text>
+                        <v-icon left>mdi-login</v-icon>
+                        Login
+                    </v-btn>
 
-                        <v-btn to="/register" text>
-                            <v-icon left>mdi-account-plus</v-icon>
-                            Register
-                        </v-btn>
-                    </template>
+                    <v-btn to="/register" text>
+                        <v-icon left>mdi-account-plus</v-icon>
+                        Register
+                    </v-btn>
                 </template>
             </v-toolbar-items>
         </v-toolbar>
@@ -106,7 +115,7 @@
                 <template v-if="!currentUser.loading">
                     <!-- User: logged in -->
                     <template v-if="currentUser.data">
-                        <v-list-group prepend-icon="mdi-person" no-action>
+                        <v-list-group prepend-icon="mdi-account" no-action>
                             <template v-slot:activator>
                                 <v-list-item-title>
                                     {{ currentUser.data.username }}
@@ -124,7 +133,7 @@
                             </v-list-item>
 
                             <!-- Logout -->
-                            <v-list-item to="/logout">
+                            <v-list-item @click="logout">
                                 <v-list-item-title>
                                     Logout
                                 </v-list-item-title>
@@ -176,7 +185,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { fetchQuery } from "@/util/fetchutil";
-import { getCurrentUser } from "@/data/user";
+import { getCurrentUser, logoutUser } from "@/data/user";
 import { StoreGetter } from "@/store/decorator";
 import Query from "@/data/struct/Query";
 import User from "@/data/models/User";
@@ -215,6 +224,13 @@ export default class Navigation extends Vue {
     toggleDrawer(): void {
         this.drawer = !this.drawer;
     }
+
+    /**
+     * Logout
+     */
+    logout(): void {
+        logoutUser();
+    }
 }
 </script>
 
@@ -222,6 +238,14 @@ export default class Navigation extends Vue {
 .navbar {
     &__title {
         cursor: pointer;
+    }
+}
+
+.skeleton {
+    &__user {
+        > div {
+            margin: 0px !important;
+        }
     }
 }
 </style>
