@@ -16,7 +16,7 @@
     </v-app>
 </template>
 
-<script lang="ts">
+<script>
 import Navigation from "@/components/layout/Navigation.vue";
 import RouterViewWrapper from "@/components/util/RouterViewWrapper.vue";
 import Snackbar from "@/components/layout/Snackbar.vue";
@@ -29,6 +29,10 @@ export default {
         RouterViewWrapper,
         Snackbar,
         Modal
+    },
+
+    created() {
+        this.$store.dispatch("session/fetch");
     }
 };
 </script>
