@@ -1,44 +1,32 @@
 import Vue from "vue";
-import { Component } from "vue";
-import { ErrorValue, ErrorOptions } from "./errormixin";
 import store from "@/store/store";
 import ErrorBus from "./errorbus";
 import ErrorCard from "@/components/error/ErrorCard.vue";
 import ErrorSection from "@/components/error/ErrorSection.vue";
-import ErrorSnackbar from "@/components/error/ErrorSnackbar.vue";
 import Router from "@/plugins/router";
-
-/**
- * Component that will be used to update & pass error components & payload to another Vue component.
- */
-export class ErrorComponentBinding {
-    // Component to render when an error occurs.
-    public component: Component;
-
-    // Payload to pass to the component.
-    public payload: ErrorPayload;
-}
-
-/**
- * Payload that will be passed to the component specified in the error component binding.
- */
-export class ErrorPayload {
-    // Error value
-    public value: ErrorValue;
-
-    // Error options
-    public options: ErrorOptions;
-}
+import {
+    ErrorComponentBinding,
+    ErrorOptions,
+    ErrorValue,
+    ErrorCustomMessage
+} from "./error";
 
 /**
  * List with custom error messages for certain response codes/messages
  */
-const customErrors: Array<any> = [
+const globalCustomErrors: Array<ErrorCustomMessage> = [
     {
         code: "404",
         message: "Page not found",
         description:
             "We cannot find the page you are looking for. The page is no longer available or was moved to a different location."
+    },
+
+    {
+        code: "500",
+        message: "Internal server error.",
+        description:
+            "We are having issues with the server. Please try again later."
     },
 
     {
@@ -57,8 +45,13 @@ export function handleError(binding: ErrorComponentBinding): void {
     ErrorBus.$on("error", (value: ErrorValue, options: ErrorOptions) => {
         const payload = { value, options };
 
+        const customErrors =
+            options.customMessages !== undefined
+                ? [...options.customMessages, ...globalCustomErrors]
+                : globalCustomErrors;
+
         // Ajust some errors that can be displayed better based on the given error code.
-        const customError = customErrors.find(e => e.code === value.code);
+        const customError = customErrors.find(e => e.code == value.code);
 
         if (customError) {
             payload.value.message = customError.message;

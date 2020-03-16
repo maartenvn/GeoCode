@@ -1,13 +1,32 @@
 <template>
     <div>
-        <v-card-title>
-            <span>Create a new location</span>
+        <v-toolbar dark color="primary">
+            <v-btn icon dark @click="close">
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+
+            <v-toolbar-title>Create new location</v-toolbar-title>
 
             <v-spacer />
 
-            <v-btn icon @click="close">
-                <v-icon>mdi-close</v-icon>
-            </v-btn>
+            <v-toolbar-items>
+                <v-btn v-if="stepper === 1" dark text @click="stepper = 2">
+                    Continue
+                </v-btn>
+
+                <v-btn
+                    v-else-if="stepper === 2"
+                    dark
+                    text
+                    @click="createLocation"
+                >
+                    Save
+                </v-btn>
+            </v-toolbar-items>
+        </v-toolbar>
+
+        <v-card-title>
+            Create a new location
         </v-card-title>
 
         <v-card-text>
@@ -16,13 +35,13 @@
 
         <v-stepper v-model="stepper" class="elevation-0">
             <v-stepper-header class="elevation-0">
-                <v-stepper-step editable :complete="stepper > 1" step="1">
+                <v-stepper-step editable :complete="stepper > 1" :step="1">
                     Basic information
                 </v-stepper-step>
 
-                <v-divider></v-divider>
+                <v-divider />
 
-                <v-stepper-step editable :complete="stepper > 2" step="2">
+                <v-stepper-step editable :complete="stepper > 2" :step="2">
                     Location
                 </v-stepper-step>
             </v-stepper-header>
@@ -69,8 +88,49 @@
 
                 <!-- Step 2: Location -->
                 <v-stepper-content step="2">
+                    <v-card-text>
+                        Click on a location on the map to set the location. You
+                        can also use the latitude or longitude values below.
+                    </v-card-text>
+
                     <v-form class="pt-1 pl-3">
-                        // TODO: Map here
+                        <set-location-map
+                            :marker.sync="marker"
+                            :zoom="1"
+                            :center="[0, 0]"
+                            :searchEnabled="true"
+                            height="400px"
+                        />
+
+                        <v-card-subtitle>Advanced control</v-card-subtitle>
+
+                        <v-row>
+                            <v-col cols="6">
+                                <!-- Latitude -->
+                                <v-text-field
+                                    v-model="fields.latitude.value"
+                                    :rules="fields.latitude.rules"
+                                    :error-messages="fields.latitude.error"
+                                    label="Latitude"
+                                    placeholder="Latitude of the location"
+                                    outlined
+                                    required
+                                />
+                            </v-col>
+
+                            <v-col cols="6">
+                                <!-- Longitude -->
+                                <v-text-field
+                                    v-model="fields.longitude.value"
+                                    :rules="fields.longitude.rules"
+                                    :error-messages="fields.longitude.error"
+                                    label="Longitude"
+                                    placeholder="Longitude of the location"
+                                    outlined
+                                    required
+                                />
+                            </v-col>
+                        </v-row>
                     </v-form>
 
                     <v-card-actions>
@@ -93,43 +153,91 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
+import { LatLng } from "leaflet";
 import { createLocation } from "@/data/location";
-import { ErrorValue } from "../../../util/error/errormixin";
+import {
+    InputFields,
+    getFieldValues,
+    setFieldErrors,
+    InputField
+} from "@/util/fieldsutil";
+import { MapMarker } from "@/types/mapmarker";
 import Editor from "@/components/Editor.vue";
+import SetLocationMap from "@/components/map/SetLocationMap.vue";
 
 @Component({
     components: {
-        Editor
+        Editor,
+        SetLocationMap
     }
 })
 export default class LocationCreateModal extends Vue {
+    /**
+     * Stepper counter used for knowing in which stage of the configuration the user is.
+     */
     stepper: number;
-    fields: any;
+
+    /**
+     * Input fields values & properties.
+     */
+    fields: InputFields;
+
+    /**
+     * Object containing the selected marker on the map.
+     */
+    marker: MapMarker;
 
     constructor() {
         super();
 
         this.stepper = 1;
+        this.marker = new MapMarker(new LatLng(0, 0));
         this.fields = {
-            name: {
-                value: "",
-                rules: [],
-                error: ""
-            },
-
-            description: {
-                value: "",
-                rules: [],
-                error: ""
-            },
-
-            listed: {
-                value: true,
-                rules: [],
-                error: ""
-            }
+            name: new InputField(),
+            description: new InputField(),
+            listed: new InputField({ value: true }),
+            latitude: new InputField(),
+            longitude: new InputField()
         };
+    }
+
+    /**
+     * Update the latitude & longitude fields when the selected marker on the map changes.
+     */
+    @Watch("marker", { deep: true })
+    updateLocationFields(val: MapMarker) {
+        this.fields.latitude.value = val.getLatLng().lat;
+        this.fields.longitude.value = val.getLatLng().lng;
+    }
+
+    /**
+     * Update the latitude of the "marker"-object when the field changes.
+     */
+    @Watch("fields.latitude.value")
+    updateLat(val: number) {
+        this.marker.setLatLng(new LatLng(val, this.marker.getLatLng().lng));
+    }
+
+    /**
+     * Update the longitude of the "marker"-object when the field changes.
+     */
+    @Watch("fields.longitude.value")
+    updateLng(val: number) {
+        this.marker.setLatLng(new LatLng(this.marker.getLatLng().lat, val));
+    }
+
+    /**
+     * Due to a bug in Leaflet, when a map is created and not visible (such in modals or steppers),
+     * it will not render properly.
+     *
+     * By sending a fake resize event, we force Leaflet to refresh the map and display it properly.
+     */
+    @Watch("stepper")
+    updateMap() {
+        if (this.stepper == 2) {
+            window.dispatchEvent(new Event("resize"));
+        }
     }
 
     /**
@@ -143,11 +251,7 @@ export default class LocationCreateModal extends Vue {
      * Create a new location with the given parameters.
      */
     createLocation() {
-        createLocation({
-            name: this.fields.name.value,
-            description: this.fields.description.value,
-            listed: this.fields.listed.value
-        })
+        createLocation(getFieldValues(this.fields))
             .then(response => {
                 this.$store.dispatch("snackbar/open", {
                     message: "Location was succesfully created",
@@ -161,10 +265,19 @@ export default class LocationCreateModal extends Vue {
                 this.$router.push(`/location/${response.value}`);
             })
             .catch(error => {
+                // Handle field errors.
+                setFieldErrors(this.fields, error);
+
                 this.$error(error, {
                     style: "SNACKBAR",
-                    id: "location_create"
+                    id: "locationCreate"
                 });
+
+                // Check if there is an error in the first step.
+                // If this is the case, go to this step.
+                if (this.fields.name.error || this.fields.description.error) {
+                    this.stepper = 1;
+                }
             });
     }
 }

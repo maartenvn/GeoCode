@@ -5,6 +5,8 @@ import store from "./store/store";
 import vuetify from "./plugins/vuetify";
 import ErrorMixin from "./util/error/errormixin";
 
+import "./plugins/leaflet";
+
 Vue.config.productionTip = false;
 
 Vue.mixin(ErrorMixin);

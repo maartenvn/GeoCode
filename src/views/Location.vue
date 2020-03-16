@@ -12,7 +12,7 @@
         <!-- Tab information -->
         <v-row>
             <v-col cols="12">
-                <v-tabs v-model="tab" centered icons-and-text>
+                <v-tabs v-model="tab" centered icons-and-text show-arrows>
                     <v-tabs-slider />
 
                     <v-tab href="#tab-information">
@@ -81,8 +81,16 @@ export default class LocationView extends Vue {
 
         this.location = fetchQuery(getLocation(this.secretId), {
             id: "location",
-            style: "CARD",
-            displayFullpage: true
+            style: "SECTION",
+            displayFullpage: true,
+            customMessages: [
+                {
+                    code: "400",
+                    message: "Location does not exist.",
+                    description:
+                        "This location does not exist or was removed by the original creator or an administrator. Sorry for the inconvenience."
+                }
+            ]
         });
 
         this.tab = null;

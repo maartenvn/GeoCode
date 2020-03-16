@@ -13,6 +13,12 @@
                             Find & create amazing locations to explore and share
                             with others. GeoCode is the new way of Geocaching
                             you have been dreaming of.
+
+                            <div class="mt-10">
+                                <v-btn to="/register" color="secondary" large>
+                                    Register for free
+                                </v-btn>
+                            </div>
                         </div>
                     </v-col>
                     <v-col cols="12" sm="6">
@@ -64,7 +70,7 @@
                 </template>
 
                 <template v-slot:description>
-                    Find the hidden treasure containing a QR-code & some unknown
+                    Find the hidden treasure containing a QR-code & some any
                     loot.
                 </template>
             </tutorial-step>
@@ -102,15 +108,11 @@
                 </v-row>
 
                 <v-row class="mt-4" align-content="center" justify="center">
-                    <iframe
-                        class="elevation-1"
-                        width="800"
-                        height="400"
-                        frameborder="0"
-                        scrolling="no"
-                        marginheight="0"
-                        marginwidth="0"
-                        src="https://www.openstreetmap.org/export/embed.html?bbox=3.711522817611695%2C51.02249491957064%2C3.713818788528443%2C51.02831859662666&amp;layer=mapnik&amp;marker=51.02540684955347%2C3.7126708030700684"
+                    <location-map
+                        height="300px"
+                        width="70%"
+                        :locations="locations"
+                        :zoom="2"
                     />
                 </v-row>
             </v-responsive>
@@ -118,16 +120,43 @@
     </div>
 </template>
 
-<script>
-import TutorialStep from "@/components/layout/views/home/TutorialStep";
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import TutorialStep from "@/components/layout/views/home/TutorialStep.vue";
+import LocationMap from "@/components/map/LocationMap.vue";
+import Query from "../data/struct/Query";
+import Location from "../data/models/Location";
+import { getLocations } from "../data/location";
+import { fetchQuery } from "../util/fetchutil";
+import { StoreGetter } from "../store/decorator";
 
-export default {
-    name: "Home",
-
+@Component({
     components: {
-        TutorialStep
+        TutorialStep,
+        LocationMap
     }
-};
+})
+export default class Home extends Vue {
+    /**
+     * List with all the locations in the database.
+     */
+    locations: Query<Array<Location>>;
+
+    /**
+     * If the client is logged in.
+     */
+    @StoreGetter("session/isAuthenticated")
+    isAuthenticated: boolean;
+
+    constructor() {
+        super();
+
+        this.locations = fetchQuery(getLocations(), {
+            id: "locations",
+            style: "CARD"
+        });
+    }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -21,15 +21,7 @@
 
                 <v-divider class="ml-10" vertical />
 
-                <v-col
-                    :class="
-                        `section ${
-                            $vuetify.breakpoint.smAndDown ? 'text-center' : ''
-                        }`
-                    "
-                    cols="12"
-                    sm="auto"
-                >
+                <v-col cols="12" sm="auto">
                     <div class="section__title">
                         Extra information
                     </div>
@@ -76,15 +68,15 @@
                 </div>
 
                 <div class="section__content">
-                    <iframe
-                        class="elevation-1"
-                        style="width: 100%;"
-                        height="400"
-                        frameborder="0"
-                        scrolling="no"
-                        marginheight="0"
-                        marginwidth="0"
-                        src="https://www.openstreetmap.org/export/embed.html?bbox=3.711522817611695%2C51.02249491957064%2C3.713818788528443%2C51.02831859662666&amp;layer=mapnik&amp;marker=51.02540684955347%2C3.7126708030700684"
+                    <location-map
+                        height="500px"
+                        width="100%"
+                        :location="location"
+                        :center="[
+                            location.data.latitude,
+                            location.data.longitude
+                        ]"
+                        :zoom="15"
                     />
                 </div>
             </div>
@@ -102,10 +94,12 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import Query from "@/data/struct/Query";
 import Location from "@/data/models/Location";
 import ErrorHandler from "@/components/error/ErrorHandler.vue";
+import LocationMap from "@/components/map/LocationMap.vue";
 
 @Component({
     components: {
-        ErrorHandler
+        ErrorHandler,
+        LocationMap
     }
 })
 export default class LocationHeader extends Vue {

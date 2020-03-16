@@ -5,6 +5,8 @@ import Home from "../views/Home.vue";
 Vue.use(VueRouter);
 
 const routes = [
+    { path: "*", component: () => import("../views/404.vue") },
+
     {
         path: "/",
         name: "Home",
@@ -22,6 +24,36 @@ const routes = [
         name: "Location",
         component: () => import("../views/Location.vue"),
         props: true
+    },
+
+    {
+        path: "/login",
+        name: "Login",
+        component: () => import("../views/Login.vue")
+    },
+
+    {
+        path: "/register",
+        name: "Register",
+        component: () => import("../views/Register.vue")
+    },
+
+    {
+        path: "/logout",
+        name: "Logout",
+        component: () => import("../views/Logout.vue")
+    },
+
+    {
+        path: "/profile",
+        name: "Profile",
+        component: () => import("../views/Profile.vue")
+    },
+
+    {
+        path: "/profile/locations/",
+        name: "Your locations",
+        component: () => import("../views/ProfileLocations.vue")
     }
 ];
 

@@ -3,7 +3,21 @@ export default {
         URL: process.env.VUE_APP_BACKEND_URL,
 
         ENDPOINTS: {
-            LOCATIONS: "locations"
+            LOCATIONS: "locations",
+            USERS: "users",
+            SESSION: {
+                USER: "user",
+                LOCATIONS: "user/locations"
+            },
+            AUTH: {
+                REGISTER: "auth/register",
+                LOGIN: "auth/login",
+                LOGOUT: "auth/logout"
+            }
         }
+    },
+
+    LEAFLET: {
+        TILE_SERVER: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     }
 };

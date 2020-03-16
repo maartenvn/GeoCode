@@ -16,6 +16,9 @@ export function getLocation(secretId: string): Promise<Location> {
     });
 }
 
+/**
+ * Get a list with locations.
+ */
 export function getLocations(): Promise<Array<Location>> {
     return fetchData<Array<Location>>({
         url: `${Config.BACKEND.URL}${Config.BACKEND.ENDPOINTS.LOCATIONS}`,
@@ -28,6 +31,8 @@ export class LocationCreate {
     public name: string;
     public description: string;
     public listed: boolean;
+    public latitude: number;
+    public longitude: number;
 }
 
 /**
@@ -42,5 +47,17 @@ export function createLocation(locationCreate: LocationCreate): Promise<Value> {
         options: {
             data: locationCreate
         }
+    });
+}
+
+/**
+ * Delete a location
+ * @param location Location to delete
+ */
+export function deleteLocation(location: Location): Promise<Value> {
+    return fetchData<Value>({
+        url: `${Config.BACKEND.URL}${Config.BACKEND.ENDPOINTS.LOCATIONS}/${location.secretId}`,
+        create: createModel(Value),
+        method: "DELETE"
     });
 }

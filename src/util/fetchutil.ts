@@ -1,8 +1,9 @@
-import axios, { AxiosError, Method } from "axios";
+import axios, { Method } from "axios";
 import Model from "@/data/struct/Model";
 import Vue from "vue";
 import Query from "@/data/struct/Query";
-import ErrorMixin, { ErrorOptions } from "./error/errormixin";
+import { ErrorOptions } from "./error/error";
+import ErrorMixin from "./error/errormixin";
 
 export class FetchOptions {
     // URL/endpoint to fetch.
@@ -41,6 +42,7 @@ export function fetchData<T extends Model | any>(
         axios({
             method: options.method,
             url: options.url,
+            withCredentials: true,
             ...options.options
         })
             .then(response => {
@@ -75,13 +77,14 @@ export function fetchData<T extends Model | any>(
                 const errorValue = {
                     message: error.message,
                     code: error.response ? error.response.status : 0,
-                    stacktrace: error
+                    stacktrace: error,
+                    response: error.response ? error.response.data : ""
                 };
 
                 // Use some filtering to add some custom error codes.
 
                 // NETWORK ERROR: code network_error
-                if (errorValue.message.toLowerCase() == "network error") {
+                if (error.response === undefined) {
                     errorValue.code = "network_error";
                 }
 

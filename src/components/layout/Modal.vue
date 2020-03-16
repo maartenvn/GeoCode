@@ -4,23 +4,30 @@
         persistent
         :max-width="modalData.width"
         :fullscreen="modalData.fullscreen"
+        :transition="
+            modalData.fullscreen
+                ? 'dialog-bottom-transition'
+                : 'dialog-transition'
+        "
     >
         <!-- Other -->
         <v-card>
             <!-- Component -->
             <component
                 v-if="modalData.component"
-                :is="modalData.component"
+                :is="component"
                 :action="modalData.action"
+                :payload="modalData.componentPayload"
             />
         </v-card>
     </v-dialog>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { mapState, mapActions } from "vuex";
 import { ModalData } from "../../store/modules/modal";
+import LoadingModal from "./modals/LoadingModal.vue";
 
 @Component({
     computed: {
@@ -59,6 +66,20 @@ export default class Modal extends Vue {
      */
     set open(value: boolean) {
         this.$store.commit("modal/SET_OPEN", value);
+    }
+
+    /**
+     * Get the component.
+     */
+    get component(): unknown | Function {
+        if (this.$store.state.modal.data.component instanceof Promise) {
+            return () => ({
+                component: this.$store.state.modal.data.component(),
+                loading: LoadingModal
+            });
+        } else {
+            return this.$store.state.modal.data.component;
+        }
     }
 }
 </script>

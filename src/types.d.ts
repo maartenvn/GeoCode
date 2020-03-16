@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { ErrorValue, ErrorOptions } from "./util/error/errormixin";
+import { ErrorValue, ErrorOptions } from "./util/error/error";
 
 declare module "vue/types/vue" {
     interface Vue {
