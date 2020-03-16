@@ -7,10 +7,7 @@ export const session = {
     namespaced: true,
 
     state: {
-        currentUser: fetchQuery(getCurrentUser(), {
-            style: "NONE",
-            id: "currentUser"
-        })
+        currentUser: null
     },
 
     mutations: {
