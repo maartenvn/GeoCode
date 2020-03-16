@@ -126,8 +126,8 @@ export default class Profile extends Vue {
                     color: "success"
                 });
 
-                // Reload the profile page.
-                reloadRoute(this.$router);
+                // Refetch the profile information.
+                this.$store.dispatch("session/fetch");
             })
             .catch(error => {
                 // Handle field errors.
