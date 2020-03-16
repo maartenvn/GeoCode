@@ -55,7 +55,12 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
-import { InputFields, InputField, getFieldValues } from "../util/fieldsutil";
+import {
+    InputFields,
+    InputField,
+    getFieldValues,
+    setFieldErrors
+} from "../util/fieldsutil";
 import { StoreGetter } from "../store/decorator";
 import Query from "../data/struct/Query";
 import User from "../data/models/User";
@@ -125,6 +130,9 @@ export default class Profile extends Vue {
                 reloadRoute(this.$router);
             })
             .catch(error => {
+                // Handle field errors.
+                setFieldErrors(this.fields, error);
+
                 this.$error(error, {
                     style: "SNACKBAR",
                     id: "profileUpdate"

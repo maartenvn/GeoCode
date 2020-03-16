@@ -1,11 +1,13 @@
+import { fetchData } from "@/util/fetchutil";
 import User from "./models/User";
 import Config from "@/config";
-import Value from "./models/Value";
-import { fetchData } from "@/util/fetchutil";
 import { createModel } from "./struct/Model";
-import ErrorMixin from "@/util/error/errormixin";
+import Location from "./models/Location";
+import Value from "./models/Value";
 import store from "@/store/store";
+import ErrorMixin from "@/util/error/errormixin";
 import { InputFieldsUpdate } from "@/util/fieldsutil";
+
 /**
  * Get the logged in user.
  */
@@ -13,6 +15,17 @@ export function getCurrentUser(): Promise<User> {
     return fetchData<User>({
         url: `${Config.BACKEND.URL}${Config.BACKEND.ENDPOINTS.SESSION.USER}`,
         create: createModel(User),
+        method: "GET"
+    });
+}
+
+/**
+ * Get a list with locations of the logged in user.
+ */
+export function getCurrentUserLocations(): Promise<Array<Location>> {
+    return fetchData<Array<Location>>({
+        url: `${Config.BACKEND.URL}${Config.BACKEND.ENDPOINTS.SESSION.LOCATIONS}`,
+        create: createModel(Location),
         method: "GET"
     });
 }

@@ -55,17 +55,27 @@
                         <v-list dense nav>
                             <v-list>
                                 <!-- Profile -->
-                                <v-list-item to="/profile">
+                                <v-list-item to="/profile" exact>
                                     <v-list-item-icon>
                                         <v-icon>mdi-account-box</v-icon>
                                     </v-list-item-icon>
                                     <v-list-item-title>
-                                        Profile
+                                        My profile
+                                    </v-list-item-title>
+                                </v-list-item>
+
+                                <!-- Profile locations -->
+                                <v-list-item to="/profile/locations" exact>
+                                    <v-list-item-icon>
+                                        <v-icon>mdi-database-marker</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-title>
+                                        My locations
                                     </v-list-item-title>
                                 </v-list-item>
 
                                 <!-- Logout -->
-                                <v-list-item @click="logout">
+                                <v-list-item @click="logout" exact>
                                     <v-list-item-icon>
                                         <v-icon>mdi-logout</v-icon>
                                     </v-list-item-icon>
@@ -123,17 +133,27 @@
                             </template>
 
                             <!-- Profile -->
-                            <v-list-item to="/profile">
+                            <v-list-item to="/profile" exact>
                                 <v-list-item-title>
-                                    Profile
+                                    My profile
                                 </v-list-item-title>
                                 <v-list-item-icon>
                                     <v-icon>mdi-account-box</v-icon>
                                 </v-list-item-icon>
                             </v-list-item>
 
+                            <!-- Profile locations -->
+                            <v-list-item to="/profile/locations" exact>
+                                <v-list-item-title>
+                                    My locations
+                                </v-list-item-title>
+                                <v-list-item-icon>
+                                    <v-icon>mdi-database-marker</v-icon>
+                                </v-list-item-icon>
+                            </v-list-item>
+
                             <!-- Logout -->
-                            <v-list-item @click="logout">
+                            <v-list-item @click="logout" exact>
                                 <v-list-item-title>
                                     Logout
                                 </v-list-item-title>

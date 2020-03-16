@@ -19,8 +19,9 @@
                     dark
                     text
                     @click="createLocation"
-                    >Save</v-btn
                 >
+                    Save
+                </v-btn>
             </v-toolbar-items>
         </v-toolbar>
 
@@ -34,13 +35,13 @@
 
         <v-stepper v-model="stepper" class="elevation-0">
             <v-stepper-header class="elevation-0">
-                <v-stepper-step editable :complete="stepper > 1" step="1">
+                <v-stepper-step editable :complete="stepper > 1" :step="1">
                     Basic information
                 </v-stepper-step>
 
-                <v-divider></v-divider>
+                <v-divider />
 
-                <v-stepper-step editable :complete="stepper > 2" step="2">
+                <v-stepper-step editable :complete="stepper > 2" :step="2">
                     Location
                 </v-stepper-step>
             </v-stepper-header>
@@ -155,7 +156,12 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { LatLng } from "leaflet";
 import { createLocation } from "@/data/location";
-import { InputFields, getFieldValues, setFieldErrors } from "@/util/fieldsutil";
+import {
+    InputFields,
+    getFieldValues,
+    setFieldErrors,
+    InputField
+} from "@/util/fieldsutil";
 import { MapMarker } from "@/types/mapmarker";
 import Editor from "@/components/Editor.vue";
 import SetLocationMap from "@/components/map/SetLocationMap.vue";
@@ -188,35 +194,11 @@ export default class LocationCreateModal extends Vue {
         this.stepper = 1;
         this.marker = new MapMarker(new LatLng(0, 0));
         this.fields = {
-            name: {
-                value: "",
-                rules: [],
-                error: ""
-            },
-
-            description: {
-                value: "",
-                rules: [],
-                error: ""
-            },
-
-            listed: {
-                value: true,
-                rules: [],
-                error: ""
-            },
-
-            latitude: {
-                value: 0,
-                rules: [],
-                error: ""
-            },
-
-            longitude: {
-                value: 0,
-                rules: [],
-                error: ""
-            }
+            name: new InputField(),
+            description: new InputField(),
+            listed: new InputField({ value: true }),
+            latitude: new InputField(),
+            longitude: new InputField()
         };
     }
 
@@ -288,8 +270,14 @@ export default class LocationCreateModal extends Vue {
 
                 this.$error(error, {
                     style: "SNACKBAR",
-                    id: "location_create"
+                    id: "locationCreate"
                 });
+
+                // Check if there is an error in the first step.
+                // If this is the case, go to this step.
+                if (this.fields.name.error || this.fields.description.error) {
+                    this.stepper = 1;
+                }
             });
     }
 }

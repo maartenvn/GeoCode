@@ -5,6 +5,11 @@ export class ModalData {
     public component: string;
 
     /**
+     * Payload to pass to the component.
+     */
+    public componentPayload: unknown;
+
+    /**
      * Width of the modal
      */
     public width?: number;
