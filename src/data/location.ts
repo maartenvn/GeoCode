@@ -49,3 +49,15 @@ export function createLocation(locationCreate: LocationCreate): Promise<Value> {
         }
     });
 }
+
+/**
+ * Delete a location
+ * @param location Location to delete
+ */
+export function deleteLocation(location: Location): Promise<Value> {
+    return fetchData<Value>({
+        url: `${Config.BACKEND.URL}${Config.BACKEND.ENDPOINTS.LOCATIONS}/${location.secretId}`,
+        create: createModel(Value),
+        method: "DELETE"
+    });
+}

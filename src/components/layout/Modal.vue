@@ -12,6 +12,7 @@
                 v-if="modalData.component"
                 :is="modalData.component"
                 :action="modalData.action"
+                :payload="modalData.componentPayload"
             />
         </v-card>
     </v-dialog>
