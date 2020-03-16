@@ -114,7 +114,7 @@ export function logoutUser(): Promise<void> {
  */
 export function updateUser(changes: InputFieldsUpdate): Promise<Value> {
     return fetchData<Value>({
-        url: `${Config.BACKEND.URL}${Config.BACKEND.ENDPOINTS.SESSION.USER}s`,
+        url: `${Config.BACKEND.URL}${Config.BACKEND.ENDPOINTS.SESSION.USER}`,
         create: createModel(Value),
         method: "PATCH",
         options: {
