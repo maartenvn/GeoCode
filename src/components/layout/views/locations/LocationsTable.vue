@@ -119,10 +119,14 @@ export default class LocationsTable extends Vue {
                 action: () =>
                     deleteLocation(location)
                         .then(data => {
+                            // Close the modal.
+                            this.$store.dispatch("modal/close");
+
                             // Remove the location from the table.
-                            this.locations.data[
-                                this.locations.data.indexOf(location)
-                            ];
+                            this.locations.data.splice(
+                                this.locations.data.indexOf(location),
+                                1
+                            );
 
                             // Send confirmation message.
                             this.$store.dispatch("snackbar/open", {
