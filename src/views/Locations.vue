@@ -58,7 +58,7 @@
 
                     <v-row>
                         <v-col cols="12">
-                            <v-tabs-items v-model="tab">
+                            <v-tabs-items v-model="tab" touchless>
                                 <v-tab-item value="tab-map">
                                     <location-map
                                         height="55vh"
