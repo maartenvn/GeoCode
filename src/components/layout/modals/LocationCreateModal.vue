@@ -97,7 +97,6 @@
                         <set-location-map
                             :marker.sync="marker"
                             :zoom="1"
-                            :center="[0, 0]"
                             :searchEnabled="true"
                             height="400px"
                         />
