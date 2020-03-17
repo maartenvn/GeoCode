@@ -15,7 +15,12 @@
                             you have been dreaming of.
 
                             <div class="mt-10">
-                                <v-btn to="/register" color="secondary" large>
+                                <v-btn
+                                    v-if="!isAuthenticated"
+                                    to="/register"
+                                    color="secondary"
+                                    large
+                                >
                                     Register for free
                                 </v-btn>
                             </div>
