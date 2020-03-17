@@ -97,7 +97,6 @@
                         <set-location-map
                             :marker.sync="marker"
                             :zoom="1"
-                            :center="[0, 0]"
                             :searchEnabled="true"
                             height="400px"
                         />
@@ -111,6 +110,7 @@
                                     v-model="fields.latitude.value"
                                     :rules="fields.latitude.rules"
                                     :error-messages="fields.latitude.error"
+                                    type="number"
                                     label="Latitude"
                                     placeholder="Latitude of the location"
                                     outlined
@@ -124,6 +124,7 @@
                                     v-model="fields.longitude.value"
                                     :rules="fields.longitude.rules"
                                     :error-messages="fields.longitude.error"
+                                    type="number"
                                     label="Longitude"
                                     placeholder="Longitude of the location"
                                     outlined
@@ -216,7 +217,9 @@ export default class LocationCreateModal extends Vue {
      */
     @Watch("fields.latitude.value")
     updateLat(val: number) {
-        this.marker.setLatLng(new LatLng(val, this.marker.getLatLng().lng));
+        if (!isNaN(val)) {
+            this.marker.setLatLng(new LatLng(val, this.marker.getLatLng().lng));
+        }
     }
 
     /**
@@ -224,7 +227,9 @@ export default class LocationCreateModal extends Vue {
      */
     @Watch("fields.longitude.value")
     updateLng(val: number) {
-        this.marker.setLatLng(new LatLng(this.marker.getLatLng().lat, val));
+        if (!isNaN(val)) {
+            this.marker.setLatLng(new LatLng(this.marker.getLatLng().lat, val));
+        }
     }
 
     /**

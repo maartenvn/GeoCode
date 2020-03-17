@@ -20,6 +20,7 @@
 
                     <v-col cols="auto">
                         <v-btn
+                            v-if="isAuthenticated"
                             color="primary"
                             depressed
                             @click="openCreateLocation"
@@ -51,14 +52,14 @@
                         </v-tab>
 
                         <v-tab href="#tab-name">
-                            Search by location
+                            Search by name
                             <v-icon>mdi-textbox</v-icon>
                         </v-tab>
                     </v-tabs>
 
                     <v-row>
                         <v-col cols="12">
-                            <v-tabs-items v-model="tab">
+                            <v-tabs-items v-model="tab" touchless>
                                 <v-tab-item value="tab-map">
                                     <location-map
                                         height="55vh"
@@ -95,6 +96,7 @@ import Query from "@/data/struct/Query";
 import Location from "@/data/models/Location";
 import LocationMap from "@/components/map/LocationMap.vue";
 import LocationsTable from "@/components/layout/views/locations/LocationsTable.vue";
+import { StoreGetter } from "../store/decorator";
 
 @Component({
     components: {
@@ -110,6 +112,12 @@ export default class LocationView extends Vue {
         style: "SECTION",
         displayFullpage: true
     });
+
+    /**
+     * If the client is logged in.
+     */
+    @StoreGetter("session/isAuthenticated")
+    isAuthenticated: boolean;
 
     constructor() {
         super();
