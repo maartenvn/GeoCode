@@ -52,7 +52,7 @@
                         </v-tab>
 
                         <v-tab href="#tab-name">
-                            Search by location
+                            Search by name
                             <v-icon>mdi-textbox</v-icon>
                         </v-tab>
                     </v-tabs>
