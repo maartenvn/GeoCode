@@ -161,7 +161,8 @@ import {
     InputFields,
     getFieldValues,
     setFieldErrors,
-    InputField
+    InputField,
+    modifyGeneralError
 } from "@/util/fieldsutil";
 import { MapMarker } from "@/types/mapmarker";
 import Editor from "@/components/Editor.vue";
@@ -273,7 +274,7 @@ export default class LocationCreateModal extends Vue {
                 // Handle field errors.
                 setFieldErrors(this.fields, error);
 
-                this.$error(error, {
+                this.$error(modifyGeneralError(error), {
                     style: "SNACKBAR",
                     id: "locationCreate"
                 });
