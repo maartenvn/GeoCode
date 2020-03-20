@@ -17,8 +17,8 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { handleError } from "@/util/error/errorhandler";
-import { ErrorComponentBinding } from "../../util/error/error";
+import ErrorComponentBinding from "@/api/error/ErrorComponentBinding";
+import ErrorHandler from "@/api/ErrorHandler";
 
 @Component
 export default class RouterViewWrapper extends Vue {
@@ -35,7 +35,7 @@ export default class RouterViewWrapper extends Vue {
 
     created() {
         // Create a listener that will update the error component binding when an error occurs.
-        handleError(this.errorBinding);
+        ErrorHandler.handle(this.errorBinding);
     }
 
     /**

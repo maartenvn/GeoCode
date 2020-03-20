@@ -30,14 +30,14 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { latLng, LatLng, Map } from "leaflet";
-import { MapMarker } from "../../types/mapmarker";
+import { MapMarker } from "@/types/mapmarker";
+import { LocationPopupPayload } from "@/types/map/popup/locationpopup";
 import Config from "@/config";
-import Query from "@/data/struct/Query";
-import Location from "@/data/models/Location";
+import Query from "@/api/struct/Query";
+import Location from "@/api/models/Location";
 import ErrorHandler from "@/components/error/ErrorHandler.vue";
 import MarkerMap from "@/components/map/MarkerMap.vue";
 import LocationPopup from "@/components/map/popups/LocationPopup.vue";
-import { LocationPopupPayload } from "../../types/map/popup/locationpopup";
 
 @Component({
     components: {

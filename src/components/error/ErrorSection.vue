@@ -41,8 +41,8 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { ErrorPayload } from "../../util/error/error";
 import { reloadRoute } from "@/util/routerutil";
+import ErrorComponentPayload from "@/api/error/ErrorComponentPayload";
 
 @Component({
     methods: {
@@ -54,7 +54,7 @@ export default class ErrorCard extends Vue {
      * Payload of the error.
      */
     @Prop()
-    payload: ErrorPayload;
+    payload: ErrorComponentPayload;
 }
 </script>
 

@@ -88,15 +88,15 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { fetchQuery } from "../util/fetchutil";
-import { getLocations } from "../data/location";
 import { DataTableHeader } from "vuetify";
-import LocationCreateModal from "@/components/layout/modals/LocationCreateModal.vue";
-import Query from "@/data/struct/Query";
-import Location from "@/data/models/Location";
+import { StoreGetter } from "@/store/decorator";
+import LocationCreateModal from "@/components/modals/LocationCreateModal.vue";
+import Query from "@/api/struct/Query";
+import Location from "@/api/models/Location";
 import LocationMap from "@/components/map/LocationMap.vue";
 import LocationsTable from "@/components/layout/views/locations/LocationsTable.vue";
-import { StoreGetter } from "../store/decorator";
+import FetchHandler from "@/api/FetchHandler";
+import LocationService from "@/api/services/LocationService";
 
 @Component({
     components: {
@@ -107,11 +107,14 @@ import { StoreGetter } from "../store/decorator";
 export default class LocationView extends Vue {
     tab: any;
 
-    locations: Query<Array<Location>> = fetchQuery(getLocations(), {
-        id: "location",
-        style: "SECTION",
-        displayFullpage: true
-    });
+    locations: Query<Array<Location>> = FetchHandler.fetchQuery(
+        LocationService.getAll(),
+        {
+            id: "location",
+            style: "SECTION",
+            displayFullpage: true
+        }
+    );
 
     /**
      * If the client is logged in.
@@ -123,12 +126,6 @@ export default class LocationView extends Vue {
         super();
 
         this.tab = null;
-
-        this.locations = fetchQuery(getLocations(), {
-            id: "location",
-            style: "SECTION",
-            displayFullpage: true
-        });
     }
 
     /**
@@ -137,7 +134,7 @@ export default class LocationView extends Vue {
     openCreateLocation() {
         this.$store.dispatch("modal/open", {
             component: () =>
-                import("@/components/layout/modals/LocationCreateModal.vue"),
+                import("@/components/modals/LocationCreateModal.vue"),
             fullscreen: true
         });
     }

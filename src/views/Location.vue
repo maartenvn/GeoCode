@@ -50,13 +50,13 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { fetchQuery } from "../util/fetchutil";
-import { getLocation } from "../data/location";
 import LocationHeader from "@/components/layout/views/location/LocationHeader.vue";
 import LocationInformation from "@/components/layout/views/location/LocationInformation.vue";
 import LocationRatings from "@/components/layout/views/location/LocationRatings.vue";
-import Query from "@/data/struct/Query";
-import Location from "@/data/models/Location";
+import Query from "@/api/struct/Query";
+import Location from "@/api/models/Location";
+import FetchHandler from "@/api/FetchHandler";
+import LocationService from "@/api/services/LocationService";
 
 @Component({
     components: {
@@ -79,19 +79,22 @@ export default class LocationView extends Vue {
     constructor() {
         super();
 
-        this.location = fetchQuery(getLocation(this.secretId), {
-            id: "location",
-            style: "SECTION",
-            displayFullpage: true,
-            customMessages: [
-                {
-                    code: "400",
-                    message: "Location does not exist.",
-                    description:
-                        "This location does not exist or was removed by the original creator or an administrator. Sorry for the inconvenience."
-                }
-            ]
-        });
+        this.location = FetchHandler.fetchQuery(
+            LocationService.get(this.secretId),
+            {
+                id: "location",
+                style: "SECTION",
+                displayFullpage: true,
+                customMessages: [
+                    {
+                        code: "400",
+                        message: "Location does not exist.",
+                        description:
+                            "This location does not exist or was removed by the original creator or an administrator. Sorry for the inconvenience."
+                    }
+                ]
+            }
+        );
 
         this.tab = null;
     }

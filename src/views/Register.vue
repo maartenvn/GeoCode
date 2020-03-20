@@ -141,7 +141,7 @@ import {
     modifyGeneralError
 } from "@/util/fieldsutil";
 import { executeCaptcha } from "@/util/captchautil";
-import { registerUser } from "../data/user";
+import UserService from "../api/services/UserService";
 
 @Component
 export default class Register extends Vue {
@@ -189,7 +189,7 @@ export default class Register extends Vue {
         executeCaptcha("register")
             .then(token => {
                 // Execute the register request.
-                registerUser(
+                UserService.register(
                     Object.assign(getFieldValues(this.fields), {
                         captcha: token
                     })

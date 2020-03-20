@@ -8,11 +8,11 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { handleError } from "@/util/error/errorhandler";
-import { ErrorComponentBinding } from "../../util/error/error";
+import ErrorComponentBinding from "@/api/error/ErrorComponentBinding";
+import ErrorHandler from "@/api/ErrorHandler";
 
 @Component
-export default class ErrorHandler extends Vue {
+export default class ErrorHandlerComponent extends Vue {
     /**
      * Identifier of the error that should be displayed.
      * All errors with the given identiefier will be displayed.
@@ -33,7 +33,7 @@ export default class ErrorHandler extends Vue {
 
     created() {
         // Create a listener that will update the error component binding when an error occurs.
-        handleError(this.errorBinding);
+        ErrorHandler.handle(this.errorBinding);
     }
 
     /**

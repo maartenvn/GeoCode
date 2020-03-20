@@ -204,11 +204,10 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { fetchQuery } from "@/util/fetchutil";
-import { getCurrentUser, logoutUser } from "@/data/user";
 import { StoreGetter } from "@/store/decorator";
-import Query from "@/data/struct/Query";
-import User from "@/data/models/User";
+import UserService from "@/api/services/UserService";
+import Query from "@/api/struct/Query";
+import User from "@/api/models/User";
 import RegisterModal from "./modals/RegisterModal.vue";
 
 @Component
@@ -249,7 +248,7 @@ export default class Navigation extends Vue {
      * Logout
      */
     logout(): void {
-        logoutUser();
+        UserService.logout();
     }
 }
 </script>

@@ -1,8 +1,9 @@
 import Vue from "vue";
-import { ErrorValue, ErrorOptions } from "./util/error/error";
+import QueryError from "./api/struct/QueryError";
+import QueryErrorOptions from "./api/struct/QueryErrorOptions";
 
 declare module "vue/types/vue" {
     interface Vue {
-        $error(value: ErrorValue, options: ErrorOptions): void;
+        $error(value: QueryError, options: QueryErrorOptions): void;
     }
 }
