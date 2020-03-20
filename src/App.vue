@@ -1,8 +1,11 @@
 <template>
     <v-app>
         <v-content>
+            <!-- Admin Panel Navigation -->
+            <admin-navigation v-if="$route.fullPath.startsWith('/admin/')" />
+
             <!-- Navigation -->
-            <Navigation />
+            <navigation v-else />
 
             <!-- Content -->
             <router-view-wrapper />
@@ -21,11 +24,13 @@ import Navigation from "@/components/layout/Navigation.vue";
 import RouterViewWrapper from "@/components/util/RouterViewWrapper.vue";
 import Snackbar from "@/components/layout/Snackbar.vue";
 import Modal from "@/components/layout/Modal.vue";
+import AdminNavigation from "@/components/admin/AdminNavigation.vue";
 
 export default {
     name: "App",
     components: {
         Navigation,
+        AdminNavigation,
         RouterViewWrapper,
         Snackbar,
         Modal
