@@ -1,4 +1,4 @@
-import { ErrorValue } from "./error/error";
+import QueryError from "@/api/struct/QueryError";
 
 export class InputFields {
     [prop: string]: InputField;
@@ -80,7 +80,7 @@ export function getFieldValues(fields: InputFields): any {
  * @param fields Object containing all the different InputField-objects.
  * @param error Error object containing the different errors.
  */
-export function setFieldErrors(fields: InputFields, error: ErrorValue): void {
+export function setFieldErrors(fields: InputFields, error: QueryError): void {
     // Check if the input errors are undefined.
     if (
         error === undefined ||
@@ -114,7 +114,7 @@ export function setFieldErrors(fields: InputFields, error: ErrorValue): void {
  * It will take the first element in the general errors list.
  * @param error Error object containing the different errors.
  */
-export function modifyGeneralError(error: ErrorValue): ErrorValue {
+export function modifyGeneralError(error: QueryError): QueryError {
     // Check if the input errors are undefined.
     if (
         error === undefined ||

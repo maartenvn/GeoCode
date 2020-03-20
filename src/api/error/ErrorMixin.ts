@@ -1,13 +1,14 @@
 import { Component, Vue } from "vue-property-decorator";
-import ErrorBus from "./errorbus";
-import { ErrorValue, ErrorOptions } from "./error";
+import QueryError from "../struct/QueryError";
+import QueryErrorOptions from "../struct/QueryErrorOptions";
+import ErrorBus from "./ErrorBus";
 
 @Component
 export default class ErrorMixin extends Vue {
     /**
      * Display an error message that will notify the user of an error.
      */
-    $error(value: ErrorValue, options: ErrorOptions) {
+    $error(value: QueryError, options: QueryErrorOptions) {
         ErrorBus.$emit("error", value, options);
     }
 }

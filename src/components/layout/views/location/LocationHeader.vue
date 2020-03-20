@@ -43,8 +43,8 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import Query from "@/data/struct/Query";
-import Location from "@/data/models/Location";
+import Query from "@/api/struct/Query";
+import Location from "@/api/models/Location";
 import ErrorHandler from "@/components/error/ErrorHandler.vue";
 
 @Component({

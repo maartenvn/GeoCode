@@ -26,8 +26,8 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { mapState, mapActions } from "vuex";
-import { ModalData } from "../../store/modules/modal";
-import LoadingModal from "./modals/LoadingModal.vue";
+import { ModalData } from "@/store/modules/modal";
+import LoadingModal from "../modals/LoadingModal.vue";
 
 @Component({
     computed: {

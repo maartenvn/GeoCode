@@ -3,9 +3,9 @@ import App from "./App.vue";
 import router from "./plugins/router";
 import store from "./store/store";
 import vuetify from "./plugins/vuetify";
-import ErrorMixin from "./util/error/errormixin";
 
 import "./plugins/leaflet";
+import ErrorMixin from "./api/error/ErrorMixin";
 
 Vue.config.productionTip = false;
 

@@ -26,12 +26,12 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { getCurrentUserLocations } from "@/data/user";
-import { fetchQuery } from "@/util/fetchutil";
-import Query from "@/data/struct/Query";
-import Location from "@/data/models/Location";
+import Query from "@/api/struct/Query";
+import Location from "@/api/models/Location";
 import LocationsTable from "@/components/layout/views/locations/LocationsTable.vue";
-import LocationCreateModal from "@/components/layout/modals/LocationCreateModal.vue";
+import LocationCreateModal from "@/components/modals/LocationCreateModal.vue";
+import FetchHandler from "@/api/FetchHandler";
+import UserService from "@/api/services/UserService";
 
 @Component({
     components: {
@@ -47,11 +47,14 @@ export default class ProfileLocations extends Vue {
     constructor() {
         super();
 
-        this.locations = fetchQuery(getCurrentUserLocations(), {
-            style: "SECTION",
-            id: "currentUserLocations",
-            displayFullpage: true
-        });
+        this.locations = FetchHandler.fetchQuery(
+            UserService.getCurrentLocations(),
+            {
+                style: "SECTION",
+                id: "currentUserLocations",
+                displayFullpage: true
+            }
+        );
     }
 
     /**
@@ -60,7 +63,7 @@ export default class ProfileLocations extends Vue {
     openCreateLocation() {
         this.$store.dispatch("modal/open", {
             component: () =>
-                import("@/components/layout/modals/LocationCreateModal.vue"),
+                import("@/components/modals/LocationCreateModal.vue"),
             fullscreen: true
         });
     }

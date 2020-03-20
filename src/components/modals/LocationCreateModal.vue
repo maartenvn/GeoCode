@@ -156,7 +156,6 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { LatLng } from "leaflet";
-import { createLocation } from "@/data/location";
 import {
     InputFields,
     getFieldValues,
@@ -165,6 +164,7 @@ import {
     modifyGeneralError
 } from "@/util/fieldsutil";
 import { MapMarker } from "@/types/mapmarker";
+import LocatioHandler from "@/api/services/LocationService";
 import Editor from "@/components/Editor.vue";
 import SetLocationMap from "@/components/map/SetLocationMap.vue";
 
@@ -257,7 +257,7 @@ export default class LocationCreateModal extends Vue {
      * Create a new location with the given parameters.
      */
     createLocation() {
-        createLocation(getFieldValues(this.fields))
+        LocatioHandler.create(getFieldValues(this.fields))
             .then(response => {
                 this.$store.dispatch("snackbar/open", {
                     message: "Location was succesfully created",

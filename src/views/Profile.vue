@@ -60,12 +60,12 @@ import {
     InputField,
     getFieldValues,
     setFieldErrors
-} from "../util/fieldsutil";
-import { StoreGetter } from "../store/decorator";
-import Query from "../data/struct/Query";
-import User from "../data/models/User";
-import { updateUser } from "../data/user";
-import { reloadRoute } from "../util/routerutil";
+} from "@/util/fieldsutil";
+import { StoreGetter } from "@/store/decorator";
+import { reloadRoute } from "@/util/routerutil";
+import Query from "@/api/struct/Query";
+import User from "@/api/models/User";
+import UserService from "@/api/services/UserService";
 
 @Component
 export default class Profile extends Vue {
@@ -113,7 +113,7 @@ export default class Profile extends Vue {
      * Update the profile settings that have changed on the page.
      */
     updateProfile() {
-        updateUser(
+        UserService.update(
             getFieldValues({
                 username: this.fields.username,
                 email: this.fields.email

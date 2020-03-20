@@ -75,8 +75,8 @@ import {
     setFieldErrors,
     modifyGeneralError
 } from "@/util/fieldsutil";
-import { loginUser } from "../data/user";
-import { executeCaptcha } from "../util/captchautil";
+import { executeCaptcha } from "@/util/captchautil";
+import UserService from "@/api/services/UserService";
 
 @Component
 export default class Login extends Vue {
@@ -110,7 +110,7 @@ export default class Login extends Vue {
         executeCaptcha("login")
             .then(token => {
                 // Execute the login request.
-                loginUser(
+                UserService.login(
                     Object.assign(getFieldValues(this.fields), {
                         captcha: token
                     })

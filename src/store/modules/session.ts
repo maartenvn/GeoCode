@@ -1,7 +1,7 @@
-import { fetchQuery } from "@/util/fetchutil";
-import { getCurrentUser } from "@/data/user";
-import User from "@/data/models/User";
-import Query from "@/data/struct/Query";
+import User from "@/api/models/User";
+import Query from "@/api/struct/Query";
+import FetchHandler from "@/api/FetchHandler";
+import UserService from "@/api/services/UserService";
 
 export const session = {
     namespaced: true,
@@ -31,7 +31,7 @@ export const session = {
         fetch(context: any) {
             context.commit(
                 "SET_CURRENTUSER",
-                fetchQuery(getCurrentUser(), {
+                FetchHandler.fetchQuery(UserService.getCurrent(), {
                     style: "NONE",
                     id: "currentUser"
                 })

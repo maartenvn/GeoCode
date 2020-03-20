@@ -1,5 +1,5 @@
 import Vue from "vue";
-import ErrorMixin from "./error/errormixin";
+import ErrorMixin from "@/api/error/ErrorMixin";
 
 declare const grecaptcha: any;
 

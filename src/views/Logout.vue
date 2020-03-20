@@ -29,13 +29,13 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
-import { logoutUser } from "../data/user";
+import UserService from "@/api/services/UserService";
 
 @Component
 export default class Logout extends Vue {
     created() {
         // Attempt to logout the current user.
-        logoutUser().then(() => {
+        UserService.logout().then(() => {
             // Navigate to the home page.
             this.$router.push("/");
         });

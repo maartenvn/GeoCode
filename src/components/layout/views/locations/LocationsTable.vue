@@ -59,11 +59,11 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import Query from "@/data/struct/Query";
 import { DataTableHeader } from "vuetify";
-import Location from "@/data/models/Location";
-import { deleteLocation } from "@/data/location";
-import ConfirmationModal from "@/components/layout/modals/ConfirmationModal.vue";
+import Query from "@/api/struct/Query";
+import Location from "@/api/models/Location";
+import LocationService from "@/api/services/LocationService";
+import ConfirmationModal from "@/components/modals/ConfirmationModal.vue";
 
 @Component
 export default class LocationsTable extends Vue {
@@ -117,7 +117,7 @@ export default class LocationsTable extends Vue {
             componentPayload: {
                 message: `Are you sure you want to delete '${location.name}? This action is permanent and cannot be undone!'`,
                 action: () =>
-                    deleteLocation(location)
+                    LocationService.delete(location)
                         .then(data => {
                             // Close the modal.
                             this.$store.dispatch("modal/close");

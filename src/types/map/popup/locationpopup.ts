@@ -1,4 +1,4 @@
-import Location from "@/data/models/Location";
+import Location from "@/api/models/Location";
 
 export class LocationPopupPayload {
     /**

@@ -127,13 +127,13 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { StoreGetter } from "@/store/decorator";
 import TutorialStep from "@/components/layout/views/home/TutorialStep.vue";
 import LocationMap from "@/components/map/LocationMap.vue";
-import Query from "../data/struct/Query";
-import Location from "../data/models/Location";
-import { getLocations } from "../data/location";
-import { fetchQuery } from "../util/fetchutil";
-import { StoreGetter } from "../store/decorator";
+import Query from "@/api/struct/Query";
+import Location from "@/api/models/Location";
+import FetchHandler from "@/api/FetchHandler";
+import LocationService from "@/api/services/LocationService";
 
 @Component({
     components: {
@@ -156,7 +156,7 @@ export default class Home extends Vue {
     constructor() {
         super();
 
-        this.locations = fetchQuery(getLocations(), {
+        this.locations = FetchHandler.fetchQuery(LocationService.getAll(), {
             id: "locations",
             style: "CARD"
         });
