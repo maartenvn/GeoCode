@@ -87,7 +87,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 import LocationService from "@/api/services/LocationService";
 import LocationMap from "@/components/map/location/LocationMap.vue";

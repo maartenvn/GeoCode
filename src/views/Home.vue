@@ -131,8 +131,6 @@ import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 import TutorialStep from "@/components/view/home/HomeTutorialStep.vue";
 import LocationMap from "@/components/map/location/LocationMap.vue";
 import LocationService from "@/api/services/LocationService";
-import { HandleRequest } from "@/api/decorators/HandleRequestDecorator";
-import { EchoPromise } from "echofetch";
 import { RequestHandler } from "@/api/RequestHandler";
 
 @Component({

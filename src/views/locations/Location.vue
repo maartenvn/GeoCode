@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import LocationService from "@/api/services/LocationService";
 import LocationHeader from "@/components/view/location/LocationHeader.vue";
 import LocationInformation from "@/components/view/location/LocationInformation.vue";

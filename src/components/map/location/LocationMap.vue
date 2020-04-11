@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { LatLng, Map } from "leaflet";
 import { EchoPromise } from "echofetch";
 import { MapMarker } from "@/types/map/MapMarker";

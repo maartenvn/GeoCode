@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { RouterUtil } from "@/util/RouterUtil";
 import { ErrorComponentPayload } from "@/api/error/types/component/ErrorComponentPayload";
 

@@ -132,7 +132,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import AuthService from "@/api/services/AuthService";
 import { InputFields } from "@/types/fields/InputFields";
 import { InputField } from "@/types/fields/InputField";

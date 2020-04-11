@@ -205,7 +205,6 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
-import UserService from "@/api/services/UserService";
 import User from "@/api/models/User";
 import { EchoPromise } from "echofetch";
 import AuthService from "@/api/services/AuthService";
