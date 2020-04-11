@@ -33,7 +33,7 @@
                 </v-btn>
 
                 <!-- User: loading -->
-                <template v-if="currentUser.loading">
+                <template v-if="currentUser.isLoading()">
                     <v-btn text>
                         <v-skeleton-loader
                             class="skeleton__user"
@@ -44,7 +44,7 @@
                 </template>
 
                 <!-- User: logged in -->
-                <template v-else-if="currentUser.data">
+                <template v-else-if="currentUser.isSuccess()">
                     <v-menu transition="slide-y-transition" offset-y bottom>
                         <template v-slot:activator="{ attrs, on }">
                             <v-btn v-on="on" v-bind="attrs" text>
@@ -122,7 +122,7 @@
                     </v-list-item-content>
                 </v-list-item>
 
-                <template v-if="!currentUser.loading">
+                <template v-if="!currentUser.isLoading()">
                     <!-- User: logged in -->
                     <template v-if="currentUser.data">
                         <v-list-group prepend-icon="mdi-account" no-action>
@@ -204,12 +204,11 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { fetchQuery } from "@/util/fetchutil";
-import { getCurrentUser, logoutUser } from "@/data/user";
-import { StoreGetter } from "@/store/decorator";
-import Query from "@/data/struct/Query";
-import User from "@/data/models/User";
-import RegisterModal from "./modals/RegisterModal.vue";
+import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
+import UserService from "@/api/services/UserService";
+import User from "@/api/models/User";
+import { EchoPromise } from "echofetch";
+import AuthService from "@/api/services/AuthService";
 
 @Component
 export default class Navigation extends Vue {
@@ -217,7 +216,7 @@ export default class Navigation extends Vue {
     links: Array<{ title: string; to: string; icon: string }>;
 
     @StoreGetter("session/currentUser")
-    currentUser: Query<User>;
+    currentUser: EchoPromise<User>;
 
     constructor() {
         super();
@@ -249,7 +248,7 @@ export default class Navigation extends Vue {
      * Logout
      */
     logout(): void {
-        logoutUser();
+        AuthService.handleLogout();
     }
 }
 </script>

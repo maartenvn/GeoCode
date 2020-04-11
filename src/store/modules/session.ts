@@ -1,7 +1,6 @@
-import { fetchQuery } from "@/util/fetchutil";
-import { getCurrentUser } from "@/data/user";
-import User from "@/data/models/User";
-import Query from "@/data/struct/Query";
+import { EchoPromise } from "echofetch";
+import User from "@/api/models/User";
+import UserService from "@/api/services/UserService";
 
 export const session = {
     namespaced: true,
@@ -17,7 +16,7 @@ export const session = {
          * @param state
          * @param user User that is logged in.
          */
-        SET_CURRENTUSER(state: any, currentUser: Query<User>) {
+        SET_CURRENTUSER(state: any, currentUser: EchoPromise<User>) {
             state.currentUser = currentUser;
         }
     },
@@ -29,13 +28,7 @@ export const session = {
          * @param context
          */
         fetch(context: any) {
-            context.commit(
-                "SET_CURRENTUSER",
-                fetchQuery(getCurrentUser(), {
-                    style: "NONE",
-                    id: "currentUser"
-                })
-            );
+            context.commit("SET_CURRENTUSER", UserService.get());
         }
     },
 
@@ -45,7 +38,7 @@ export const session = {
          *
          * @param state
          */
-        currentUser(state: any): Query<User> {
+        currentUser(state: any): EchoPromise<User> {
             return state.currentUser;
         },
 
@@ -55,7 +48,7 @@ export const session = {
          * @param state
          */
         isAuthenticated(state: any): boolean {
-            return state.currentUser.data;
+            return state.currentUser.isSuccess();
         }
     }
 };

@@ -7,7 +7,7 @@ export default {
             USERS: "users",
             SESSION: {
                 USER: "user",
-                LOCATIONS: "user/locations"
+                LOCATIONS: "user/location"
             },
             AUTH: {
                 REGISTER: "auth/register",
