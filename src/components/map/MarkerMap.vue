@@ -52,7 +52,7 @@ import { Component, Vue, Prop, Watch, Emit } from "vue-property-decorator";
 import { LMap, LTileLayer, LMarker, LPopup } from "vue2-leaflet";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import { LatLng, Map, LeafletMouseEvent, MapOptions } from "leaflet";
-import { MapMarker } from "@/types/mapmarker";
+import { MapMarker } from "@/types/map/MapMarker";
 
 @Component({
     components: {

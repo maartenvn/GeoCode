@@ -127,13 +127,13 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { StoreGetter } from "@/store/decorator";
-import TutorialStep from "@/components/layout/views/home/TutorialStep.vue";
-import LocationMap from "@/components/map/LocationMap.vue";
-import Query from "@/api/struct/Query";
-import Location from "@/api/models/Location";
-import FetchHandler from "@/api/FetchHandler";
+import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
+import TutorialStep from "@/components/view/home/HomeTutorialStep.vue";
+import LocationMap from "@/components/map/location/LocationMap.vue";
 import LocationService from "@/api/services/LocationService";
+import { HandleRequest } from "@/api/decorators/HandleRequestDecorator";
+import { EchoPromise } from "echofetch";
+import { RequestHandler } from "@/api/RequestHandler";
 
 @Component({
     components: {
@@ -143,24 +143,18 @@ import LocationService from "@/api/services/LocationService";
 })
 export default class Home extends Vue {
     /**
-     * List with all the locations in the database.
+     * List with all the location in the database.
      */
-    locations: Query<Array<Location>>;
+    locations = RequestHandler.handle(LocationService.getAll(), {
+        id: "locations",
+        style: "CARD"
+    });
 
     /**
      * If the client is logged in.
      */
     @StoreGetter("session/isAuthenticated")
     isAuthenticated: boolean;
-
-    constructor() {
-        super();
-
-        this.locations = FetchHandler.fetchQuery(LocationService.getAll(), {
-            id: "locations",
-            style: "CARD"
-        });
-    }
 }
 </script>
 

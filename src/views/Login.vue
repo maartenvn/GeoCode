@@ -68,15 +68,13 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
-import {
-    InputFields,
-    InputField,
-    getFieldValues,
-    setFieldErrors,
-    modifyGeneralError
-} from "@/util/fieldsutil";
-import { executeCaptcha } from "@/util/captchautil";
 import UserService from "@/api/services/UserService";
+import AuthService from "@/api/services/AuthService";
+import { InputFields } from "@/types/fields/InputFields";
+import { InputField } from "@/types/fields/InputField";
+import { CaptchaUtil } from "@/util/CaptchaUtil";
+import { InputFieldUtil } from "@/util/InputFieldUtil";
+import { ErrorHandler } from "@/api/error/ErrorHandler";
 
 @Component
 export default class Login extends Vue {
@@ -107,11 +105,11 @@ export default class Login extends Vue {
         // Set loading.
         this.loading = true;
 
-        executeCaptcha("login")
+        CaptchaUtil.execute("login")
             .then(token => {
                 // Execute the login request.
-                UserService.login(
-                    Object.assign(getFieldValues(this.fields), {
+                AuthService.login(
+                    Object.assign(InputFieldUtil.getValues(this.fields), {
                         captcha: token
                     })
                 )
@@ -132,13 +130,14 @@ export default class Login extends Vue {
                         // Finish loading
                         this.loading = false;
 
-                        this.$error(modifyGeneralError(error), {
-                            style: "SNACKBAR",
-                            id: "login"
-                        });
-
-                        // Handle field errors.
-                        setFieldErrors(this.fields, error);
+                        ErrorHandler.handle(
+                            error,
+                            {
+                                id: "login",
+                                style: "SNACKBAR"
+                            },
+                            this.fields
+                        );
                     });
             })
             .finally(() => {

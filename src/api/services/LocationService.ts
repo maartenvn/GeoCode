@@ -1,65 +1,56 @@
-import { createModel } from "../struct/Model";
-import Config from "@/config";
+import config from "@/config";
 import Location from "../models/Location";
-import Value from "../models/Value";
-import FetchHandler from "../FetchHandler";
+import {
+    Body,
+    DELETE,
+    EchoPromise,
+    EchoService,
+    EchoServiceBuilder,
+    GET,
+    Path,
+    POST
+} from "echofetch";
+import { LocationCreateWrapper } from "@/api/wrappers/LocationWrapper";
+import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
 
-export class LocationCreate {
-    public name: string;
-    public description: string;
-    public listed: boolean;
-    public latitude: number;
-    public longitude: number;
-}
-
-export default class LocationService {
+class LocationService extends EchoService {
     /**
      * Get a location by its secret id
      * @param secretId Secret id of the location.
      */
-    static get(secretId: string): Promise<Location> {
-        return FetchHandler.fetch<Location>({
-            url: `${Config.BACKEND.URL}${Config.BACKEND.ENDPOINTS.LOCATIONS}/${secretId}`,
-            create: createModel(Location),
-            method: "GET"
-        });
+    @GET("/locations/{secretId}")
+    get(@Path("secretId") secretId: string): EchoPromise<Location> {
+        return {} as EchoPromise<Location>;
     }
 
     /**
-     * Get a list with locations.
+     * Get a list with location.
      */
-    static getAll(): Promise<Array<Location>> {
-        return FetchHandler.fetch<Array<Location>>({
-            url: `${Config.BACKEND.URL}${Config.BACKEND.ENDPOINTS.LOCATIONS}`,
-            create: createModel(Location),
-            method: "GET"
-        });
+    @GET("/locations")
+    getAll(): EchoPromise<Array<Location>> {
+        return {} as EchoPromise<Array<Location>>;
     }
 
     /**
      * Create a new location.
      * @param locationCreate Location parameters for the new location.
      */
-    static create(locationCreate: LocationCreate): Promise<Value> {
-        return FetchHandler.fetch<Value>({
-            url: `${Config.BACKEND.URL}${Config.BACKEND.ENDPOINTS.LOCATIONS}`,
-            create: createModel(Value),
-            method: "POST",
-            options: {
-                data: locationCreate
-            }
-        });
+    @POST("/locations")
+    create(@Body() body: LocationCreateWrapper): EchoPromise<string> {
+        return {} as EchoPromise<string>;
     }
 
     /**
      * Delete a location
      * @param location Location to delete
      */
-    static delete(location: Location): Promise<Value> {
-        return FetchHandler.fetch<Value>({
-            url: `${Config.BACKEND.URL}${Config.BACKEND.ENDPOINTS.LOCATIONS}/${location.secretId}`,
-            create: createModel(Value),
-            method: "DELETE"
-        });
+    @DELETE("/locations/{secretId}")
+    delete(@Path("secretId") secretId: string): EchoPromise<string> {
+        return {} as EchoPromise<string>;
     }
 }
+
+export default new EchoServiceBuilder()
+    .setBaseUrl(config.BACKEND.URL)
+    .addInterceptor(new AuthInterceptor())
+    .build(LocationService);

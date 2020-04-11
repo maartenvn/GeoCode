@@ -16,25 +16,43 @@
     </v-app>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import { CustomErrorOptions } from "@/api/error/types/CustomErrorOptions";
+import { EchoError } from "echofetch";
 import Navigation from "@/components/layout/Navigation.vue";
 import RouterViewWrapper from "@/components/util/RouterViewWrapper.vue";
 import Snackbar from "@/components/layout/Snackbar.vue";
 import Modal from "@/components/layout/Modal.vue";
+import ErrorBus from "@/api/error/ErrorBus";
 
-export default {
-    name: "App",
+@Component({
     components: {
         Navigation,
         RouterViewWrapper,
         Snackbar,
         Modal
-    },
-
-    created() {
-        this.$store.dispatch("session/fetch");
     }
-};
+})
+export default class App extends Vue {
+    created() {
+        // Fetch the session data.
+        this.$store.dispatch("session/fetch");
+
+        // Listen for any potential "SNACKBAR" errors to display.
+        ErrorBus.$on(
+            "error",
+            (error: EchoError, options: CustomErrorOptions) => {
+                if (options.style === "SNACKBAR") {
+                    this.$store.dispatch("snackbar/open", {
+                        message: error.message,
+                        color: "error"
+                    });
+                }
+            }
+        );
+    }
+}
 </script>
 
 <style lang="scss">
