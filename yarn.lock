@@ -3190,6 +3190,15 @@ ecc-jsbn@~0.1.1:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
 
+echofetch@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/echofetch/-/echofetch-0.0.4.tgz#25daa7894a26b143688c384e3050b977780e7813"
+  integrity sha512-eQiERcWKIHeo1APm1+Uz+rPSOsv64qC6wPKO59PUblR1IkxfO9Ff/rsGi6pO+vLPs5GOB/Nw/rMDnL7TaCNhQQ==
+  dependencies:
+    axios "^0.19.2"
+  optionalDependencies:
+    vue "^2.0.0"
+
 ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
@@ -8652,7 +8661,7 @@ vue2-leaflet@^2.5.2:
   resolved "https://registry.yarnpkg.com/vue2-leaflet/-/vue2-leaflet-2.5.2.tgz#b89c056fe741c7ce7cb9df5aca90809092e5eb8d"
   integrity sha512-9eN0TxqCkyXbaI7waO3u+n0OAezkxjb811tstG6gRLAZy/ocXlNLC3JqTWE0FwBUlqBbMpyzsIk6LrEhs8oVBQ==
 
-vue@^2.6.11:
+vue@^2.0.0, vue@^2.6.11:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.11.tgz#76594d877d4b12234406e84e35275c6d514125c5"
   integrity sha512-VfPwgcGABbGAue9+sfrD4PuwFar7gPb1yl1UK1MwXoQPAw0BKSqWfoYCT/ThFrdEVWoI51dBuyCoiNU9bZDZxQ==

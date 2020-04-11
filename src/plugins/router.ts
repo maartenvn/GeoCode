@@ -22,7 +22,7 @@ const routes = [
     {
         path: "/location/:secretId",
         name: "Location",
-        component: () => import("../views/Location.vue"),
+        component: () => import("../views/locations/Location.vue"),
         props: true
     },
 
@@ -47,13 +47,13 @@ const routes = [
     {
         path: "/profile",
         name: "Profile",
-        component: () => import("../views/Profile.vue")
+        component: () => import("../views/profile/Profile.vue")
     },
 
     {
         path: "/profile/locations/",
-        name: "Your locations",
-        component: () => import("../views/ProfileLocations.vue")
+        name: "Your location",
+        component: () => import("../views/profile/ProfileLocations.vue")
     }
 ];
 

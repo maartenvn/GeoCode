@@ -1,14 +1,14 @@
 <template>
     <v-container class="container--small">
         <!-- Loading -->
-        <template v-if="locations.loading">
+        <template v-if="locations.isLoading()">
             <v-skeleton-loader type="article" />
             <v-skeleton-loader />
             <v-skeleton-loader class="skeleton__map" type="image" />
         </template>
 
         <!-- Data -->
-        <template v-else-if="locations.data">
+        <template v-else-if="locations.isSuccess()">
             <div class="section">
                 <v-row
                     class="section__title"
@@ -23,7 +23,7 @@
                             v-if="isAuthenticated"
                             color="primary"
                             depressed
-                            @click="openCreateLocation"
+                            @click="openCreate"
                         >
                             Create new location
                             <v-icon right>
@@ -81,40 +81,35 @@
 
         <!-- Error -->
         <template v-else>
-            <error-handler errorId="location" />
+            <error-placeholder errorId="location" />
         </template>
     </v-container>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { DataTableHeader } from "vuetify";
-import { StoreGetter } from "@/store/decorator";
-import LocationCreateModal from "@/components/modals/LocationCreateModal.vue";
-import Query from "@/api/struct/Query";
-import Location from "@/api/models/Location";
-import LocationMap from "@/components/map/LocationMap.vue";
-import LocationsTable from "@/components/layout/views/locations/LocationsTable.vue";
-import FetchHandler from "@/api/FetchHandler";
+import { Component, Vue, Watch } from "vue-property-decorator";
+import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 import LocationService from "@/api/services/LocationService";
+import LocationMap from "@/components/map/location/LocationMap.vue";
+import LocationsTable from "@/components/view/locations/LocationsTable.vue";
+import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
+import { RequestHandler } from "@/api/RequestHandler";
 
 @Component({
     components: {
         LocationMap,
-        LocationsTable
+        LocationsTable,
+        ErrorPlaceholder
     }
 })
 export default class LocationView extends Vue {
     tab: any;
 
-    locations: Query<Array<Location>> = FetchHandler.fetchQuery(
-        LocationService.getAll(),
-        {
-            id: "location",
-            style: "SECTION",
-            displayFullpage: true
-        }
-    );
+    locations = RequestHandler.handle(LocationService.getAll(), {
+        id: "location",
+        style: "SECTION",
+        displayFullpage: true
+    });
 
     /**
      * If the client is logged in.
@@ -131,10 +126,10 @@ export default class LocationView extends Vue {
     /**
      * Open a modal to create a new location.
      */
-    openCreateLocation() {
+    openCreate() {
         this.$store.dispatch("modal/open", {
             component: () =>
-                import("@/components/modals/LocationCreateModal.vue"),
+                import("@/components/modal/location/LocationCreateModal.vue"),
             fullscreen: true
         });
     }

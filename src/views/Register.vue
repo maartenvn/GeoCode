@@ -133,15 +133,12 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
-import {
-    InputFields,
-    InputField,
-    getFieldValues,
-    setFieldErrors,
-    modifyGeneralError
-} from "@/util/fieldsutil";
-import { executeCaptcha } from "@/util/captchautil";
-import UserService from "../api/services/UserService";
+import AuthService from "@/api/services/AuthService";
+import { InputFields } from "@/types/fields/InputFields";
+import { InputField } from "@/types/fields/InputField";
+import { InputFieldUtil } from "@/util/InputFieldUtil";
+import { CaptchaUtil } from "@/util/CaptchaUtil";
+import { ErrorHandler } from "@/api/error/ErrorHandler";
 
 @Component
 export default class Register extends Vue {
@@ -186,11 +183,11 @@ export default class Register extends Vue {
         this.loading = true;
 
         // Execute the captcha.
-        executeCaptcha("register")
+        CaptchaUtil.execute("register")
             .then(token => {
                 // Execute the register request.
-                UserService.register(
-                    Object.assign(getFieldValues(this.fields), {
+                AuthService.register(
+                    Object.assign(InputFieldUtil.getValues(this.fields), {
                         captcha: token
                     })
                 )
@@ -211,13 +208,14 @@ export default class Register extends Vue {
                         // Finish loading
                         this.loading = false;
 
-                        this.$error(modifyGeneralError(error), {
-                            style: "SNACKBAR",
-                            id: "register"
-                        });
-
-                        // Handle field errors.
-                        setFieldErrors(this.fields, error);
+                        ErrorHandler.handle(
+                            error,
+                            {
+                                style: "SNACKBAR",
+                                id: "register"
+                            },
+                            this.fields
+                        );
                     });
             })
             .finally(() => {
