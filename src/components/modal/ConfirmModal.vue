@@ -10,9 +10,7 @@
             </v-btn>
         </v-card-title>
 
-        <v-card-text>
-            {{ payload.message }}
-        </v-card-text>
+        <v-card-text v-html="payload.message" />
 
         <v-card-actions>
             <v-spacer />
@@ -23,7 +21,7 @@
             </v-btn>
 
             <!-- Confirm -->
-            <v-btn color="primary" depressed @click="payload.action">
+            <v-btn color="primary" depressed @click="confirm">
                 Confirm
             </v-btn>
         </v-card-actions>
@@ -42,10 +40,26 @@ export default class ConfirmModal extends Vue {
     payload: { message: string; action: Function };
 
     /**
+     * If the confirm model is loading.
+     */
+    loading = false;
+
+    /**
      * Close the modal.
      */
     close() {
         this.$store.dispatch("modal/close");
+    }
+
+    /**
+     * Execute the confirm action.
+     */
+    async confirm() {
+        this.loading = true;
+
+        await this.payload.action();
+
+        this.loading = false;
     }
 }
 </script>

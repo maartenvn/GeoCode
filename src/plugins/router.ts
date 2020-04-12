@@ -20,9 +20,16 @@ const routes = [
     },
 
     {
-        path: "/location/:secretId",
+        path: "/locations/:secretId",
         name: "Location",
         component: () => import("../views/locations/Location.vue"),
+        props: true
+    },
+
+    {
+        path: "/locations/visit/:visitCode",
+        name: "Visit Location",
+        component: () => import("../views/locations/Visit.vue"),
         props: true
     },
 

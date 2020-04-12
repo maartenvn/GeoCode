@@ -265,7 +265,7 @@ export default class LocationCreateModal extends Vue {
                 this.$store.dispatch("modal/close");
 
                 // Go to the route of the created location.
-                this.$router.push(`/location/${response}`);
+                this.$router.push(`/locations/${response}`);
             })
             .catch(error => {
                 // Handle field errors.

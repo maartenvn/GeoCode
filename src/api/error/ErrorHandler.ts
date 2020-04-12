@@ -188,7 +188,7 @@ export class ErrorHandler {
         options: CustomErrorOptions
     ): Array<CustomErrorMessage> {
         return options.customMessages !== undefined
-            ? [...options.customMessages, ...globalCustomErrors]
+            ? [...globalCustomErrors, ...options.customMessages]
             : globalCustomErrors;
     }
 }
