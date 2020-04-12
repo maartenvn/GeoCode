@@ -7,11 +7,16 @@ import {
     EchoService,
     EchoServiceBuilder,
     GET,
+    PATCH,
     Path,
     POST
 } from "echofetch";
-import { LocationCreateWrapper } from "@/api/wrappers/LocationWrapper";
+import {
+    LocationCreateWrapper,
+    LocationUpdateWrapper
+} from "@/api/wrappers/LocationWrapper";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
+import { InputFields } from "@/types/fields/InputFields";
 
 class LocationService extends EchoService {
     /**
@@ -42,11 +47,23 @@ class LocationService extends EchoService {
 
     /**
      * Delete a location
-     * @param location Location to delete
+     * @param secretId Id of the location
      */
     @DELETE("/locations/{secretId}")
     delete(@Path("secretId") secretId: string): EchoPromise<string> {
         return {} as EchoPromise<string>;
+    }
+
+    /**
+     * Update a location
+     * @param secretId Id of the location
+     */
+    @PATCH("/locations/{secretId}")
+    update(
+        @Path("secretId") secretId: string,
+        @Body() body: LocationUpdateWrapper
+    ): EchoPromise<void> {
+        return {} as EchoPromise<void>;
     }
 }
 
