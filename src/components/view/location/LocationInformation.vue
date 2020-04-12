@@ -30,15 +30,22 @@
                         <span class="li__title">
                             Coordinates
                         </span>
-                        <span class="li__content">
-                            25° N, 23° E
-                        </span>
+                        <ul class="li__content">
+                            <li>{{ latitudeDMS }}</li>
+                            <li>{{ longitudeDMS }}</li>
+                        </ul>
 
                         <span class="li__title">
                             Created by
                         </span>
                         <span class="li__content">
-                            <a>Barry Benson</a>
+                            <template v-if="creator && creator.isLoading()">
+                                <v-skeleton-loader dense type="text" />
+                            </template>
+
+                            <template v-else-if="creator.isSuccess()">
+                                <a>{{ creator.data.username }}</a>
+                            </template>
                         </span>
 
                         <span class="li__title">
@@ -90,11 +97,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { EchoPromise } from "echofetch";
 import Location from "@/api/models/Location";
 import LocationMap from "@/components/map/location/LocationMap.vue";
 import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
+import { CoordinatesUtil } from "@/util/CoordinatesUtil";
+import User from "@/api/models/User";
+import { RequestHandler } from "@/api/RequestHandler";
+import UsersService from "@/api/services/UsersService";
+import { Optional } from "@/types/Optional";
+import { LateRequest } from "@/api/decorators/LateRequestDecorator";
 
 @Component({
     components: {
@@ -105,5 +118,28 @@ import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 export default class LocationInformation extends Vue {
     @Prop()
     location: EchoPromise<Location>;
+
+    /**
+     * Creator for the given location.
+     */
+    @LateRequest("location", "creatorId", UsersService.get, {
+        id: "locationCreator",
+        style: "SNACKBAR"
+    })
+    creator: Optional<EchoPromise<User>> = null;
+
+    /**
+     * Get the latitude value in DMS.
+     */
+    get latitudeDMS(): string {
+        return CoordinatesUtil.latToDMS(this.location.requireData().latitude);
+    }
+
+    /**
+     * Get the longitude value in DMS.
+     */
+    get longitudeDMS(): string {
+        return CoordinatesUtil.lngToDMS(this.location.requireData().longitude);
+    }
 }
 </script>
