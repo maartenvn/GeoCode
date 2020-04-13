@@ -8,7 +8,10 @@
         <!-- Data -->
         <template v-else-if="location.data">
             <div class="location__title">
-                {{ location.data.name }}
+                <inline-edit
+                    :value="location.data.name"
+                    :update="updateLocationName"
+                />
             </div>
 
             <div class="location__info">
@@ -46,15 +49,29 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { EchoPromise } from "echofetch";
 import Location from "@/api/models/Location";
 import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
+import InlineEdit from "@/components/util/InlineEdit.vue";
+import LocationService from "@/api/services/LocationService";
+import { ErrorHandler } from "@/api/error/ErrorHandler";
 
 @Component({
     components: {
+        InlineEdit,
         ErrorPlaceholder
     }
 })
 export default class LocationHeader extends Vue {
     @Prop()
     location: EchoPromise<Location>;
+
+    /**
+     * Update the location name.
+     * @param value Value of the location name.
+     */
+    updateLocationName(value: string): EchoPromise<unknown> {
+        return LocationService.update(this.location.requireData().secretId, {
+            name: value
+        });
+    }
 }
 </script>
 
