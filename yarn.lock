@@ -910,10 +910,17 @@
   dependencies:
     "@types/leaflet" "*"
 
-"@types/leaflet@*", "@types/leaflet@^1.5.10":
+"@types/leaflet@*":
   version "1.5.10"
   resolved "https://registry.yarnpkg.com/@types/leaflet/-/leaflet-1.5.10.tgz#a728752877980216b3215bf07359fa7765f9825b"
   integrity sha512-KD9sIS9F/Mp6KiXFeN7tyXbF2EUnm1WCYR5fUq30OCUXeJmK9raWPHtB9uwdWm6k26KTsy9etp9XSPNpbJooOQ==
+  dependencies:
+    "@types/geojson" "*"
+
+"@types/leaflet@^1.5.10":
+  version "1.5.12"
+  resolved "https://registry.yarnpkg.com/@types/leaflet/-/leaflet-1.5.12.tgz#9953b7e47a53e0a70cdd7a903a43dc3c343cf623"
+  integrity sha512-61HRMIng+bWvnnAIqUWLBlrd/TQZc4gU+gN1JL4K47EDtwIrcMEhWgi7PdcpbG1YmpH4F0EfOimkvV82gJIl9w==
   dependencies:
     "@types/geojson" "*"
 

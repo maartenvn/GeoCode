@@ -20,7 +20,11 @@
             </div>
         </div>
 
-        <locations-table :locations="locations" :deleteEnabled="true" />
+        <locations-table
+            :locations="locations"
+            :delete-enabled="true"
+            :active-enabled="true"
+        />
     </v-container>
 </template>
 

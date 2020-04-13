@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { EchoError } from "echofetch";
 import { CustomErrorOptions } from "@/api/error/types/CustomErrorOptions";
 import { ErrorComponentPayload } from "@/api/error/types/component/ErrorComponentPayload";

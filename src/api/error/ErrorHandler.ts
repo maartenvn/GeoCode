@@ -1,4 +1,3 @@
-import Vue from "vue";
 import { EchoError } from "echofetch";
 import { CustomErrorOptions } from "@/api/error/types/CustomErrorOptions";
 import ErrorBus from "@/api/error/ErrorBus";
@@ -189,7 +188,7 @@ export class ErrorHandler {
         options: CustomErrorOptions
     ): Array<CustomErrorMessage> {
         return options.customMessages !== undefined
-            ? [...options.customMessages, ...globalCustomErrors]
+            ? [...globalCustomErrors, ...options.customMessages]
             : globalCustomErrors;
     }
 }

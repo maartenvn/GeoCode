@@ -1,63 +1,74 @@
 <template>
     <v-container class="container--small">
-        <!-- General information -->
-        <v-row>
-            <v-col cols="12">
-                <location-header :location="location" />
-            </v-col>
-        </v-row>
+        <!-- Setup: when location is not active. -->
+        <template v-if="location.isSuccess() && !location.data.active && false">
+            <setup :location="location.data" />
+        </template>
 
-        <v-divider class="mt-3 mb-3" />
+        <template v-else>
+            <!-- General information -->
+            <v-row>
+                <v-col cols="12">
+                    <location-header :location="location" />
+                </v-col>
+            </v-row>
 
-        <!-- Tab information -->
-        <v-row>
-            <v-col cols="12">
-                <v-tabs v-model="tab" centered icons-and-text show-arrows>
-                    <v-tabs-slider />
+            <v-divider class="mt-3 mb-3" />
 
-                    <v-tab href="#tab-information">
-                        Information
-                        <v-icon>mdi-information</v-icon>
-                    </v-tab>
+            <!-- Tab information -->
+            <v-row>
+                <v-col cols="12">
+                    <v-tabs v-model="tab" centered icons-and-text show-arrows>
+                        <v-tabs-slider />
 
-                    <v-tab href="#tab-ratings">
-                        Ratings
-                        <v-icon>mdi-star</v-icon>
-                    </v-tab>
+                        <v-tab href="#tab-information">
+                            Information
+                            <v-icon>mdi-information</v-icon>
+                        </v-tab>
 
-                    <v-tab href="#tab-3">
-                        Nearby locations
-                        <v-icon>mdi-map-marker-circle</v-icon>
-                    </v-tab>
-                </v-tabs>
+                        <v-tab href="#tab-ratings">
+                            Ratings
+                            <v-icon>mdi-star</v-icon>
+                        </v-tab>
 
-                <v-row>
-                    <v-col cols="12">
-                        <v-tabs-items v-model="tab" touchless>
-                            <v-tab-item value="tab-information">
-                                <location-information :location="location" />
-                            </v-tab-item>
-                            <v-tab-item value="tab-ratings">
-                                <location-ratings />
-                            </v-tab-item>
-                        </v-tabs-items>
-                    </v-col>
-                </v-row>
-            </v-col>
-        </v-row>
+                        <v-tab href="#tab-3">
+                            Nearby locations
+                            <v-icon>mdi-map-marker-circle</v-icon>
+                        </v-tab>
+                    </v-tabs>
+
+                    <v-row>
+                        <v-col cols="12">
+                            <v-tabs-items v-model="tab" touchless>
+                                <v-tab-item value="tab-information">
+                                    <location-information
+                                        :location="location"
+                                    />
+                                </v-tab-item>
+                                <v-tab-item value="tab-ratings">
+                                    <location-ratings />
+                                </v-tab-item>
+                            </v-tabs-items>
+                        </v-col>
+                    </v-row>
+                </v-col>
+            </v-row>
+        </template>
     </v-container>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import LocationService from "@/api/services/LocationService";
 import LocationHeader from "@/components/view/location/LocationHeader.vue";
 import LocationInformation from "@/components/view/location/LocationInformation.vue";
 import LocationRatings from "@/components/view/location/LocationRatings.vue";
 import { RequestHandler } from "@/api/RequestHandler";
+import Setup from "@/components/view/locations/setup/Setup.vue";
 
 @Component({
     components: {
+        Setup,
         LocationHeader,
         LocationInformation,
         LocationRatings

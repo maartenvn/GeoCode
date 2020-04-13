@@ -4,7 +4,7 @@
             <b class="pb-5 pt-2">{{ payload.location.name }}</b>
 
             <v-btn
-                :to="`/location/${payload.location.secretId}`"
+                :to="`/locations/${payload.location.secretId}`"
                 color="primary"
                 depressed
                 small
@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { LocationPopupPayload } from "@/types/map/location/LocationPopup";
 
 @Component

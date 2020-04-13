@@ -1,7 +1,12 @@
+import { UserIdWrapper } from "@/api/wrappers/UserWrapper";
+
 export default class Location {
-    public secretId: string;
-    public name: string;
-    public description: string;
-    public latitude: number;
-    public longitude: number;
+    secretId: string;
+    creatorId: number;
+    creator: UserIdWrapper;
+    name: string;
+    description: string;
+    latitude: number;
+    longitude: number;
+    active: boolean;
 }

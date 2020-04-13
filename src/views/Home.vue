@@ -129,16 +129,13 @@
 import { Component, Vue } from "vue-property-decorator";
 import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 import TutorialStep from "@/components/view/home/HomeTutorialStep.vue";
-import LocationMap from "@/components/map/location/LocationMap.vue";
 import LocationService from "@/api/services/LocationService";
-import { HandleRequest } from "@/api/decorators/HandleRequestDecorator";
-import { EchoPromise } from "echofetch";
 import { RequestHandler } from "@/api/RequestHandler";
 
 @Component({
     components: {
         TutorialStep,
-        LocationMap
+        LocationMap: () => import("@/components/map/location/LocationMap.vue")
     }
 })
 export default class Home extends Vue {

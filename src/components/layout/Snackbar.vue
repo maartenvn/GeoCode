@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { mapState, mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 @Component({
     computed: {

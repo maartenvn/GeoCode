@@ -29,7 +29,6 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import UserService from "@/api/services/UserService";
 import AuthService from "@/api/services/AuthService";
 
 @Component

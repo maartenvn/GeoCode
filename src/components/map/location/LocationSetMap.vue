@@ -13,8 +13,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from "vue-property-decorator";
-import { LatLng, Map, LeafletMouseEvent } from "leaflet";
+import { Component, Prop, Vue } from "vue-property-decorator";
+import { LatLng, LeafletMouseEvent, Map } from "leaflet";
 import { MapMarker } from "@/types/map/MapMarker";
 import MarkerMap from "@/components/map/MarkerMap.vue";
 
