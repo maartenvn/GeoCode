@@ -14,6 +14,7 @@
                     color="success"
                     depressed
                     icon
+                    :loading="loading"
                     @click="onEditCheckClick"
                 >
                     <v-icon>mdi-check</v-icon>
@@ -80,6 +81,11 @@ export default class InlineEdit extends Vue {
     editing = false;
 
     /**
+     * If the update is loading or not.
+     */
+    loading = false;
+
+    /**
      * Input field
      */
     field = new InputField({ value: this.valueCopy, rules: this.rules });
@@ -103,6 +109,8 @@ export default class InlineEdit extends Vue {
      * Execute the edit update action
      */
     onEditCheckClick() {
+        this.loading = true;
+
         this.update(this.field.value)
             .then(() => {
                 this.$store.dispatch("snackbar/open", {
@@ -112,13 +120,16 @@ export default class InlineEdit extends Vue {
 
                 this.editing = false;
                 this.valueCopy = this.field.value;
+                this.loading = false;
             })
-            .catch(error =>
+            .catch(error => {
+                this.loading = false;
+
                 ErrorHandler.handle(error, {
                     id: "inlineEditUpdate",
                     style: "SNACKBAR"
-                })
-            );
+                });
+            });
     }
 }
 </script>
