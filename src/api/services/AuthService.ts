@@ -13,6 +13,7 @@ import { ErrorHandler } from "@/api/error/ErrorHandler";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
 import config from "@/config";
 import store from "@/store/store";
+import router from "@/plugins/router";
 
 class AuthService extends EchoService {
     /**
@@ -43,8 +44,9 @@ class AuthService extends EchoService {
 
     /**
      * Call the logout function and show the progress
+     * @param goHome If the user should be send to the homepage after logging out.
      */
-    handleLogout() {
+    handleLogout(goHome = false) {
         // Send loading message.
         store.dispatch("snackbar/open", {
             message: "Logging out...",
@@ -59,6 +61,10 @@ class AuthService extends EchoService {
                     message: "Successfully logged out",
                     color: "success"
                 });
+
+                if (goHome) {
+                    router.push("/");
+                }
 
                 // Update the current user inside the store.
                 store.dispatch("session/fetch");
