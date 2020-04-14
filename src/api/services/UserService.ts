@@ -4,13 +4,15 @@ import {
     EchoService,
     EchoServiceBuilder,
     GET,
-    PATCH
+    PATCH,
+    Path
 } from "echofetch";
 import User from "../models/User";
 import Location from "../models/Location";
 import config from "@/config";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
 import { InputFields } from "@/types/fields/InputFields";
+import Visit from "@/api/models/Visit";
 
 class UserService extends EchoService {
     /**
@@ -27,6 +29,25 @@ class UserService extends EchoService {
     @GET("/user/locations")
     getLocations(): EchoPromise<Array<Location>> {
         return {} as EchoPromise<Array<Location>>;
+    }
+
+    /**
+     * Get a list of visits of the logged in user.
+     */
+    @GET("/user/visits")
+    getVisits(): EchoPromise<Array<Visit>> {
+        return {} as EchoPromise<Array<Visit>>;
+    }
+
+    /**
+     * Get a list of visits for a given location of the logged in user.
+     * @param secretId Secret id of the location.
+     */
+    @GET("/user/visits/${secretId}")
+    getVisitsByLocation(
+        @Path("secretId") secretId: string
+    ): EchoPromise<Array<Visit>> {
+        return {} as EchoPromise<Array<Visit>>;
     }
 
     /**
