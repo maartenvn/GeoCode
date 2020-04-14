@@ -18,7 +18,7 @@
                         <v-avatar>
                             <img
                                 src="https://assets.change.org/photos/6/yu/xm/phYUXmIiZEuPcns-800x450-noPad.jpg?1490797613"
-                                alt="John"
+                                :alt="creator.data.username"
                             />
                         </v-avatar>
                     </v-col>
@@ -37,13 +37,16 @@
 
                             <v-spacer />
 
-                            <v-rating :value="3" dense small readonly />
+                            <v-rating
+                                :value="rating.rating"
+                                dense
+                                small
+                                readonly
+                            />
                         </v-row>
 
                         <v-row class="rating__comment" no-gutters>
-                            (Barry is picking out a shirt) Yellow, black.
-                            Yellow, black. Yellow, black. Yellow, black. Ooh,
-                            black and yellow! Let's shake it up a little.
+                            {{ rating.message }}
                         </v-row>
                     </v-col>
                 </v-row>
@@ -51,7 +54,7 @@
         </v-card>
 
         <!-- Error -->
-        <error-placeholder v-else-if="creator.isError()" id="rating" />
+        <error-placeholder v-else-if="creator.isError()" id="ratingCreator" />
     </div>
 </template>
 
@@ -67,7 +70,7 @@ import User from "@/api/models/User";
 @Component({
     components: { ErrorPlaceholder }
 })
-export default class LocationRatingsCard extends Vue {
+export default class LocationRatingCard extends Vue {
     /**
      * If in loading state.
      */
@@ -92,7 +95,7 @@ export default class LocationRatingsCard extends Vue {
             this.creator = RequestHandler.handle(
                 UsersService.get(this.rating.creator.id),
                 {
-                    id: "rating",
+                    id: "ratingCreator",
                     style: "CARD"
                 }
             );

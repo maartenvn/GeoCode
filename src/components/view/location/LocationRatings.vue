@@ -14,7 +14,7 @@
         <div class="section__content">
             <!-- Loading -->
             <template v-if="ratings.isLoading()">
-                <location-ratings-card
+                <location-rating-card
                     v-for="index in 3"
                     :key="index"
                     :loading="true"
@@ -23,11 +23,25 @@
 
             <!-- Data -->
             <template v-else-if="ratings.isSuccess()">
-                <location-ratings-card
-                    v-for="index in 3"
-                    :key="index"
-                    :loading="true"
-                />
+                <!-- Not Empty -->
+                <template v-if="ratings.data && ratings.data.length > 0">
+                    <location-rating-card
+                        v-for="(rating, index) of ratings.data"
+                        :key="index"
+                        :rating="rating"
+                    />
+                </template>
+
+                <!-- Empty -->
+                <template v-else>
+                    <div class="text-center mt-10">
+                        <h3>No ratings where found</h3>
+                        <p>
+                            Be the first one to leave a review! Click the "leave
+                            a review"-button to leave a review!
+                        </p>
+                    </div>
+                </template>
             </template>
 
             <!-- Error -->
@@ -41,13 +55,13 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { RequestHandler } from "@/api/RequestHandler";
-import LocationRatingsCard from "@/components/view/location/rating/LocationRatingsCard.vue";
+import LocationRatingCard from "@/components/view/location/rating/LocationRatingCard.vue";
 import RatingService from "@/api/services/RatingService";
 import Rating from "@/api/models/Rating";
 import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 
 @Component({
-    components: { ErrorPlaceholder, LocationRatingsCard }
+    components: { ErrorPlaceholder, LocationRatingCard }
 })
 export default class LocationRatings extends Vue {
     @Prop()

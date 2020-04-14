@@ -20,7 +20,7 @@ class RatingService extends EchoService {
      * Get a list of rating for a specific location.
      * @param secretId Secret id of the location.
      */
-    @GET("/locations/{secretId}/rating")
+    @GET("/locations/{secretId}/ratings")
     getAll(@Path("secretId") secretId: string): EchoPromise<Array<Rating>> {
         return {} as EchoPromise<Array<Rating>>;
     }
@@ -29,7 +29,7 @@ class RatingService extends EchoService {
      * Get a rating by id.
      * @param id Id of the rating.
      */
-    @GET("/rating/{id}")
+    @GET("/ratings/{id}")
     get(@Path("id") id: number): EchoPromise<Rating> {
         return {} as EchoPromise<Rating>;
     }
@@ -39,7 +39,7 @@ class RatingService extends EchoService {
      * @param id Id of the rating.
      * @param body
      */
-    @PATCH("/rating/{id}")
+    @PATCH("/ratings/{id}")
     update(
         @Path("id") id: number,
         @Body() body: RatingUpdateWrapper
@@ -51,7 +51,7 @@ class RatingService extends EchoService {
      * Delete a rating.
      * @param id Id of the rating.
      */
-    @PATCH("/rating/{id}")
+    @PATCH("/ratings/{id}")
     delete(@Path("id") id: number): EchoPromise<void> {
         return {} as EchoPromise<void>;
     }
@@ -61,7 +61,7 @@ class RatingService extends EchoService {
      * @param secretId Secret id of the location.
      * @param body
      */
-    @GET("/locations/{secretId}/rating")
+    @GET("/locations/{secretId}/ratings")
     create(
         @Path("secretId") secretId: string,
         @Body() body: RatingCreateWrapper
