@@ -44,7 +44,7 @@ class UserService extends EchoService {
      * Get a list of visits for a given location of the logged in user.
      * @param secretId Secret id of the location.
      */
-    @GET("/user/visits/${secretId}")
+    @GET("/user/visits/{secretId}")
     getVisitsByLocation(
         @Path("secretId") secretId: string
     ): EchoPromise<Array<Visit>> {

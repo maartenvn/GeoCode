@@ -1,7 +1,7 @@
 <template>
     <v-container class="container--small">
         <!-- Setup: when location is not active. -->
-        <template v-if="location.isSuccess() && !location.data.active">
+        <template v-if="location.isSuccess() && !location.data.active && false">
             <setup :location="location.data" />
         </template>
 
@@ -9,7 +9,7 @@
             <!-- General information -->
             <v-row>
                 <v-col cols="12">
-                    <location-header :location="location" />
+                    <location-header :location="location" :creator="creator" />
                 </v-col>
             </v-row>
 
@@ -56,6 +56,7 @@
                                 <!-- Information -->
                                 <v-tab-item value="tab-information">
                                     <location-information
+                                        :creator="creator"
                                         :location="location"
                                     />
                                 </v-tab-item>
@@ -91,6 +92,11 @@ import LocationRatings from "@/components/view/location/LocationRatings.vue";
 import Setup from "@/components/view/locations/setup/Setup.vue";
 import UserService from "@/api/services/UserService";
 import LocationGuestbook from "@/components/view/location/LocationGuestbook.vue";
+import { LateRequest } from "@/api/decorators/LateRequestDecorator";
+import UsersService from "@/api/services/UsersService";
+import { EchoPromise } from "echofetch";
+import User from "@/api/models/User";
+import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 
 @Component({
     components: {
@@ -125,6 +131,15 @@ export default class LocationView extends Vue {
             }
         ]
     });
+
+    /**
+     * Creator for the given location.
+     */
+    @LateRequest("location", "creator.id", UsersService.get, {
+        id: "locationCreator",
+        style: "NONE"
+    })
+    creator: EchoPromise<User>;
 
     /**
      * List with visits of the user for this location.

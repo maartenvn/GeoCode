@@ -97,17 +97,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { EchoPromise } from "echofetch";
+import { CoordinatesUtil } from "@/util/CoordinatesUtil";
 import Location from "@/api/models/Location";
 import LocationMap from "@/components/map/location/LocationMap.vue";
 import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
-import { CoordinatesUtil } from "@/util/CoordinatesUtil";
 import User from "@/api/models/User";
-import { RequestHandler } from "@/api/RequestHandler";
-import UsersService from "@/api/services/UsersService";
-import { Optional } from "@/types/Optional";
-import { LateRequest } from "@/api/decorators/LateRequestDecorator";
+import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 
 @Component({
     components: {
@@ -116,17 +113,17 @@ import { LateRequest } from "@/api/decorators/LateRequestDecorator";
     }
 })
 export default class LocationInformation extends Vue {
+    /**
+     * Location.
+     */
     @Prop()
     location: EchoPromise<Location>;
 
     /**
      * Creator for the given location.
      */
-    @LateRequest("location", "creator.id", UsersService.get, {
-        id: "locationCreator",
-        style: "SNACKBAR"
-    })
-    creator: Optional<EchoPromise<User>> = null;
+    @Prop()
+    creator: EchoPromise<User>;
 
     /**
      * Get the latitude value in DMS.

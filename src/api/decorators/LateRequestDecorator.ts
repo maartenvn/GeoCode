@@ -54,6 +54,15 @@ export function LateRequest<T>(
                 deep: true,
                 immediate: false
             });
+
+            // Add an initial "null"-value to the data list.
+            options.mixins?.push({
+                data(this: Vue) {
+                    return {
+                        [key]: null
+                    };
+                }
+            });
         }
     );
 }

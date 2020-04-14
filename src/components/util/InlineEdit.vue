@@ -37,7 +37,12 @@
             <div class="edit__field">
                 {{ field.value }}
 
-                <v-btn class="edit__field__button" icon @click="onEditClick">
+                <v-btn
+                    v-if="enabled"
+                    class="edit__field__button"
+                    icon
+                    @click="onEditClick"
+                >
                     <v-icon>mdi-pencil</v-icon>
                 </v-btn>
             </div>
@@ -70,6 +75,12 @@ export default class InlineEdit extends Vue {
      */
     @Prop({ default: () => [] })
     rules: Array<Function>;
+
+    /**
+     * If editing is enabled.
+     */
+    @Prop({ default: true })
+    enabled: boolean;
 
     /**
      * Copy of value to prevent mutating prop directly.
