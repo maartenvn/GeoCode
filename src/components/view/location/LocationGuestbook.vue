@@ -57,7 +57,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { RequestHandler } from "@/api/RequestHandler";
 import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 import CommentService from "@/api/services/CommentService";
-import LocationCommentCard from "@/components/view/location/guestbook/LocationCommentCard.vue";
+import LocationCommentCard from "@/components/view/location/comment/LocationCommentCard.vue";
 import Comment from "@/api/models/Comment";
 
 @Component({
@@ -82,7 +82,7 @@ export default class LocationGuestbook extends Vue {
         this.$store.dispatch("modal/open", {
             component: () =>
                 import(
-                    "@/components/modal/location/rating/RatingCreateModal.vue"
+                    "@/components/modal/location/comment/CommentCreateModal.vue"
                 ),
             componentPayload: {
                 secretId: this.secretId,
