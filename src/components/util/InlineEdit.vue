@@ -15,6 +15,7 @@
                     depressed
                     icon
                     :loading="loading"
+                    :disabled="loading"
                     @click="onEditCheckClick"
                 >
                     <v-icon>mdi-check</v-icon>
