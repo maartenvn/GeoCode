@@ -21,7 +21,13 @@
             </v-btn>
 
             <!-- Confirm -->
-            <v-btn color="primary" depressed @click="confirm">
+            <v-btn
+                color="primary"
+                depressed
+                @click="confirm"
+                :disabled="loading"
+                :loading="loading"
+            >
                 Confirm
             </v-btn>
         </v-card-actions>

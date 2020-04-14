@@ -52,7 +52,13 @@
             </v-btn>
 
             <!-- Confirm -->
-            <v-btn color="primary" depressed @click="create" :loading="loading">
+            <v-btn
+                color="primary"
+                depressed
+                @click="create"
+                :loading="loading"
+                :disabled="loading"
+            >
                 Confirm
             </v-btn>
         </v-card-actions>
@@ -76,7 +82,7 @@ export default class RatingCreateModal extends Vue {
     payload: { secretId: string; action: (rating: Rating) => void };
 
     /**
-     * If the model is loading.
+     * If the modal is loading.
      */
     loading = false;
 
