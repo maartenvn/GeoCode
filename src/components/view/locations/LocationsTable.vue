@@ -108,34 +108,27 @@ export default class LocationsTable extends Vue {
     /**
      * List with headers for the Vuetify data table.
      */
-    tableHeaders: Array<DataTableHeader>;
+    tableHeaders = [
+        {
+            text: "Name",
+            value: "name"
+        },
+        {
+            text: "",
+            value: "active"
+        },
+        {
+            text: "",
+            value: "action",
+            sortable: false,
+            align: "end"
+        }
+    ];
 
     /**
      * Value of the search field.
      */
-    tableSearch: string;
-
-    constructor() {
-        super();
-
-        this.tableHeaders = [
-            {
-                text: "Name",
-                value: "name"
-            },
-            {
-                text: "",
-                value: "active"
-            },
-            {
-                text: "",
-                value: "action",
-                sortable: false,
-                align: "end"
-            }
-        ];
-        this.tableSearch = "";
-    }
+    tableSearch = "";
 
     /**
      * Open a model to confirm the delete of a location.

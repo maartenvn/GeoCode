@@ -3,11 +3,13 @@ export class LocationIdWrapper {
 }
 
 export class LocationCreateWrapper {
-    name: string;
-    description: string;
-    listed: boolean;
-    latitude: number;
-    longitude: number;
+    name?: string;
+    description?: string;
+    listed?: boolean;
+    latitude?: number;
+    longitude?: number;
+    country?: string;
+    address?: string;
 }
 
 export class LocationUpdateWrapper {

@@ -2,7 +2,7 @@
     <div class="editor">
         <div class="editor__title">{{ title }}</div>
 
-        <v-textarea outlined v-model="content" />
+        <v-textarea v-model="content" :disabled="disabled" outlined />
     </div>
 </template>
 
@@ -22,6 +22,12 @@ export default class BasicEditor extends Vue {
      */
     @Prop()
     value: string;
+
+    /**
+     * If the editor is disabled.
+     */
+    @Prop({ default: false })
+    disabled: boolean;
 
     /**
      * Get the content that has been passed as prop.
