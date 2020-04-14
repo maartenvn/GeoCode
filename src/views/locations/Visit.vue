@@ -75,7 +75,7 @@ export default class VisitLocationView extends Vue {
      * Location for the corresponding visit code.
      */
     location = RequestHandler.handle(
-        LocationService.get("5adeed3a-a905-4920-b8f6-8dae16a18432"),
+        LocationService.getLocationByVisitSecret(this.visitSecret),
         {
             id: "locationsVisit",
             style: "CARD",
