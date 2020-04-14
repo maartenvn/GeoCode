@@ -122,7 +122,7 @@ export default class LocationInformation extends Vue {
     /**
      * Creator for the given location.
      */
-    @LateRequest("location", "creatorId", UsersService.get, {
+    @LateRequest("location", "creator.id", UsersService.get, {
         id: "locationCreator",
         style: "SNACKBAR"
     })
