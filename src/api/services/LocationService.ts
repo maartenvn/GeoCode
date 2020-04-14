@@ -16,7 +16,6 @@ import {
     LocationUpdateWrapper
 } from "@/api/wrappers/LocationWrapper";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
-import { InputFields } from "@/types/fields/InputFields";
 
 class LocationService extends EchoService {
     /**

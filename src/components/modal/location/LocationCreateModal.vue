@@ -78,11 +78,11 @@
                     <v-card-actions>
                         <v-spacer />
 
+                        <v-btn color="error" text @click="close">Cancel</v-btn>
+
                         <v-btn color="primary" depressed @click="stepper = 2">
                             Continue
                         </v-btn>
-
-                        <v-btn color="error" text @click="close">Cancel</v-btn>
                     </v-card-actions>
                 </v-stepper-content>
 
@@ -137,6 +137,8 @@
                     <v-card-actions>
                         <v-spacer />
 
+                        <v-btn color="error" text @click="close">Cancel</v-btn>
+
                         <v-btn
                             color="primary"
                             depressed
@@ -144,8 +146,6 @@
                         >
                             Save
                         </v-btn>
-
-                        <v-btn color="error" text @click="close">Cancel</v-btn>
                     </v-card-actions>
                 </v-stepper-content>
             </v-stepper-items>

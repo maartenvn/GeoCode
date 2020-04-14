@@ -78,6 +78,14 @@ export default class App extends Vue {
     }
 }
 
+label {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 16px;
+    line-height: 1;
+    min-height: 8px;
+    margin-bottom: 7px;
+}
+
 .divider {
     &--vertical {
         margin: 15px;

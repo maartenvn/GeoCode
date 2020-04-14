@@ -18,8 +18,8 @@ export class InputField {
      * Constructor without values
      */
     constructor(field: { value?: any; rules?: Array<Function> } = {}) {
-        this.value = field.value ? field.value : "";
-        this.rules = field.rules ? field.rules : [];
+        this.value = field.value !== undefined ? field.value : "";
+        this.rules = field.rules !== undefined ? field.rules : [];
         this.error = "";
     }
 }

@@ -1,3 +1,7 @@
+export class LocationIdWrapper {
+    id: number;
+}
+
 export class LocationCreateWrapper {
     name: string;
     description: string;
