@@ -59,10 +59,8 @@ export class ErrorHandler {
         ErrorBus.$emit("error", error, options);
 
         // Clear the error when navigating to a different route.
-        router.beforeEach((to, from, next) => {
+        router.afterEach(() => {
             ErrorBus.$emit("error-clear");
-
-            next();
         });
     }
 
