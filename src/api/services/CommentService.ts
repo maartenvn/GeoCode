@@ -9,15 +9,11 @@ import {
 } from "echofetch";
 import config from "@/config";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
-import Rating from "@/api/models/Rating";
-import {
-    RatingCreateWrapper,
-    RatingUpdateWrapper
-} from "@/api/wrappers/RatingWrapper";
 import {
     CommentCreateWrapper,
     CommentUpdateWrapper
 } from "@/api/wrappers/CommentWrapper";
+import Comment from "@/api/models/Comment";
 
 class CommentService extends EchoService {
     /**
@@ -25,8 +21,8 @@ class CommentService extends EchoService {
      * @param secretId Secret id of the location.
      */
     @GET("/locations/{secretId}/comments")
-    getAll(@Path("secretId") secretId: string): EchoPromise<Array<Rating>> {
-        return {} as EchoPromise<Array<Rating>>;
+    getAll(@Path("secretId") secretId: string): EchoPromise<Array<Comment>> {
+        return {} as EchoPromise<Array<Comment>>;
     }
 
     /**
@@ -34,8 +30,8 @@ class CommentService extends EchoService {
      * @param id Id of the comment.
      */
     @GET("/comments/{id}")
-    get(@Path("id") id: number): EchoPromise<Rating> {
-        return {} as EchoPromise<Rating>;
+    get(@Path("id") id: number): EchoPromise<Comment> {
+        return {} as EchoPromise<Comment>;
     }
 
     /**
@@ -47,13 +43,13 @@ class CommentService extends EchoService {
     update(
         @Path("id") id: number,
         @Body() body: CommentUpdateWrapper
-    ): EchoPromise<Rating> {
-        return {} as EchoPromise<Rating>;
+    ): EchoPromise<Comment> {
+        return {} as EchoPromise<Comment>;
     }
 
     /**
      * Delete a comment.
-     * @param id Id of the rating.
+     * @param id Id of the comment.
      */
     @PATCH("/comments/{id}")
     delete(@Path("id") id: number): EchoPromise<void> {
@@ -69,8 +65,8 @@ class CommentService extends EchoService {
     create(
         @Path("secretId") secretId: string,
         @Body() body: CommentCreateWrapper
-    ): EchoPromise<Rating> {
-        return {} as EchoPromise<Rating>;
+    ): EchoPromise<Comment> {
+        return {} as EchoPromise<Comment>;
     }
 }
 
