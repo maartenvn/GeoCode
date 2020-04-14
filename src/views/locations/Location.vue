@@ -1,7 +1,7 @@
 <template>
     <v-container class="container--small">
         <!-- Setup: when location is not active. -->
-        <template v-if="location.isSuccess() && !location.data.active && false">
+        <template v-if="location.isSuccess() && !location.data.active">
             <setup :location="location.data" />
         </template>
 
