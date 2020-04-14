@@ -17,7 +17,8 @@
                     <ul>
                         <li><strong>Name:</strong> {{ location.name }}</li>
                         <li>
-                            <strong>Coordinates:</strong> {{ latitudeDMS }},
+                            <strong>Coordinates:</strong>
+                            {{ latitudeDMS }},
                             {{ longitudeDMS }}
                         </li>
                         <li>
