@@ -3,18 +3,30 @@
         <!-- Statistic -->
         <div class="section">
             <!-- Loading -->
-            <v-row v-if="currentUser.isLoading()">
+            <v-row v-if="statistics.isLoading()">
                 <statistics-card :loading="true" />
                 <statistics-card :loading="true" />
                 <statistics-card :loading="true" />
             </v-row>
 
             <!-- Data -->
-            <v-row v-else-if="currentUser.isSuccess()">
-                <statistics-card value="10" title="Visited Locations" />
-                <statistics-card value="1" title="Different countries" />
-                <statistics-card value="19" title="Scans" />
+            <v-row v-else-if="statistics.isLoading()">
+                <statistics-card
+                    :value="statistics.data.visitedLocationsCount"
+                    title="Visited Locations"
+                />
+                <statistics-card
+                    :value="statistics.data.visitedCountriesCount"
+                    title="Different countries"
+                />
+                <statistics-card
+                    :value="statistics.data.visitedCount"
+                    title="Scans"
+                />
             </v-row>
+
+            <!-- Error -->
+            <error-placeholder v-else error-id="statistics" />
         </div>
 
         <!-- Visits -->
@@ -27,15 +39,7 @@
                 Overview of all the locations you have visited.
             </div>
 
-            <!-- Loading -->
-            <template v-if="currentUser.isLoading()">
-                <v-skeleton-loader type="table" dense />
-            </template>
-
-            <!-- Data -->
-            <template v-else-if="currentUser.isSuccess()">
-                <visits-table :visits="visits" />
-            </template>
+            <visits-table :visits="visits" />
         </div>
     </v-container>
 </template>
@@ -49,21 +53,34 @@ import StatisticsCard from "@/components/statistics/StatisticsCard.vue";
 import UserService from "@/api/services/UserService";
 import LocationsTable from "@/components/view/locations/LocationsTable.vue";
 import VisitsTable from "@/components/view/profile/visits/VisitsTable.vue";
+import { RequestHandler } from "@/api/RequestHandler";
+import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 
 @Component({
-    components: { VisitsTable, LocationsTable, StatisticsCard }
+    components: {
+        ErrorPlaceholder,
+        VisitsTable,
+        LocationsTable,
+        StatisticsCard
+    }
 })
 export default class ProfileVisits extends Vue {
     /**
      * List of visits for the logged in user.
      */
-    visits = UserService.getVisits();
+    visits = RequestHandler.handle(UserService.getVisits(), {
+        id: "visits",
+        style: "SECTION",
+        displayFullpage: true
+    });
 
     /**
-     * Logged in user.
+     * Statistics for the logged in user.
      */
-    @StoreGetter("session/currentUser")
-    currentUser: EchoPromise<User>;
+    statistics = RequestHandler.handle(UserService.getStatistics(), {
+        id: "statistics",
+        style: "SECTION"
+    });
 }
 </script>
 
