@@ -29,6 +29,7 @@
                         v-for="(rating, index) of ratings.data"
                         :key="index"
                         :rating="rating"
+                        @deleteAction="onDeleteRating"
                     />
                 </template>
 
@@ -93,6 +94,17 @@ export default class LocationRatings extends Vue {
                 }
             }
         });
+    }
+
+    /**
+     * Delete the rating from the ratings list when deleted.
+     */
+    onDeleteRating(rating: Rating) {
+        if (this.ratings.isSuccess()) {
+            this.ratings
+                .requireData()
+                .splice(this.ratings.requireData().indexOf(rating), 1);
+        }
     }
 }
 </script>

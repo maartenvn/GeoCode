@@ -1,5 +1,6 @@
 import {
     Body,
+    DELETE,
     EchoPromise,
     EchoService,
     EchoServiceBuilder,
@@ -52,7 +53,7 @@ class RatingService extends EchoService {
      * Delete a rating.
      * @param id Id of the rating.
      */
-    @PATCH("/ratings/{id}")
+    @DELETE("/ratings/{id}")
     delete(@Path("id") id: number): EchoPromise<void> {
         return {} as EchoPromise<void>;
     }
