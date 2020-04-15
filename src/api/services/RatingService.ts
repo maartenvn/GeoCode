@@ -5,7 +5,8 @@ import {
     EchoServiceBuilder,
     GET,
     PATCH,
-    Path
+    Path,
+    POST
 } from "echofetch";
 import config from "@/config";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
@@ -61,7 +62,7 @@ class RatingService extends EchoService {
      * @param secretId Secret id of the location.
      * @param body
      */
-    @GET("/locations/{secretId}/ratings")
+    @POST("/locations/{secretId}/ratings")
     create(
         @Path("secretId") secretId: string,
         @Body() body: RatingCreateWrapper

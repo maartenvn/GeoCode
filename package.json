@@ -9,7 +9,7 @@
     },
     "dependencies": {
         "@mdi/font": "^5.0.45",
-        "echofetch": "^0.0.4",
+        "echofetch": "^0.0.6",
         "leaflet": "^1.6.0",
         "leaflet-geosearch": "^2.7.0",
         "leaflet-gesture-handling": "^1.1.8",
