@@ -15,30 +15,44 @@
             <v-card-text>
                 <v-row>
                     <v-col cols="auto">
-                        <v-avatar color="primary">
-                            <img
-                                v-if="creator.data.avatarUrl"
-                                :src="creator.data.avatarUrl"
-                                :alt="creator.data.username"
-                            />
+                        <!-- Loading -->
+                        <template v-if="creator.isLoading()">
+                            <v-skeleton-loader type="avatar" />
+                        </template>
 
-                            <span v-else class="white--text headline">
-                                {{
-                                    creator.data.username
-                                        .toUpperCase()
-                                        .charAt(0)
-                                }}
-                            </span>
-                        </v-avatar>
+                        <!-- Data -->
+                        <template v-else-if="creator.isSuccess()">
+                            <v-avatar color="primary">
+                                <img
+                                    v-if="creator.data.avatarUrl"
+                                    :src="creator.data.avatarUrl"
+                                    :alt="creator.data.username"
+                                />
+
+                                <span v-else class="white--text headline">
+                                    {{
+                                        creator.data.username
+                                            .toUpperCase()
+                                            .charAt(0)
+                                    }}
+                                </span>
+                            </v-avatar>
+                        </template>
                     </v-col>
 
                     <v-col>
                         <v-row class="pb-2" no-gutters>
                             <div class="rating__username">
+                                <!-- Loading -->
                                 <template v-if="creator.isLoading()">
-                                    <v-skeleton-loader dense type="text" />
+                                    <v-skeleton-loader
+                                        dense
+                                        type="text"
+                                        width="150"
+                                    />
                                 </template>
 
+                                <!-- Data -->
                                 <template v-else-if="creator.isSuccess()">
                                     {{ creator.data.username }}
                                 </template>
@@ -47,6 +61,8 @@
                             <v-spacer />
 
                             <v-rating
+                                color="primary"
+                                background-color="primary"
                                 :value="rating.rating"
                                 dense
                                 small
