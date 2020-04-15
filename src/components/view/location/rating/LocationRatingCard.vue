@@ -15,11 +15,20 @@
             <v-card-text>
                 <v-row>
                     <v-col cols="auto">
-                        <v-avatar>
+                        <v-avatar color="primary">
                             <img
-                                src="https://assets.change.org/photos/6/yu/xm/phYUXmIiZEuPcns-800x450-noPad.jpg?1490797613"
+                                v-if="creator.data.avatarUrl"
+                                :src="creator.data.avatarUrl"
                                 :alt="creator.data.username"
                             />
+
+                            <span v-else class="white--text headline">
+                                {{
+                                    creator.data.username
+                                        .toUpperCase()
+                                        .charAt(0)
+                                }}
+                            </span>
                         </v-avatar>
                     </v-col>
 
