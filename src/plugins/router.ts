@@ -52,19 +52,14 @@ const routes = [
 
     {
         path: "/profile/locations/",
-<<<<<<< HEAD
         name: "Your location",
         component: () => import("../views/profile/ProfileLocations.vue")
-=======
-        name: "Your locations",
-        component: () => import("../views/ProfileLocations.vue")
     },
 
     {
         path: "/admin/",
         name: "Admin Page",
         component: () => import("../views/admin/Home.vue")
->>>>>>> a89dd73... Add admin basic logic
     }
 ];
 

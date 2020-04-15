@@ -27,11 +27,8 @@ import Navigation from "@/components/layout/Navigation.vue";
 import RouterViewWrapper from "@/components/util/RouterViewWrapper.vue";
 import Snackbar from "@/components/layout/Snackbar.vue";
 import Modal from "@/components/layout/Modal.vue";
-<<<<<<< HEAD
 import ErrorBus from "@/api/error/ErrorBus";
-=======
 import AdminNavigation from "@/components/admin/AdminNavigation.vue";
->>>>>>> a89dd73... Add admin basic logic
 
 @Component({
     components: {
