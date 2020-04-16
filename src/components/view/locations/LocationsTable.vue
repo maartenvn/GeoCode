@@ -31,11 +31,19 @@
                     No locations found with the given parameters
                 </template>
 
-                <template v-if="activeEnabled" v-slot:item.active="{ item }">
-                    <template v-if="!item.active">
-                        <v-chip color="warning" text-color="white" small>
-                            Not activated
-                        </v-chip>
+                <template v-slot:item.active="{ item }">
+                    <template v-if="activeEnabled">
+                        <template v-if="!item.active">
+                            <v-chip color="warning" text-color="white" small>
+                                Not activated
+                            </v-chip>
+                        </template>
+
+                        <template v-else>
+                            <v-chip color="success" text-color="white" small>
+                                Activated
+                            </v-chip>
+                        </template>
                     </template>
                 </template>
 
