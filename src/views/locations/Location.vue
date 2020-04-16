@@ -37,7 +37,11 @@
                         </v-tab>
 
                         <template
-                            v-if="visits.isSuccess() && visits.data.length > 0"
+                            v-if="
+                                (visits.isSuccess() &&
+                                    visits.data.length > 0) ||
+                                true
+                            "
                         >
                             <v-tab
                                 href="#tab-guestbook"

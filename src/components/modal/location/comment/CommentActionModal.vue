@@ -41,7 +41,7 @@
             <v-btn
                 color="primary"
                 depressed
-                @click="create"
+                @click="confirm"
                 :loading="loading"
                 :disabled="loading"
             >
@@ -54,18 +54,24 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { InputField } from "@/types/fields/InputField";
+import RatingService from "@/api/services/RatingService";
 import { InputFieldUtil } from "@/util/InputFieldUtil";
 import { ErrorHandler } from "@/api/error/ErrorHandler";
-import CommentService from "@/api/services/CommentService";
+import Rating from "@/api/models/Rating";
+import { InputFields } from "@/types/fields/InputFields";
 import Comment from "@/api/models/Comment";
 
 @Component
-export default class CommentCreateModal extends Vue {
+export default class RatingActionModal extends Vue {
     /**
      * Payload, passed when opening the modal.
      */
     @Prop()
-    payload: { secretId: string; action: (comment: Comment) => void };
+    payload: {
+        secretId: string;
+        comment: Comment;
+        action: (fields: InputFields, instance: Vue) => void;
+    };
 
     /**
      * If the modal is loading.
@@ -76,42 +82,16 @@ export default class CommentCreateModal extends Vue {
      * Input Fields
      */
     fields = {
-        message: new InputField(),
+        message: new InputField({
+            value: this.payload.comment ? this.payload.comment.message : "",
+        }),
     };
 
     /**
-     * Create the comment
+     * Execute the given action.
      */
-    async create() {
-        this.loading = true;
-
-        CommentService.create(
-            this.payload.secretId,
-            InputFieldUtil.getValues(this.fields)
-        )
-            .then((comment) => {
-                this.$store.dispatch("snackbar/open", {
-                    message: "Message was successfully created",
-                    color: "success",
-                });
-
-                // Close the modal.
-                this.$store.dispatch("modal/close");
-
-                // Execute the given action.
-                this.payload.action(comment);
-            })
-            .catch((error) =>
-                ErrorHandler.handle(
-                    error,
-                    {
-                        id: "commentCreate",
-                        style: "SNACKBAR",
-                    },
-                    this.fields
-                )
-            )
-            .finally(() => (this.loading = false));
+    confirm() {
+        this.payload.action(this.fields, this);
     }
 
     /**
