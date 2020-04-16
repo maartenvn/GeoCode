@@ -44,7 +44,7 @@ import Visit from "@/api/models/Visit";
 import Location from "@/api/models/Location";
 
 @Component({
-    components: { LocationsTable, StatisticsCard }
+    components: { LocationsTable, StatisticsCard },
 })
 export default class ProfileVisits extends Vue {
     /**
@@ -59,18 +59,18 @@ export default class ProfileVisits extends Vue {
     tableHeaders = [
         {
             text: "Name",
-            value: "name"
+            value: "name",
         },
         {
             text: "# visits",
-            value: "amount"
+            value: "amount",
         },
         {
             text: "",
             value: "action",
             sortable: false,
-            align: "end"
-        }
+            align: "end",
+        },
     ];
 
     /**
@@ -97,7 +97,7 @@ export default class ProfileVisits extends Vue {
             return Object.keys(visitsByLocation).map((secretId: any) => {
                 return {
                     location: visitsByLocation[secretId] as Location,
-                    amount: visitsByLocation[secretId].length
+                    amount: visitsByLocation[secretId].length,
                 };
             });
         } else {

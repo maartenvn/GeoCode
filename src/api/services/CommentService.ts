@@ -5,13 +5,13 @@ import {
     EchoServiceBuilder,
     GET,
     PATCH,
-    Path
+    Path,
 } from "echofetch";
 import config from "@/config";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
 import {
     CommentCreateWrapper,
-    CommentUpdateWrapper
+    CommentUpdateWrapper,
 } from "@/api/wrappers/CommentWrapper";
 import Comment from "@/api/models/Comment";
 

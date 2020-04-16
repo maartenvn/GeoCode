@@ -5,7 +5,7 @@ import {
     EchoServiceBuilder,
     GET,
     PATCH,
-    Path
+    Path,
 } from "echofetch";
 import User from "../models/User";
 import Location from "../models/Location";

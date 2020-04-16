@@ -9,12 +9,12 @@ import {
     GET,
     PATCH,
     Path,
-    POST
+    POST,
 } from "echofetch";
 import {
     LocationCreateWrapper,
     LocationIdWrapper,
-    LocationUpdateWrapper
+    LocationUpdateWrapper,
 } from "@/api/wrappers/LocationWrapper";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
 

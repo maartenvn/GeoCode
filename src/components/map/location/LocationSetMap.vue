@@ -20,8 +20,8 @@ import MarkerMap from "@/components/map/MarkerMap.vue";
 
 @Component({
     components: {
-        MarkerMap
-    }
+        MarkerMap,
+    },
 })
 export default class LocationSetMap extends Vue {
     /**

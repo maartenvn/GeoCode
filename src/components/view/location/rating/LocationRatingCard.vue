@@ -79,7 +79,7 @@
                 <!-- Delete -->
                 <v-row v-if="isOwner" no-gutters justify="end">
                     <v-col cols="auto">
-                        <v-btn color="error" icon @click="openConfirmDelete">
+                        <v-btn color="error" icon @click="deleteAction">
                             <v-icon>
                                 mdi-delete
                             </v-icon>
@@ -103,14 +103,10 @@ import Rating from "@/api/models/Rating";
 import UsersService from "@/api/services/UsersService";
 import User from "@/api/models/User";
 import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
-import Location from "@/api/models/Location";
-import ConfirmModal from "@/components/modal/ConfirmModal.vue";
-import LocationService from "@/api/services/LocationService";
-import { ErrorHandler } from "@/api/error/ErrorHandler";
-import RatingService from "@/api/services/RatingService";
+import { Event } from "@/util/decorators/EventDecorator";
 
 @Component({
-    components: { ErrorPlaceholder }
+    components: { ErrorPlaceholder },
 })
 export default class LocationRatingCard extends Vue {
     /**
@@ -136,6 +132,9 @@ export default class LocationRatingCard extends Vue {
     @StoreGetter("session/currentUser")
     currentUser: EchoPromise<User>;
 
+    @Event()
+    deleteAction: (rating: Rating) => void;
+
     constructor() {
         super();
 
@@ -144,7 +143,7 @@ export default class LocationRatingCard extends Vue {
                 UsersService.get(this.rating.creator.id),
                 {
                     id: "ratingCreator",
-                    style: "CARD"
+                    style: "CARD",
                 }
             );
         }
@@ -161,39 +160,6 @@ export default class LocationRatingCard extends Vue {
             this.currentUser.isSuccess() &&
             this.creator.requireData().id === this.currentUser.requireData().id
         );
-    }
-
-    /**
-     * Open a model to confirm the delete of a rating.
-     */
-    openConfirmDelete() {
-        this.$store.dispatch("modal/open", {
-            component: ConfirmModal,
-            componentPayload: {
-                message: `Are you sure you want to delete this rating? This action is permanent and cannot be undone!'`,
-                action: () =>
-                    RatingService.delete(this.rating.id)
-                        .then(() => {
-                            // Close the modal.
-                            this.$store.dispatch("modal/close");
-
-                            // Execute the delete action.
-                            this.$emit("deleteAction", this.rating);
-
-                            // Send confirmation message.
-                            this.$store.dispatch("snackbar/open", {
-                                message: "Rating has been deleted",
-                                color: "success"
-                            });
-                        })
-                        .catch(error => {
-                            ErrorHandler.handle(error, {
-                                style: "SNACKBAR",
-                                id: "ratingDelete"
-                            });
-                        })
-            }
-        });
     }
 }
 </script>

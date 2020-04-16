@@ -20,9 +20,7 @@
             :zoom="zoom"
             :center="center"
             :options="mapOptions"
-            :style="
-                `height: ${height}; width: ${width}; z-index: 1; margin: auto;`
-            "
+            :style="`height: ${height}; width: ${width}; z-index: 1; margin: auto;`"
             gestureHandling
             @click="handleMapClick"
         >
@@ -59,8 +57,8 @@ import { MapMarker } from "@/types/map/MapMarker";
         LMap,
         LTileLayer,
         LMarker,
-        LPopup
-    }
+        LPopup,
+    },
 })
 export default class MarkerMap extends Vue {
     /**
@@ -162,7 +160,7 @@ export default class MarkerMap extends Vue {
         this.searchProvider = new OpenStreetMapProvider();
         this.mapOptions = {
             zoomSnap: 0.5,
-            gestureHandling: true
+            gestureHandling: true,
         };
     }
 
@@ -185,7 +183,7 @@ export default class MarkerMap extends Vue {
                 this.searchEntries = results.map((result: any) => {
                     return {
                         text: result.label,
-                        value: result
+                        value: result,
                     };
                 });
 

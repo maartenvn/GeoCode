@@ -61,8 +61,8 @@ import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
         ErrorPlaceholder,
         VisitsTable,
         LocationsTable,
-        StatisticsCard
-    }
+        StatisticsCard,
+    },
 })
 export default class ProfileVisits extends Vue {
     /**
@@ -71,7 +71,7 @@ export default class ProfileVisits extends Vue {
     visits = RequestHandler.handle(UserService.getVisits(), {
         id: "visits",
         style: "SECTION",
-        displayFullpage: true
+        displayFullpage: true,
     });
 
     /**
@@ -79,7 +79,7 @@ export default class ProfileVisits extends Vue {
      */
     statistics = RequestHandler.handle(UserService.getStatistics(), {
         id: "statistics",
-        style: "SECTION"
+        style: "SECTION",
     });
 }
 </script>

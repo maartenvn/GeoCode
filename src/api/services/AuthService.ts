@@ -3,11 +3,11 @@ import {
     EchoPromise,
     EchoService,
     EchoServiceBuilder,
-    POST
+    POST,
 } from "echofetch";
 import {
     AuthLoginWrapper,
-    AuthRegisterWrapper
+    AuthRegisterWrapper,
 } from "@/api/wrappers/AuthWrapper";
 import { ErrorHandler } from "@/api/error/ErrorHandler";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
@@ -51,15 +51,15 @@ class AuthService extends EchoService {
         store.dispatch("snackbar/open", {
             message: "Logging out...",
             color: "info",
-            timeout: 120 * 1000
+            timeout: 120 * 1000,
         });
 
         this.logout()
-            .then(_ => {
+            .then((_) => {
                 // Send confirmation message.
                 store.dispatch("snackbar/open", {
                     message: "Successfully logged out",
-                    color: "success"
+                    color: "success",
                 });
 
                 if (goHome) {
@@ -69,11 +69,11 @@ class AuthService extends EchoService {
                 // Update the current user inside the store.
                 store.dispatch("session/fetch");
             })
-            .catch(error => {
+            .catch((error) => {
                 ErrorHandler.handle(error, {
                     style: "SECTION",
                     id: "logout",
-                    displayFullpage: true
+                    displayFullpage: true,
                 });
             });
     }

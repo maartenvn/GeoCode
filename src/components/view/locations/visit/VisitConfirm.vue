@@ -110,16 +110,16 @@ export default class VisitConfirm extends Vue {
         this.loading = true;
 
         LocationService.visitLocation(this.visitSecret)
-            .then(data => {
+            .then((data) => {
                 this.$store.dispatch("snackbar/open", {
                     message: "Successfully visited location",
-                    color: "success"
+                    color: "success",
                 });
             })
-            .catch(error => {
+            .catch((error) => {
                 ErrorHandler.handle(error, {
                     id: "confirmVisit",
-                    style: "SNACKBAR"
+                    style: "SNACKBAR",
                 });
             })
             .finally(() => (this.loading = false));

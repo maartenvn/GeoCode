@@ -102,17 +102,17 @@ export default class SetupActivate extends Vue {
                     `,
                 action: () => {
                     LocationService.update(this.secretId, { active: true })
-                        .then(_ => {
+                        .then((_) => {
                             // Close the modal.
                             this.$store.dispatch("modal/close");
 
                             // Send confirmation message.
                             this.$store.dispatch("snackbar/open", {
                                 message: "Location has been activated",
-                                color: "success"
+                                color: "success",
                             });
                         })
-                        .catch(error => {
+                        .catch((error) => {
                             ErrorHandler.handle(error, {
                                 id: "locationActivate",
                                 style: "SNACKBAR",
@@ -121,13 +121,13 @@ export default class SetupActivate extends Vue {
                                         code: "400",
                                         message:
                                             "Unable to active location. Try again later!",
-                                        description: "Something went wrong!"
-                                    }
-                                ]
+                                        description: "Something went wrong!",
+                                    },
+                                ],
                             });
                         });
-                }
-            }
+                },
+            },
         });
     }
 }

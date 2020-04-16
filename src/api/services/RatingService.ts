@@ -7,14 +7,14 @@ import {
     GET,
     PATCH,
     Path,
-    POST
+    POST,
 } from "echofetch";
 import config from "@/config";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
 import Rating from "@/api/models/Rating";
 import {
     RatingCreateWrapper,
-    RatingUpdateWrapper
+    RatingUpdateWrapper,
 } from "@/api/wrappers/RatingWrapper";
 
 class RatingService extends EchoService {

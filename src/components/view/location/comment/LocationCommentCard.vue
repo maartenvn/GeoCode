@@ -69,7 +69,7 @@ import User from "@/api/models/User";
 import Comment from "@/api/models/Comment";
 
 @Component({
-    components: { ErrorPlaceholder }
+    components: { ErrorPlaceholder },
 })
 export default class LocationCommentCard extends Vue {
     /**
@@ -97,7 +97,7 @@ export default class LocationCommentCard extends Vue {
                 UsersService.get(this.comment.creator.id),
                 {
                     id: "commentCreator",
-                    style: "CARD"
+                    style: "CARD",
                 }
             );
         }

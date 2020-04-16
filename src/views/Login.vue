@@ -30,8 +30,8 @@ import LoginForm from "@/components/view/login/LoginForm.vue";
 
 @Component({
     components: {
-        LoginForm
-    }
+        LoginForm,
+    },
 })
 export default class Login extends Vue {
     /**

@@ -4,7 +4,7 @@ import {
     EchoService,
     EchoServiceBuilder,
     GET,
-    Path
+    Path,
 } from "echofetch";
 import Location from "../models/Location";
 import config from "@/config";

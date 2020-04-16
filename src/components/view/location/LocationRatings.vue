@@ -29,7 +29,7 @@
                         v-for="(rating, index) of ratings.data"
                         :key="index"
                         :rating="rating"
-                        @deleteAction="onDeleteRating"
+                        @deleteAction="openDeleteRating(rating)"
                     />
                 </template>
 
@@ -60,9 +60,11 @@ import LocationRatingCard from "@/components/view/location/rating/LocationRating
 import RatingService from "@/api/services/RatingService";
 import Rating from "@/api/models/Rating";
 import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
+import ConfirmModal from "@/components/modal/ConfirmModal.vue";
+import { ErrorHandler } from "@/api/error/ErrorHandler";
 
 @Component({
-    components: { ErrorPlaceholder, LocationRatingCard }
+    components: { ErrorPlaceholder, LocationRatingCard },
 })
 export default class LocationRatings extends Vue {
     @Prop()
@@ -73,7 +75,7 @@ export default class LocationRatings extends Vue {
      */
     ratings = RequestHandler.handle(RatingService.getAll(this.secretId), {
         id: "ratings",
-        style: "SECTION"
+        style: "SECTION",
     });
 
     /**
@@ -91,20 +93,51 @@ export default class LocationRatings extends Vue {
                     if (this.ratings.isSuccess()) {
                         this.ratings.requireData().unshift(rating);
                     }
-                }
-            }
+                },
+            },
         });
     }
 
     /**
-     * Delete the rating from the ratings list when deleted.
+     * Open a model to confirm the delete of a rating.
      */
-    onDeleteRating(rating: Rating) {
-        if (this.ratings.isSuccess()) {
-            this.ratings
-                .requireData()
-                .splice(this.ratings.requireData().indexOf(rating), 1);
-        }
+    openDeleteRating(rating: Rating) {
+        this.$store.dispatch("modal/open", {
+            component: ConfirmModal,
+            componentPayload: {
+                message: `Are you sure you want to delete this rating? This action is permanent and cannot be undone!'`,
+                action: () =>
+                    RatingService.delete(rating.id)
+                        .then(() => {
+                            // Close the modal.
+                            this.$store.dispatch("modal/close");
+
+                            // Remove the rating from the ratings table
+                            if (this.ratings.isSuccess()) {
+                                this.ratings
+                                    .requireData()
+                                    .splice(
+                                        this.ratings
+                                            .requireData()
+                                            .indexOf(rating),
+                                        1
+                                    );
+                            }
+
+                            // Send confirmation message.
+                            this.$store.dispatch("snackbar/open", {
+                                message: "Rating has been deleted",
+                                color: "success",
+                            });
+                        })
+                        .catch((error) => {
+                            ErrorHandler.handle(error, {
+                                style: "SNACKBAR",
+                                id: "ratingDelete",
+                            });
+                        }),
+            },
+        });
     }
 }
 </script>

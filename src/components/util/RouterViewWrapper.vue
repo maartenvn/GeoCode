@@ -19,7 +19,7 @@ import ErrorSection from "@/components/error/placeholders/ErrorSection.vue";
 import { ErrorHandler } from "@/api/error/ErrorHandler";
 
 @Component({
-    components: { ErrorPlaceholder }
+    components: { ErrorPlaceholder },
 })
 export default class RouterViewWrapper extends Vue {
     /**

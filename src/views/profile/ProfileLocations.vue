@@ -36,8 +36,8 @@ import UserService from "@/api/services/UserService";
 
 @Component({
     components: {
-        LocationsTable
-    }
+        LocationsTable,
+    },
 })
 export default class ProfileLocations extends Vue {
     /**
@@ -46,7 +46,7 @@ export default class ProfileLocations extends Vue {
     locations = RequestHandler.handle(UserService.getLocations(), {
         id: "userLocations",
         style: "SECTION",
-        displayFullpage: true
+        displayFullpage: true,
     });
 
     /**
@@ -56,7 +56,7 @@ export default class ProfileLocations extends Vue {
         this.$store.dispatch("modal/open", {
             component: () =>
                 import("@/components/modal/location/LocationCreateModal.vue"),
-            fullscreen: true
+            fullscreen: true,
         });
     }
 }

@@ -111,18 +111,18 @@ export default class LocationsTable extends Vue {
     tableHeaders = [
         {
             text: "Name",
-            value: "name"
+            value: "name",
         },
         {
             text: "",
-            value: "active"
+            value: "active",
         },
         {
             text: "",
             value: "action",
             sortable: false,
-            align: "end"
-        }
+            align: "end",
+        },
     ];
 
     /**
@@ -141,7 +141,7 @@ export default class LocationsTable extends Vue {
                 message: `Are you sure you want to delete '${location.name}? This action is permanent and cannot be undone!'`,
                 action: () =>
                     LocationService.delete(location.secretId)
-                        .then(data => {
+                        .then((data) => {
                             // Close the modal.
                             this.$store.dispatch("modal/close");
 
@@ -158,16 +158,16 @@ export default class LocationsTable extends Vue {
                             // Send confirmation message.
                             this.$store.dispatch("snackbar/open", {
                                 message: "Location has been deleted",
-                                color: "success"
+                                color: "success",
                             });
                         })
-                        .catch(error => {
+                        .catch((error) => {
                             ErrorHandler.handle(error, {
                                 style: "SNACKBAR",
-                                id: "locationDelete"
+                                id: "locationDelete",
                             });
-                        })
-            }
+                        }),
+            },
         });
     }
 }

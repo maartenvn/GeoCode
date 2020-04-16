@@ -41,7 +41,10 @@
                         >
                             <v-tab
                                 href="#tab-guestbook"
-                                style="background-color: rgba(255, 152, 0, 0.4); border-radius: 5px;"
+                                style="
+                                    background-color: rgba(255, 152, 0, 0.4);
+                                    border-radius: 5px;
+                                "
                             >
                                 Guestbook
 
@@ -104,8 +107,8 @@ import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
         Setup,
         LocationHeader,
         LocationInformation,
-        LocationRatings
-    }
+        LocationRatings,
+    },
 })
 export default class LocationView extends Vue {
     /**
@@ -127,9 +130,9 @@ export default class LocationView extends Vue {
                 code: "400",
                 message: "Location does not exist.",
                 description:
-                    "This location does not exist or was removed by the original creator or an administrator. Sorry for the inconvenience."
-            }
-        ]
+                    "This location does not exist or was removed by the original creator or an administrator. Sorry for the inconvenience.",
+            },
+        ],
     });
 
     /**
@@ -137,7 +140,7 @@ export default class LocationView extends Vue {
      */
     @LateRequest("location", "creator.id", UsersService.get, {
         id: "locationCreator",
-        style: "NONE"
+        style: "NONE",
     })
     creator: EchoPromise<User>;
 
@@ -148,7 +151,7 @@ export default class LocationView extends Vue {
         UserService.getVisitsByLocation(this.secretId),
         {
             id: "locationVisits",
-            style: "NONE"
+            style: "NONE",
         }
     );
 

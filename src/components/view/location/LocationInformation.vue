@@ -81,7 +81,7 @@
                         :location="location"
                         :center="[
                             location.data.latitude,
-                            location.data.longitude
+                            location.data.longitude,
                         ]"
                         :zoom="15"
                     />
@@ -109,8 +109,8 @@ import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 @Component({
     components: {
         ErrorPlaceholder,
-        LocationMap
-    }
+        LocationMap,
+    },
 })
 export default class LocationInformation extends Vue {
     /**

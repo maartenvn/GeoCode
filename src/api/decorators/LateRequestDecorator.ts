@@ -52,16 +52,16 @@ export function LateRequest<T>(
             watch[origin].push({
                 handler: watchHandler,
                 deep: true,
-                immediate: false
+                immediate: false,
             });
 
             // Add an initial "null"-value to the data list.
             options.mixins?.push({
                 data(this: Vue) {
                     return {
-                        [key]: null
+                        [key]: null,
                     };
-                }
+                },
             });
         }
     );

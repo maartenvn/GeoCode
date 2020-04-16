@@ -19,9 +19,9 @@ export function HandleRequest<T>(
             options.mixins?.push({
                 data(this: Vue) {
                     return {
-                        [key]: request
+                        [key]: request,
                     };
-                }
+                },
             });
         }
     );

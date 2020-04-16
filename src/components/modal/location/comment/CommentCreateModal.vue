@@ -76,7 +76,7 @@ export default class CommentCreateModal extends Vue {
      * Input Fields
      */
     fields = {
-        message: new InputField()
+        message: new InputField(),
     };
 
     /**
@@ -89,10 +89,10 @@ export default class CommentCreateModal extends Vue {
             this.payload.secretId,
             InputFieldUtil.getValues(this.fields)
         )
-            .then(comment => {
+            .then((comment) => {
                 this.$store.dispatch("snackbar/open", {
                     message: "Message was successfully created",
-                    color: "success"
+                    color: "success",
                 });
 
                 // Close the modal.
@@ -101,12 +101,12 @@ export default class CommentCreateModal extends Vue {
                 // Execute the given action.
                 this.payload.action(comment);
             })
-            .catch(error =>
+            .catch((error) =>
                 ErrorHandler.handle(
                     error,
                     {
                         id: "commentCreate",
-                        style: "SNACKBAR"
+                        style: "SNACKBAR",
                     },
                     this.fields
                 )

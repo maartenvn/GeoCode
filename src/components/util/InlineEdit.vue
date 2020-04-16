@@ -127,19 +127,19 @@ export default class InlineEdit extends Vue {
             .then(() => {
                 this.$store.dispatch("snackbar/open", {
                     message: "Successfully updated",
-                    color: "success"
+                    color: "success",
                 });
 
                 this.editing = false;
                 this.valueCopy = this.field.value;
                 this.loading = false;
             })
-            .catch(error => {
+            .catch((error) => {
                 this.loading = false;
 
                 ErrorHandler.handle(error, {
                     id: "inlineEditUpdate",
-                    style: "SNACKBAR"
+                    style: "SNACKBAR",
                 });
             });
     }

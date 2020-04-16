@@ -61,7 +61,7 @@ import LocationCommentCard from "@/components/view/location/comment/LocationComm
 import Comment from "@/api/models/Comment";
 
 @Component({
-    components: { LocationCommentCard, ErrorPlaceholder }
+    components: { LocationCommentCard, ErrorPlaceholder },
 })
 export default class LocationGuestbook extends Vue {
     @Prop()
@@ -72,7 +72,7 @@ export default class LocationGuestbook extends Vue {
      */
     comments = RequestHandler.handle(CommentService.getAll(this.secretId), {
         id: "comments",
-        style: "SECTION"
+        style: "SECTION",
     });
 
     /**
@@ -90,8 +90,8 @@ export default class LocationGuestbook extends Vue {
                     if (this.comments.isSuccess()) {
                         this.comments.requireData().unshift(comment);
                     }
-                }
-            }
+                },
+            },
         });
     }
 }

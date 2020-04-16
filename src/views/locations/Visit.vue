@@ -55,7 +55,7 @@ import { RequestHandler } from "@/api/RequestHandler";
 import LocationService from "@/api/services/LocationService";
 
 @Component({
-    components: { VisitConfirm, VisitAuth }
+    components: { VisitConfirm, VisitAuth },
 })
 export default class VisitLocationView extends Vue {
     /**
@@ -79,7 +79,7 @@ export default class VisitLocationView extends Vue {
         {
             id: "locationsVisit",
             style: "CARD",
-            displayFullpage: true
+            displayFullpage: true,
         }
     );
 }

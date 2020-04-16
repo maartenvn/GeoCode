@@ -26,7 +26,7 @@ import NavigationBar from "@/components/layout/navigation/NavigationBar.vue";
 import NavigationDrawer from "@/components/layout/navigation/NavigationDrawer.vue";
 
 @Component({
-    components: { NavigationDrawer, NavigationBar }
+    components: { NavigationDrawer, NavigationBar },
 })
 export default class Navigation extends Vue {
     /**
@@ -41,14 +41,14 @@ export default class Navigation extends Vue {
         {
             title: "Home",
             to: "/",
-            icon: "mdi-home"
+            icon: "mdi-home",
         },
 
         {
             title: "Locations",
             to: "/locations",
-            icon: "mdi-map-marker"
-        }
+            icon: "mdi-map-marker",
+        },
     ];
 
     /**
@@ -58,26 +58,26 @@ export default class Navigation extends Vue {
         {
             title: "My profile",
             to: "/profile",
-            icon: "mdi-account-box"
+            icon: "mdi-account-box",
         },
 
         {
             title: "My Locations",
             to: "/profile/locations",
-            icon: "mdi-database-marker"
+            icon: "mdi-database-marker",
         },
 
         {
             title: "My Visits",
             to: "/profile/visits",
-            icon: "mdi-map-marker-check"
+            icon: "mdi-map-marker-check",
         },
 
         {
             title: "Logout",
             to: "/logout",
-            icon: "mdi-logout"
-        }
+            icon: "mdi-logout",
+        },
     ];
 
     @StoreGetter("session/currentUser")

@@ -59,8 +59,8 @@ import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 @Component({
     components: {
         InlineEdit,
-        ErrorPlaceholder
-    }
+        ErrorPlaceholder,
+    },
 })
 export default class LocationHeader extends Vue {
     /**
@@ -87,7 +87,7 @@ export default class LocationHeader extends Vue {
      */
     updateLocationName(value: string): EchoPromise<unknown> {
         return LocationService.update(this.location.requireData().secretId, {
-            name: value
+            name: value,
         });
     }
 
