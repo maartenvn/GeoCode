@@ -38,7 +38,9 @@ export function LateRequest<T>(
              */
             function watchHandler<T>(this: Vue, value: EchoPromise<T>) {
                 if (value.isSuccess()) {
-                    const pathValue = (value.requireData() as any)[path];
+                    const pathValue = path
+                        .split(".")
+                        .reduce((o, i) => o[i], value.requireData() as any);
 
                     // Set the value of the given path.
                     (this as any)[key] = RequestHandler.handle(

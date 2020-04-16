@@ -162,14 +162,12 @@ export default class LocationRatings extends Vue {
 
                             // Add the rating at top of the ratings list.
                             if (this.ratings.isSuccess()) {
-                                // Remove the old rating
-                                ArrayUtil.delete(
+                                // Update the rating.
+                                ArrayUtil.update(
                                     this.ratings.requireData(),
-                                    rating
+                                    rating,
+                                    newRating
                                 );
-
-                                // Add the new rating on top.
-                                this.ratings.requireData().unshift(newRating);
                             }
                         })
                         .catch((error) =>
