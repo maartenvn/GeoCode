@@ -62,6 +62,7 @@ import { Component, Prop, PropSync, Vue } from "vue-property-decorator";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
 import LocationService from "@/api/services/LocationService";
 import { ErrorHandler } from "@/api/error/ErrorHandler";
+import { RouterUtil } from "@/util/RouterUtil";
 
 @Component
 export default class SetupActivate extends Vue {
@@ -111,6 +112,9 @@ export default class SetupActivate extends Vue {
                                 message: "Location has been activated",
                                 color: "success",
                             });
+
+                            // Reload the page.
+                            RouterUtil.reload(this.$router);
                         })
                         .catch((error) => {
                             ErrorHandler.handle(error, {
