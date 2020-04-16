@@ -55,7 +55,7 @@
             <v-btn
                 color="primary"
                 depressed
-                @click="create"
+                @click="confirm"
                 :loading="loading"
                 :disabled="loading"
             >
@@ -72,14 +72,19 @@ import RatingService from "@/api/services/RatingService";
 import { InputFieldUtil } from "@/util/InputFieldUtil";
 import { ErrorHandler } from "@/api/error/ErrorHandler";
 import Rating from "@/api/models/Rating";
+import { InputFields } from "@/types/fields/InputFields";
 
 @Component
-export default class RatingCreateModal extends Vue {
+export default class RatingActionModal extends Vue {
     /**
      * Payload, passed when opening the modal.
      */
     @Prop()
-    payload: { secretId: string; action: (rating: Rating) => void };
+    payload: {
+        secretId: string;
+        rating: Rating;
+        action: (fields: InputFields, instance: Vue) => void;
+    };
 
     /**
      * If the modal is loading.
@@ -90,43 +95,19 @@ export default class RatingCreateModal extends Vue {
      * Input Fields
      */
     fields = {
-        rating: new InputField({ value: 0 }),
-        message: new InputField(),
+        rating: new InputField({
+            value: this.payload.rating ? this.payload.rating.rating : 0,
+        }),
+        message: new InputField({
+            value: this.payload.rating ? this.payload.rating.message : "",
+        }),
     };
 
     /**
-     * Create the rating
+     * Execute the given action.
      */
-    async create() {
-        this.loading = true;
-
-        RatingService.create(
-            this.payload.secretId,
-            InputFieldUtil.getValues(this.fields)
-        )
-            .then((rating) => {
-                this.$store.dispatch("snackbar/open", {
-                    message: "Review was successfully created",
-                    color: "success",
-                });
-
-                // Close the modal.
-                this.$store.dispatch("modal/close");
-
-                // Execute the given action.
-                this.payload.action(rating);
-            })
-            .catch((error) =>
-                ErrorHandler.handle(
-                    error,
-                    {
-                        id: "ratingCreate",
-                        style: "SNACKBAR",
-                    },
-                    this.fields
-                )
-            )
-            .finally(() => (this.loading = false));
+    confirm() {
+        this.payload.action(this.fields, this);
     }
 
     /**

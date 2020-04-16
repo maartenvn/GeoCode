@@ -30,6 +30,7 @@
                         :key="index"
                         :rating="rating"
                         @deleteAction="openDeleteRating(rating)"
+                        @modifyAction="openModifyRating(rating)"
                     />
                 </template>
 
@@ -62,6 +63,9 @@ import Rating from "@/api/models/Rating";
 import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
 import { ErrorHandler } from "@/api/error/ErrorHandler";
+import { InputFields } from "@/types/fields/InputFields";
+import { InputFieldUtil } from "@/util/InputFieldUtil";
+import { ArrayUtil } from "@/util/ArrayUtil";
 
 @Component({
     components: { ErrorPlaceholder, LocationRatingCard },
@@ -85,14 +89,102 @@ export default class LocationRatings extends Vue {
         this.$store.dispatch("modal/open", {
             component: () =>
                 import(
-                    "@/components/modal/location/rating/RatingCreateModal.vue"
+                    "@/components/modal/location/rating/RatingActionModal.vue"
                 ),
             componentPayload: {
                 secretId: this.secretId,
-                action: (rating: Rating) => {
-                    if (this.ratings.isSuccess()) {
-                        this.ratings.requireData().unshift(rating);
-                    }
+                action: (fields: InputFields, instance: Vue) => {
+                    instance.$set(instance, "loading", true);
+
+                    RatingService.create(
+                        this.secretId,
+                        InputFieldUtil.getValues(fields)
+                    )
+                        .then((rating) => {
+                            this.$store.dispatch("snackbar/open", {
+                                message: "Review was successfully created",
+                                color: "success",
+                            });
+
+                            // Close the modal.
+                            this.$store.dispatch("modal/close");
+
+                            // Add the rating at top of the ratings list.
+                            if (this.ratings.isSuccess()) {
+                                this.ratings.requireData().unshift(rating);
+                            }
+                        })
+                        .catch((error) =>
+                            ErrorHandler.handle(
+                                error,
+                                {
+                                    id: "ratingCreate",
+                                    style: "SNACKBAR",
+                                },
+                                fields
+                            )
+                        )
+                        .finally(() =>
+                            instance.$set(instance, "loading", false)
+                        );
+                },
+            },
+        });
+    }
+
+    /**
+     * Open the modify rating modal.
+     */
+    openModifyRating(rating: Rating) {
+        this.$store.dispatch("modal/open", {
+            component: () =>
+                import(
+                    "@/components/modal/location/rating/RatingActionModal.vue"
+                ),
+            componentPayload: {
+                secretId: this.secretId,
+                rating,
+                action: (fields: InputFields, instance: Vue) => {
+                    instance.$set(instance, "loading", true);
+
+                    RatingService.update(
+                        rating.id,
+                        InputFieldUtil.getValues(fields)
+                    )
+                        .then((newRating) => {
+                            this.$store.dispatch("snackbar/open", {
+                                message: "Review was successfully updated.",
+                                color: "success",
+                            });
+
+                            // Close the modal.
+                            this.$store.dispatch("modal/close");
+
+                            // Add the rating at top of the ratings list.
+                            if (this.ratings.isSuccess()) {
+                                // Remove the old rating
+                                ArrayUtil.delete(
+                                    this.ratings.requireData(),
+                                    rating
+                                );
+
+                                // Add the new rating on top.
+                                this.ratings.requireData().unshift(newRating);
+                            }
+                        })
+                        .catch((error) =>
+                            ErrorHandler.handle(
+                                error,
+                                {
+                                    id: "ratingModify",
+                                    style: "SNACKBAR",
+                                },
+                                fields
+                            )
+                        )
+                        .finally(() =>
+                            instance.$set(instance, "loading", false)
+                        );
                 },
             },
         });
@@ -114,14 +206,10 @@ export default class LocationRatings extends Vue {
 
                             // Remove the rating from the ratings table
                             if (this.ratings.isSuccess()) {
-                                this.ratings
-                                    .requireData()
-                                    .splice(
-                                        this.ratings
-                                            .requireData()
-                                            .indexOf(rating),
-                                        1
-                                    );
+                                ArrayUtil.delete(
+                                    this.ratings.requireData(),
+                                    rating
+                                );
                             }
 
                             // Send confirmation message.

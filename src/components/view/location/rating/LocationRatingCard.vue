@@ -79,6 +79,14 @@
                 <!-- Delete -->
                 <v-row v-if="isOwner" no-gutters justify="end">
                     <v-col cols="auto">
+                        <v-btn icon @click="modifyAction">
+                            <v-icon>
+                                mdi-pencil
+                            </v-icon>
+                        </v-btn>
+                    </v-col>
+
+                    <v-col cols="auto">
                         <v-btn color="error" icon @click="deleteAction">
                             <v-icon>
                                 mdi-delete
@@ -132,8 +140,17 @@ export default class LocationRatingCard extends Vue {
     @StoreGetter("session/currentUser")
     currentUser: EchoPromise<User>;
 
+    /**
+     * Action when the delete button is pressed.
+     */
     @Event()
     deleteAction: (rating: Rating) => void;
+
+    /**
+     * Action when the modify button is pressed.
+     */
+    @Event()
+    modifyAction: (rating: Rating) => void;
 
     constructor() {
         super();
