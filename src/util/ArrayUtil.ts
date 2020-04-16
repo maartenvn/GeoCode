@@ -1,3 +1,5 @@
+import Vue from "vue";
+
 export class ArrayUtil {
     /**
      * Delete a value from an array by value.
@@ -15,6 +17,10 @@ export class ArrayUtil {
      * @param newValue
      */
     static update<T>(array: Array<T>, oldValue: T, newValue: T) {
-        array[array.indexOf(oldValue)] = newValue;
+        const index = array.indexOf(oldValue);
+        array[index] = newValue;
+
+        // Reactive update of array
+        Vue.set(array, index, newValue);
     }
 }

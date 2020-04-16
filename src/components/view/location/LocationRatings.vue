@@ -151,7 +151,7 @@ export default class LocationRatings extends Vue {
                         rating.id,
                         InputFieldUtil.getValues(fields)
                     )
-                        .then((newRating) => {
+                        .then(() => {
                             this.$store.dispatch("snackbar/open", {
                                 message: "Review was successfully updated.",
                                 color: "success",
@@ -163,11 +163,10 @@ export default class LocationRatings extends Vue {
                             // Add the rating at top of the ratings list.
                             if (this.ratings.isSuccess()) {
                                 // Update the rating.
-                                ArrayUtil.update(
-                                    this.ratings.requireData(),
-                                    rating,
-                                    newRating
-                                );
+                                rating.rating = fields["rating"]
+                                    .value as number;
+                                rating.message = fields["message"]
+                                    .value as string;
                             }
                         })
                         .catch((error) =>
