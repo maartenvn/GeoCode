@@ -36,7 +36,10 @@
 
                     <template v-else-if="currentUser.isSuccess()">
                         <!-- Confirm visit -->
-                        <visit-confirm />
+                        <visit-confirm
+                            :visit-secret="visitSecret"
+                            :location="location.requireData()"
+                        />
                     </template>
                 </v-card>
             </v-col>

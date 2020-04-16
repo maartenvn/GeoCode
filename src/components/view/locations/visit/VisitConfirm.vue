@@ -115,6 +115,9 @@ export default class VisitConfirm extends Vue {
                     message: "Successfully visited location",
                     color: "success",
                 });
+
+                // Navigate to the location.
+                this.$router.push(`/locations/${this.location.secretId}`);
             })
             .catch((error) => {
                 ErrorHandler.handle(error, {

@@ -26,7 +26,7 @@ const routes = [
     },
 
     {
-        path: "/locations/visit/:visitCode",
+        path: "/locations/visit/:visitSecret",
         name: "Visit Location",
         component: () => import("../views/locations/Visit.vue"),
         props: true,
