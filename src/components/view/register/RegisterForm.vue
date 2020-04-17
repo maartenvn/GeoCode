@@ -155,8 +155,8 @@ export default class Register extends Vue {
             email: new InputField(),
             password: new InputField(),
             passwordRepeat: new InputField({
-                rules: [this.passwordConfirmationRule]
-            })
+                rules: [this.passwordConfirmationRule],
+            }),
         };
     }
 
@@ -177,26 +177,26 @@ export default class Register extends Vue {
         this._loading = true;
 
         // Execute the captcha.
-        CaptchaUtil.execute("register").then(token => {
+        CaptchaUtil.execute("register").then((token) => {
             // Execute the register request.
             AuthService.register(
                 Object.assign(InputFieldUtil.getValues(this.fields), {
-                    captcha: token
+                    captcha: token,
                 })
             )
-                .then(data => {
+                .then((data) => {
                     // Finish loading
                     this._loading = false;
 
                     // Send confirmation message.
                     this.$store.dispatch("snackbar/open", {
                         message: "Account was successfully created",
-                        color: "success"
+                        color: "success",
                     });
 
                     this.$emit("registerSuccessAction");
                 })
-                .catch(error => {
+                .catch((error) => {
                     // Finish loading
                     this._loading = false;
 
@@ -204,7 +204,7 @@ export default class Register extends Vue {
                         error,
                         {
                             style: "SNACKBAR",
-                            id: "register"
+                            id: "register",
                         },
                         this.fields
                     );

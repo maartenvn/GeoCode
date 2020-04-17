@@ -96,8 +96,42 @@
             </tutorial-step>
         </div>
 
+        <!-- Statistics -->
+        <section class="statistics">
+            <!-- Loading -->
+            <v-row v-if="statistics.isLoading()">
+                <statistics-card :loading="true" :flat="true" />
+                <statistics-card :loading="true" :flat="true" />
+                <statistics-card :loading="true" :flat="true" />
+            </v-row>
+
+            <!-- Data -->
+            <v-row v-else-if="statistics.isLoading()">
+                <statistics-card
+                    title="Different locations"
+                    :value="statistics.data.locationsCount"
+                    :flat="true"
+                />
+
+                <statistics-card
+                    title="Different countries"
+                    :value="statistics.data.locationCountriesCount"
+                    :flat="true"
+                />
+
+                <statistics-card
+                    title="Active users"
+                    :value="statistics.data.usersCount"
+                    :flat="true"
+                />
+            </v-row>
+
+            <!-- Error -->
+            <error-placeholder v-else error-id="statistics" />
+        </section>
+
         <!-- Map -->
-        <div class="map">
+        <section class="map">
             <v-responsive class="mx-auto" min-height="30vh" :max-width="1280">
                 <v-row>
                     <v-col>
@@ -121,7 +155,7 @@
                     />
                 </v-row>
             </v-responsive>
-        </div>
+        </section>
     </div>
 </template>
 
@@ -131,10 +165,15 @@ import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 import TutorialStep from "@/components/view/home/HomeTutorialStep.vue";
 import LocationService from "@/api/services/LocationService";
 import { RequestHandler } from "@/api/RequestHandler";
+import StatisticsCard from "@/components/statistics/StatisticsCard.vue";
+import StatisticsService from "@/api/services/StatisticsService";
+import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 
 @Component({
     components: {
+        StatisticsCard,
         TutorialStep,
+        ErrorPlaceholder,
         LocationMap: () => import("@/components/map/location/LocationMap.vue"),
     },
 })
@@ -145,6 +184,14 @@ export default class Home extends Vue {
     locations = RequestHandler.handle(LocationService.getAll(), {
         id: "locations",
         style: "CARD",
+    });
+
+    /**
+     * Statistics for the logged in user.
+     */
+    statistics = RequestHandler.handle(StatisticsService.get(), {
+        id: "statistics",
+        style: "SECTION",
     });
 
     /**
@@ -185,11 +232,18 @@ export default class Home extends Vue {
     margin-top: 75px;
 }
 
-.map {
+.statistics {
     text-align: center;
     background-color: var(--v-primary-base);
     color: #ffffff;
     padding: 20px;
+}
+
+.map {
+    text-align: center;
+    padding: 20px;
+    background-color: var(--v-primary-base);
+    color: #ffffff;
 
     &__title {
         font-size: 2em;
