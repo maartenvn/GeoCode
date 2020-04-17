@@ -61,8 +61,8 @@ import Location from "@/api/models/Location";
         SetupProtect,
         SetupRules,
         SetupIntro,
-        SetupPrint
-    }
+        SetupPrint,
+    },
 })
 export default class SetupLocationView extends Vue {
     /**

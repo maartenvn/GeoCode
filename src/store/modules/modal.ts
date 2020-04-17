@@ -31,7 +31,7 @@ export const modal = {
 
     state: {
         open: false,
-        data: {}
+        data: {},
     },
 
     mutations: {
@@ -56,9 +56,9 @@ export const modal = {
             // This is so you only have to provide the changes.
             state.data = {
                 ...new ModalData(),
-                ...data
+                ...data,
             };
-        }
+        },
     },
 
     actions: {
@@ -81,6 +81,6 @@ export const modal = {
          */
         close(context: any) {
             context.commit("SET_OPEN", false);
-        }
-    }
+        },
+    },
 };

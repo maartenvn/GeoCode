@@ -14,7 +14,7 @@ export class CaptchaUtil {
                 try {
                     grecaptcha
                         .execute(process.env.VUE_APP_RECAPTCHA_KEY, {
-                            action
+                            action,
                         })
                         .then((token: string) => {
                             resolve(token);
@@ -26,13 +26,13 @@ export class CaptchaUtil {
                         name: "Captcha Error",
                         config: {},
                         isAxiosError: false,
-                        toJSON: () => new Object()
+                        toJSON: () => new Object(),
                     };
 
                     ErrorHandler.handle(error, {
                         style: "SNACKBAR",
                         id: action,
-                        displayConsole: true
+                        displayConsole: true,
                     });
 
                     reject(error);

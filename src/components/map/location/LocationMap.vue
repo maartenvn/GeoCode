@@ -39,8 +39,8 @@ import LocationPopup from "@/components/map/popup/LocationPopup.vue";
 
 @Component({
     components: {
-        MarkerMap
-    }
+        MarkerMap,
+    },
 })
 export default class LocationMap extends Vue {
     /**

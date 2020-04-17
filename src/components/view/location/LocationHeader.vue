@@ -11,6 +11,7 @@
                 <inline-edit
                     :value="location.data.name"
                     :update="updateLocationName"
+                    :enabled="isOwner"
                 />
             </div>
 
@@ -52,16 +53,33 @@ import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 import InlineEdit from "@/components/util/InlineEdit.vue";
 import LocationService from "@/api/services/LocationService";
 import { ErrorHandler } from "@/api/error/ErrorHandler";
+import User from "@/api/models/User";
+import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 
 @Component({
     components: {
         InlineEdit,
-        ErrorPlaceholder
-    }
+        ErrorPlaceholder,
+    },
 })
 export default class LocationHeader extends Vue {
+    /**
+     * Location.
+     */
     @Prop()
     location: EchoPromise<Location>;
+
+    /**
+     * Creator for the given location.
+     */
+    @Prop()
+    creator: EchoPromise<User>;
+
+    /**
+     * Current user
+     */
+    @StoreGetter("session/currentUser")
+    currentUser: EchoPromise<User>;
 
     /**
      * Update the location name.
@@ -69,8 +87,21 @@ export default class LocationHeader extends Vue {
      */
     updateLocationName(value: string): EchoPromise<unknown> {
         return LocationService.update(this.location.requireData().secretId, {
-            name: value
+            name: value,
         });
+    }
+
+    /**
+     * Get if the current user is the owner of the location.
+     */
+    get isOwner() {
+        return (
+            this.creator &&
+            this.currentUser &&
+            this.creator.isSuccess() &&
+            this.currentUser.isSuccess() &&
+            this.creator.requireData().id === this.currentUser.requireData().id
+        );
     }
 }
 </script>

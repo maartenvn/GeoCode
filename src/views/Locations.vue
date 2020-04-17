@@ -99,8 +99,8 @@ import { RequestHandler } from "@/api/RequestHandler";
     components: {
         LocationMap,
         LocationsTable,
-        ErrorPlaceholder
-    }
+        ErrorPlaceholder,
+    },
 })
 export default class LocationView extends Vue {
     tab: any;
@@ -108,7 +108,7 @@ export default class LocationView extends Vue {
     locations = RequestHandler.handle(LocationService.getAll(), {
         id: "location",
         style: "SECTION",
-        displayFullpage: true
+        displayFullpage: true,
     });
 
     /**
@@ -130,7 +130,7 @@ export default class LocationView extends Vue {
         this.$store.dispatch("modal/open", {
             component: () =>
                 import("@/components/modal/location/LocationCreateModal.vue"),
-            fullscreen: true
+            fullscreen: true,
         });
     }
 }

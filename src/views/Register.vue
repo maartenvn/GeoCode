@@ -20,7 +20,7 @@ import { Component, Vue } from "vue-property-decorator";
 import RegisterForm from "@/components/view/register/RegisterForm.vue";
 
 @Component({
-    components: { RegisterForm }
+    components: { RegisterForm },
 })
 export default class Register extends Vue {
     /**

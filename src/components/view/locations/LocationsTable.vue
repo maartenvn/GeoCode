@@ -31,11 +31,19 @@
                     No locations found with the given parameters
                 </template>
 
-                <template v-if="activeEnabled" v-slot:item.active="{ item }">
-                    <template v-if="!item.active">
-                        <v-chip color="warning" text-color="white" small>
-                            Not activated
-                        </v-chip>
+                <template v-slot:item.active="{ item }">
+                    <template v-if="activeEnabled">
+                        <template v-if="!item.active">
+                            <v-chip color="warning" text-color="white" small>
+                                Not activated
+                            </v-chip>
+                        </template>
+
+                        <template v-else>
+                            <v-chip color="success" text-color="white" small>
+                                Activated
+                            </v-chip>
+                        </template>
                     </template>
                 </template>
 
@@ -108,34 +116,27 @@ export default class LocationsTable extends Vue {
     /**
      * List with headers for the Vuetify data table.
      */
-    tableHeaders: Array<DataTableHeader>;
+    tableHeaders = [
+        {
+            text: "Name",
+            value: "name",
+        },
+        {
+            text: "",
+            value: "active",
+        },
+        {
+            text: "",
+            value: "action",
+            sortable: false,
+            align: "end",
+        },
+    ];
 
     /**
      * Value of the search field.
      */
-    tableSearch: string;
-
-    constructor() {
-        super();
-
-        this.tableHeaders = [
-            {
-                text: "Name",
-                value: "name"
-            },
-            {
-                text: "",
-                value: "active"
-            },
-            {
-                text: "",
-                value: "action",
-                sortable: false,
-                align: "end"
-            }
-        ];
-        this.tableSearch = "";
-    }
+    tableSearch = "";
 
     /**
      * Open a model to confirm the delete of a location.
@@ -148,7 +149,7 @@ export default class LocationsTable extends Vue {
                 message: `Are you sure you want to delete '${location.name}? This action is permanent and cannot be undone!'`,
                 action: () =>
                     LocationService.delete(location.secretId)
-                        .then(data => {
+                        .then((data) => {
                             // Close the modal.
                             this.$store.dispatch("modal/close");
 
@@ -165,16 +166,16 @@ export default class LocationsTable extends Vue {
                             // Send confirmation message.
                             this.$store.dispatch("snackbar/open", {
                                 message: "Location has been deleted",
-                                color: "success"
+                                color: "success",
                             });
                         })
-                        .catch(error => {
+                        .catch((error) => {
                             ErrorHandler.handle(error, {
                                 style: "SNACKBAR",
-                                id: "locationDelete"
+                                id: "locationDelete",
                             });
-                        })
-            }
+                        }),
+            },
         });
     }
 }

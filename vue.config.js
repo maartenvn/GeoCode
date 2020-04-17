@@ -12,5 +12,5 @@ module.exports = {
     chainWebpack(config) {
         // Add GZIP-compression to the build cycle.
         config.plugin("CompressionPlugin").use(CompressionPlugin);
-    }
+    },
 };

@@ -35,7 +35,7 @@ import LoginForm from "@/components/view/login/LoginForm.vue";
 import RegisterForm from "@/components/view/register/RegisterForm.vue";
 
 @Component({
-    components: { RegisterForm, LoginForm }
+    components: { RegisterForm, LoginForm },
 })
 export default class VisitAuth extends Vue {
     @Prop()

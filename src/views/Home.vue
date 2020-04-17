@@ -135,8 +135,8 @@ import { RequestHandler } from "@/api/RequestHandler";
 @Component({
     components: {
         TutorialStep,
-        LocationMap: () => import("@/components/map/location/LocationMap.vue")
-    }
+        LocationMap: () => import("@/components/map/location/LocationMap.vue"),
+    },
 })
 export default class Home extends Vue {
     /**
@@ -144,7 +144,7 @@ export default class Home extends Vue {
      */
     locations = RequestHandler.handle(LocationService.getAll(), {
         id: "locations",
-        style: "CARD"
+        style: "CARD",
     });
 
     /**

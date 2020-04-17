@@ -82,7 +82,7 @@ export default class Profile extends Vue {
 
         this.fields = {
             username: new InputField(),
-            email: new InputField()
+            email: new InputField(),
         };
     }
 
@@ -111,23 +111,23 @@ export default class Profile extends Vue {
      */
     updateProfile() {
         UserService.update(InputFieldUtil.getValues(this.fields))
-            .then(_ => {
+            .then((_) => {
                 // Send confirmation message.
                 this.$store.dispatch("snackbar/open", {
                     message: "Successfully updated profile",
-                    color: "success"
+                    color: "success",
                 });
 
                 // Refetch the profile information.
                 this.$store.dispatch("session/fetch");
             })
-            .catch(error => {
+            .catch((error) => {
                 // Handle field errors.
                 ErrorHandler.handle(
                     error,
                     {
                         style: "SNACKBAR",
-                        id: "profileUpdate"
+                        id: "profileUpdate",
                     },
                     this.fields
                 );

@@ -31,8 +31,8 @@ import ErrorBus from "@/api/error/ErrorBus";
         Navigation,
         RouterViewWrapper,
         Snackbar,
-        Modal
-    }
+        Modal,
+    },
 })
 export default class App extends Vue {
     created() {
@@ -46,7 +46,7 @@ export default class App extends Vue {
                 if (options.style === "SNACKBAR") {
                     this.$store.dispatch("snackbar/open", {
                         message: error.message,
-                        color: "error"
+                        color: "error",
                     });
                 }
             }
@@ -76,6 +76,14 @@ export default class App extends Vue {
         padding-top: 16px;
         padding-bottom: 16px;
     }
+}
+
+label {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 16px;
+    line-height: 1;
+    min-height: 8px;
+    margin-bottom: 7px;
 }
 
 .divider {

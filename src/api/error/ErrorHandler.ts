@@ -1,3 +1,4 @@
+import Vue from "vue";
 import { EchoError } from "echofetch";
 import { CustomErrorOptions } from "@/api/error/types/CustomErrorOptions";
 import ErrorBus from "@/api/error/ErrorBus";
@@ -14,28 +15,28 @@ const globalCustomErrors: Array<CustomErrorMessage> = [
         code: "401",
         message: "You are not logged in",
         description:
-            "You are currently nog logged in. Please login and try again!"
+            "You are currently nog logged in. Please login and try again!",
     },
     {
         code: "404",
         message: "Page not found",
         description:
-            "We cannot find the page you are looking for. The page is no longer available or was moved to a different location."
+            "We cannot find the page you are looking for. The page is no longer available or was moved to a different location.",
     },
 
     {
         code: "500",
         message: "Internal server error.",
         description:
-            "We are having issues with the server. Please try again later."
+            "We are having issues with the server. Please try again later.",
     },
 
     {
         code: "network_error",
         message: "Unable to connect to server",
         description:
-            "We are unable to connect to the server to retrieve information. Please check if you have a valid internet connection & try again later."
-    }
+            "We are unable to connect to the server to retrieve information. Please check if you have a valid internet connection & try again later.",
+    },
 ];
 
 export class ErrorHandler {
@@ -58,10 +59,8 @@ export class ErrorHandler {
         ErrorBus.$emit("error", error, options);
 
         // Clear the error when navigating to a different route.
-        router.beforeEach((to, from, next) => {
+        router.afterEach(() => {
             ErrorBus.$emit("error-clear");
-
-            next();
         });
     }
 
@@ -171,7 +170,7 @@ export class ErrorHandler {
 
         // Ajust some errors that can be displayed better based on the given error code.
         const customError = this.getCustomErrors(options).find(
-            e =>
+            (e) =>
                 (error.response &&
                     e.code === error.response?.status.toString()) ||
                 e.code === error.code

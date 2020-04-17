@@ -62,6 +62,7 @@ import { Component, Prop, PropSync, Vue } from "vue-property-decorator";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
 import LocationService from "@/api/services/LocationService";
 import { ErrorHandler } from "@/api/error/ErrorHandler";
+import { RouterUtil } from "@/util/RouterUtil";
 
 @Component
 export default class SetupActivate extends Vue {
@@ -84,6 +85,11 @@ export default class SetupActivate extends Vue {
     secretId: string;
 
     /**
+     * If the confirm visit request is loading.
+     */
+    loading = false;
+
+    /**
      * Open a model to confirm the activation of a location.
      */
     openConfirmActivate() {
@@ -100,34 +106,34 @@ export default class SetupActivate extends Vue {
                         <strong>your account will be suspended.</strong>
                      </div>
                     `,
-                action: () => {
+                action: (instance: Vue) => {
+                    instance.$set(instance, "loading", true);
+
                     LocationService.update(this.secretId, { active: true })
-                        .then(_ => {
+                        .then(() => {
                             // Close the modal.
                             this.$store.dispatch("modal/close");
 
                             // Send confirmation message.
                             this.$store.dispatch("snackbar/open", {
                                 message: "Location has been activated",
-                                color: "success"
+                                color: "success",
                             });
+
+                            // Reload the page.
+                            RouterUtil.reload(this.$router);
                         })
-                        .catch(error => {
+                        .catch((error) => {
                             ErrorHandler.handle(error, {
                                 id: "locationActivate",
                                 style: "SNACKBAR",
-                                customMessages: [
-                                    {
-                                        code: "400",
-                                        message:
-                                            "Unable to active location. Try again later!",
-                                        description: "Something went wrong!"
-                                    }
-                                ]
                             });
-                        });
-                }
-            }
+                        })
+                        .finally(() =>
+                            instance.$set(instance, "loading", true)
+                        );
+                },
+            },
         });
     }
 }

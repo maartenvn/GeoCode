@@ -1,8 +1,8 @@
 <template>
     <v-card
-        :class="
-            `error-card ${payload.options.displayFullpage ? 'text-center' : ''}`
-        "
+        :class="`error-card ${
+            payload.options.displayFullpage ? 'text-center' : ''
+        }`"
     >
         <!-- Image (only if fullscreen) -->
         <div v-if="payload.options.displayFullpage" class="error-card__image">
@@ -58,6 +58,8 @@ export default class ErrorCard extends Vue {
 
 <style lang="scss" scoped>
 .error-card {
+    padding: 20px;
+
     &__image {
         height: 150px;
         width: 100%;
@@ -73,6 +75,7 @@ export default class ErrorCard extends Vue {
     &__message {
         font-size: 1.9em;
         padding-bottom: 20px;
+        text-wrap: normal;
     }
 
     &__description {

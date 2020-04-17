@@ -19,6 +19,8 @@
                     dark
                     text
                     @click="createLocation"
+                    :disabled="loading"
+                    :loading="loading"
                 >
                     Save
                 </v-btn>
@@ -57,6 +59,7 @@
                             :error-messages="fields.name.error"
                             label="Name"
                             placeholder="Name of the location"
+                            :disabled="loading"
                             outlined
                             required
                         />
@@ -64,6 +67,7 @@
                         <!-- Description -->
                         <editor
                             v-model="fields.description.value"
+                            :disabled="loading"
                             title="Description"
                         />
 
@@ -72,18 +76,9 @@
                         <v-switch
                             v-model="fields.listed.value"
                             label="Should the location be visible on the locations overview page."
+                            :disabled="loading"
                         />
                     </v-form>
-
-                    <v-card-actions>
-                        <v-spacer />
-
-                        <v-btn color="primary" depressed @click="stepper = 2">
-                            Continue
-                        </v-btn>
-
-                        <v-btn color="error" text @click="close">Cancel</v-btn>
-                    </v-card-actions>
                 </v-stepper-content>
 
                 <!-- Step 2: Location -->
@@ -98,6 +93,7 @@
                             :marker.sync="marker"
                             :zoom="1"
                             :searchEnabled="true"
+                            :disabled="loading"
                             height="400px"
                         />
 
@@ -113,6 +109,7 @@
                                     type="number"
                                     label="Latitude"
                                     placeholder="Latitude of the location"
+                                    :disabled="loading"
                                     outlined
                                     required
                                 />
@@ -127,26 +124,13 @@
                                     type="number"
                                     label="Longitude"
                                     placeholder="Longitude of the location"
+                                    :disabled="loading"
                                     outlined
                                     required
                                 />
                             </v-col>
                         </v-row>
                     </v-form>
-
-                    <v-card-actions>
-                        <v-spacer />
-
-                        <v-btn
-                            color="primary"
-                            depressed
-                            @click="createLocation"
-                        >
-                            Save
-                        </v-btn>
-
-                        <v-btn color="error" text @click="close">Cancel</v-btn>
-                    </v-card-actions>
                 </v-stepper-content>
             </v-stepper-items>
         </v-stepper>
@@ -156,7 +140,6 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { LatLng } from "leaflet";
-import { InputFields } from "@/types/fields/InputFields";
 import { InputField } from "@/types/fields/InputField";
 import { InputFieldUtil } from "@/util/InputFieldUtil";
 import { MapMarker } from "@/types/map/MapMarker";
@@ -164,42 +147,46 @@ import { ErrorHandler } from "@/api/error/ErrorHandler";
 import LocationService from "@/api/services/LocationService";
 import Editor from "@/components/Editor.vue";
 import LocationSetMap from "@/components/map/location/LocationSetMap.vue";
+import { OpenStreetMapProvider } from "leaflet-geosearch";
+import { EchoError } from "echofetch";
 
 @Component({
     components: {
         Editor,
-        LocationSetMap
-    }
+        LocationSetMap,
+    },
 })
 export default class LocationCreateModal extends Vue {
     /**
+     * If the modal is loading.
+     */
+    loading = false;
+
+    /**
      * Stepper counter used for knowing in which stage of the configuration the user is.
      */
-    stepper: number;
+    stepper = 1;
 
     /**
      * Input fields values & properties.
      */
-    fields: InputFields;
+    fields = {
+        name: new InputField(),
+        description: new InputField(),
+        listed: new InputField({ value: true }),
+        latitude: new InputField(),
+        longitude: new InputField(),
+    };
 
     /**
      * Object containing the selected marker on the map.
      */
-    marker: MapMarker;
+    marker = new MapMarker(new LatLng(0, 0));
 
-    constructor() {
-        super();
-
-        this.stepper = 1;
-        this.marker = new MapMarker(new LatLng(0, 0));
-        this.fields = {
-            name: new InputField(),
-            description: new InputField(),
-            listed: new InputField({ value: true }),
-            latitude: new InputField(),
-            longitude: new InputField()
-        };
-    }
+    /**
+     * Search provider
+     */
+    searchProvider = new OpenStreetMapProvider();
 
     /**
      * Update the latitude & longitude fields when the selected marker on the map changes.
@@ -253,27 +240,62 @@ export default class LocationCreateModal extends Vue {
     /**
      * Create a new location with the given parameters.
      */
-    createLocation() {
-        LocationService.create(InputFieldUtil.getValues(this.fields))
-            .then(response => {
+    async createLocation() {
+        this.loading = true;
+
+        let address = "";
+        let country = "";
+
+        // Find the country & address for a given coordinate.
+        try {
+            const results: Array<any> = await this.searchProvider.search({
+                query: `${this.fields.latitude.value} ${this.fields.longitude.value}`,
+            });
+
+            if (results.length > 0) {
+                const displayName = results[0]["raw"]["display_name"];
+
+                address = displayName;
+                country = displayName.substr(displayName.lastIndexOf(", ") + 2);
+            }
+        } catch (err) {
+            const error = {
+                message: "Unable to connect to Open Street Maps.",
+                stack: err,
+            } as EchoError;
+
+            ErrorHandler.handle(error, {
+                id: "locationCreateAddress",
+                style: "SNACKBAR",
+            });
+        }
+
+        const body = {
+            ...InputFieldUtil.getValues(this.fields),
+            address,
+            country,
+        };
+
+        LocationService.create(body)
+            .then((response) => {
                 this.$store.dispatch("snackbar/open", {
                     message: "Location was successfully created",
-                    color: "success"
+                    color: "success",
                 });
 
                 // Close the modal.
                 this.$store.dispatch("modal/close");
 
                 // Go to the route of the created location.
-                this.$router.push(`/locations/${response}`);
+                this.$router.push(`/locations/${response.secretId}`);
             })
-            .catch(error => {
+            .catch((error) => {
                 // Handle field errors.
                 ErrorHandler.handle(
                     error,
                     {
                         style: "SNACKBAR",
-                        id: "locationCreate"
+                        id: "locationCreate",
                     },
                     this.fields
                 );
@@ -283,7 +305,8 @@ export default class LocationCreateModal extends Vue {
                 if (this.fields.name.error || this.fields.description.error) {
                     this.stepper = 1;
                 }
-            });
+            })
+            .finally(() => (this.loading = false));
     }
 }
 </script>

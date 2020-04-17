@@ -36,7 +36,10 @@
 
                     <template v-else-if="currentUser.isSuccess()">
                         <!-- Confirm visit -->
-                        <visit-confirm />
+                        <visit-confirm
+                            :visit-secret="visitSecret"
+                            :location="location.requireData()"
+                        />
                     </template>
                 </v-card>
             </v-col>
@@ -55,7 +58,7 @@ import { RequestHandler } from "@/api/RequestHandler";
 import LocationService from "@/api/services/LocationService";
 
 @Component({
-    components: { VisitConfirm, VisitAuth }
+    components: { VisitConfirm, VisitAuth },
 })
 export default class VisitLocationView extends Vue {
     /**
@@ -75,11 +78,11 @@ export default class VisitLocationView extends Vue {
      * Location for the corresponding visit code.
      */
     location = RequestHandler.handle(
-        LocationService.get("5adeed3a-a905-4920-b8f6-8dae16a18432"),
+        LocationService.getLocationByVisitSecret(this.visitSecret),
         {
             id: "locationsVisit",
             style: "CARD",
-            displayFullpage: true
+            displayFullpage: true,
         }
     );
 }

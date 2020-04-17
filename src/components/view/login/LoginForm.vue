@@ -78,7 +78,7 @@ export default class Form extends Vue {
 
         this.fields = {
             email: new InputField(),
-            password: new InputField()
+            password: new InputField(),
         };
     }
 
@@ -89,21 +89,21 @@ export default class Form extends Vue {
         // Set loading.
         this._loading = true;
 
-        CaptchaUtil.execute("login").then(token => {
+        CaptchaUtil.execute("login").then((token) => {
             // Execute the login request.
             AuthService.login(
                 Object.assign(InputFieldUtil.getValues(this.fields), {
-                    captcha: token
+                    captcha: token,
                 })
             )
-                .then(data => {
+                .then((data) => {
                     // Finish loading
                     this._loading = false;
 
                     // Send confirmation message.
                     this.$store.dispatch("snackbar/open", {
                         message: "Successfully logged in",
-                        color: "success"
+                        color: "success",
                     });
 
                     this.$emit("loginSuccessAction");
@@ -111,7 +111,7 @@ export default class Form extends Vue {
                     // Update the current user inside the store.
                     this.$store.dispatch("session/fetch");
                 })
-                .catch(error => {
+                .catch((error) => {
                     // Finish loading
                     this._loading = false;
 
@@ -119,7 +119,7 @@ export default class Form extends Vue {
                         error,
                         {
                             id: "login",
-                            style: "SNACKBAR"
+                            style: "SNACKBAR",
                         },
                         this.fields
                     );

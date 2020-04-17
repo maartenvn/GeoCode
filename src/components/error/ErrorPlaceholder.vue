@@ -93,7 +93,7 @@ export default class ErrorHandlerComponent extends Vue {
                             error,
                             options
                         ),
-                        options
+                        options,
                     };
 
                     this.renderError = true;

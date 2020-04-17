@@ -20,8 +20,8 @@ import MarkerMap from "@/components/map/MarkerMap.vue";
 
 @Component({
     components: {
-        MarkerMap
-    }
+        MarkerMap,
+    },
 })
 export default class LocationSetMap extends Vue {
     /**
@@ -55,12 +55,22 @@ export default class LocationSetMap extends Vue {
     marker: MapMarker;
 
     /**
+     * If the map is disabled.
+     */
+    @Prop({ default: false })
+    disabled: boolean;
+
+    /**
      * When the user clicks on the map:
      * Update the selected marker on the map.
      * @param event Map click event.
      * @param map Map object.
      */
     onMapClick(event: LeafletMouseEvent, map: Map): void {
+        if (this.disabled) {
+            return;
+        }
+
         // Update the marker.
         this.marker.setLatLng(event.latlng);
 
@@ -74,6 +84,10 @@ export default class LocationSetMap extends Vue {
      * @param map Map object.
      */
     onSearchClick(result: any, map: Map) {
+        if (this.disabled) {
+            return;
+        }
+
         const latLng = new LatLng(result.y, result.x);
 
         // Update the marker.

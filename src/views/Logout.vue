@@ -35,7 +35,7 @@ import AuthService from "@/api/services/AuthService";
 export default class Logout extends Vue {
     created() {
         // Attempt to logout the current user.
-        AuthService.handleLogout();
+        AuthService.handleLogout(true);
     }
 }
 </script>

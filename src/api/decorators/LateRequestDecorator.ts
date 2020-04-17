@@ -38,7 +38,9 @@ export function LateRequest<T>(
              */
             function watchHandler<T>(this: Vue, value: EchoPromise<T>) {
                 if (value.isSuccess()) {
-                    const pathValue = (value.requireData() as any)[path];
+                    const pathValue = path
+                        .split(".")
+                        .reduce((o, i) => o[i], value.requireData() as any);
 
                     // Set the value of the given path.
                     (this as any)[key] = RequestHandler.handle(
@@ -52,7 +54,16 @@ export function LateRequest<T>(
             watch[origin].push({
                 handler: watchHandler,
                 deep: true,
-                immediate: false
+                immediate: false,
+            });
+
+            // Add an initial "null"-value to the data list.
+            options.mixins?.push({
+                data(this: Vue) {
+                    return {
+                        [key]: null,
+                    };
+                },
             });
         }
     );

@@ -9,7 +9,7 @@ delete (Icon.Default.prototype as any)._getIconUrl;
 Icon.Default.mergeOptions({
     iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
     iconUrl: require("leaflet/dist/images/marker-icon.png"),
-    shadowUrl: require("leaflet/dist/images/marker-shadow.png")
+    shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
 
 Map.addInitHook("addHandler", "gestureHandling", GestureHandling);
