@@ -28,6 +28,11 @@
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
 
+            <l-control-attribution
+                position="bottomleft"
+                prefix="&copy; <a href='https://openstreetmap.org/copyright'>OpenStreetMap contributors</a>"
+            />
+
             <!-- Marker -->
             <l-marker
                 v-for="(marker, index) of markers"
@@ -47,7 +52,13 @@
 
 <script lang="ts">
 import { Component, Emit, Prop, Vue, Watch } from "vue-property-decorator";
-import { LMap, LMarker, LPopup, LTileLayer } from "vue2-leaflet";
+import {
+    LMap,
+    LMarker,
+    LPopup,
+    LTileLayer,
+    LControlAttribution,
+} from "vue2-leaflet";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import { LeafletMouseEvent, Map, MapOptions } from "leaflet";
 import { MapMarker } from "@/types/map/MapMarker";
@@ -58,6 +69,7 @@ import { MapMarker } from "@/types/map/MapMarker";
         LTileLayer,
         LMarker,
         LPopup,
+        LControlAttribution,
     },
 })
 export default class MarkerMap extends Vue {
