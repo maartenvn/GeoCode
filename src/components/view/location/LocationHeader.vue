@@ -143,7 +143,7 @@ export default class LocationHeader extends Vue {
                         const file = fields.image.value as File;
                         const formData = new FormData();
 
-                        formData.append("file", file);
+                        formData.append("image", file);
 
                         try {
                             imageId = await ReportService.uploadImage(formData);
