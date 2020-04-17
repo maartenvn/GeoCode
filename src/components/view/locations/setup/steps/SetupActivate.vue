@@ -85,6 +85,11 @@ export default class SetupActivate extends Vue {
     secretId: string;
 
     /**
+     * If the confirm visit request is loading.
+     */
+    loading = false;
+
+    /**
      * Open a model to confirm the activation of a location.
      */
     openConfirmActivate() {
@@ -101,9 +106,11 @@ export default class SetupActivate extends Vue {
                         <strong>your account will be suspended.</strong>
                      </div>
                     `,
-                action: () => {
+                action: (instance: Vue) => {
+                    instance.$set(instance, "loading", true);
+
                     LocationService.update(this.secretId, { active: true })
-                        .then((_) => {
+                        .then(() => {
                             // Close the modal.
                             this.$store.dispatch("modal/close");
 
@@ -120,16 +127,11 @@ export default class SetupActivate extends Vue {
                             ErrorHandler.handle(error, {
                                 id: "locationActivate",
                                 style: "SNACKBAR",
-                                customMessages: [
-                                    {
-                                        code: "400",
-                                        message:
-                                            "Unable to active location. Try again later!",
-                                        description: "Something went wrong!",
-                                    },
-                                ],
                             });
-                        });
+                        })
+                        .finally(() =>
+                            instance.$set(instance, "loading", true)
+                        );
                 },
             },
         });

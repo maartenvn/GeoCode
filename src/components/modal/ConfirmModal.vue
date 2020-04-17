@@ -43,7 +43,10 @@ export default class ConfirmModal extends Vue {
      * Payload, passed when opening the modal.
      */
     @Prop()
-    payload: { message: string; action: Function };
+    payload: {
+        message: string;
+        action: (instance: Vue) => void;
+    };
 
     /**
      * If the confirm model is loading.
@@ -61,11 +64,7 @@ export default class ConfirmModal extends Vue {
      * Execute the confirm action.
      */
     async confirm() {
-        this.loading = true;
-
-        await this.payload.action();
-
-        this.loading = false;
+        this.payload.action(this);
     }
 }
 </script>
