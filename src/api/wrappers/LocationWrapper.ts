@@ -1,5 +1,5 @@
 export class LocationIdWrapper {
-    id: number;
+    secretId: string;
 }
 
 export class LocationCreateWrapper {

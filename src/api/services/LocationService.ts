@@ -72,8 +72,10 @@ class LocationService extends EchoService {
      * @param locationCreate Location parameters for the new location.
      */
     @POST("/locations")
-    create(@Body() body: LocationCreateWrapper): EchoPromise<string> {
-        return {} as EchoPromise<string>;
+    create(
+        @Body() body: LocationCreateWrapper
+    ): EchoPromise<LocationIdWrapper> {
+        return {} as EchoPromise<LocationIdWrapper>;
     }
 
     /**

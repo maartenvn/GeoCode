@@ -63,7 +63,7 @@ export default class ConfirmModal extends Vue {
     /**
      * Execute the confirm action.
      */
-    async confirm() {
+    confirm() {
         this.payload.action(this);
     }
 }

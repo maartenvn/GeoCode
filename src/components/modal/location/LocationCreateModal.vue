@@ -153,8 +153,8 @@ import { EchoError } from "echofetch";
 @Component({
     components: {
         Editor,
-        LocationSetMap
-    }
+        LocationSetMap,
+    },
 })
 export default class LocationCreateModal extends Vue {
     /**
@@ -175,7 +175,7 @@ export default class LocationCreateModal extends Vue {
         description: new InputField(),
         listed: new InputField({ value: true }),
         latitude: new InputField(),
-        longitude: new InputField()
+        longitude: new InputField(),
     };
 
     /**
@@ -249,7 +249,7 @@ export default class LocationCreateModal extends Vue {
         // Find the country & address for a given coordinate.
         try {
             const results: Array<any> = await this.searchProvider.search({
-                query: `${this.fields.latitude.value} ${this.fields.longitude.value}`
+                query: `${this.fields.latitude.value} ${this.fields.longitude.value}`,
             });
 
             if (results.length > 0) {
@@ -261,41 +261,41 @@ export default class LocationCreateModal extends Vue {
         } catch (err) {
             const error = {
                 message: "Unable to connect to Open Street Maps.",
-                stack: err
+                stack: err,
             } as EchoError;
 
             ErrorHandler.handle(error, {
                 id: "locationCreateAddress",
-                style: "SNACKBAR"
+                style: "SNACKBAR",
             });
         }
 
         const body = {
             ...InputFieldUtil.getValues(this.fields),
             address,
-            country
+            country,
         };
 
         LocationService.create(body)
-            .then(response => {
+            .then((response) => {
                 this.$store.dispatch("snackbar/open", {
                     message: "Location was successfully created",
-                    color: "success"
+                    color: "success",
                 });
 
                 // Close the modal.
                 this.$store.dispatch("modal/close");
 
                 // Go to the route of the created location.
-                this.$router.push(`/locations/${response}`);
+                this.$router.push(`/locations/${response.secretId}`);
             })
-            .catch(error => {
+            .catch((error) => {
                 // Handle field errors.
                 ErrorHandler.handle(
                     error,
                     {
                         style: "SNACKBAR",
-                        id: "locationCreate"
+                        id: "locationCreate",
                     },
                     this.fields
                 );
