@@ -23,6 +23,18 @@
                     />
                 </template>
 
+                <template v-slot:item.action="{ item }">
+                    <!-- View -->
+                    <v-btn
+                        :to="`/locations/${item.secretId}`"
+                        color="primary"
+                        text
+                    >
+                        View
+                        <v-icon right>mdi-arrow-right</v-icon>
+                    </v-btn>
+                </template>
+
                 <template v-slot:no-data>
                     You have not visited any locations yet.
                 </template>
@@ -58,11 +70,15 @@ export default class ProfileVisits extends Vue {
      */
     tableHeaders = [
         {
-            text: "Name",
-            value: "name",
+            text: "Location",
+            value: "location.name",
         },
         {
-            text: "# visits",
+            text: "Country",
+            value: "location.country",
+        },
+        {
+            text: "Amount of visits",
             value: "amount",
         },
         {
@@ -92,11 +108,11 @@ export default class ProfileVisits extends Vue {
                     accumulator[value.location.secretId].push(value);
 
                     return accumulator;
-                });
+                }, {});
 
             return Object.keys(visitsByLocation).map((secretId: any) => {
                 return {
-                    location: visitsByLocation[secretId] as Location,
+                    location: visitsByLocation[secretId][0].location,
                     amount: visitsByLocation[secretId].length,
                 };
             });

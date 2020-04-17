@@ -1,11 +1,13 @@
 import {
     Body,
+    DELETE,
     EchoPromise,
     EchoService,
     EchoServiceBuilder,
     GET,
     PATCH,
     Path,
+    POST,
 } from "echofetch";
 import config from "@/config";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
@@ -51,7 +53,7 @@ class CommentService extends EchoService {
      * Delete a comment.
      * @param id Id of the comment.
      */
-    @PATCH("/comments/{id}")
+    @DELETE("/comments/{id}")
     delete(@Path("id") id: number): EchoPromise<void> {
         return {} as EchoPromise<void>;
     }
@@ -61,7 +63,7 @@ class CommentService extends EchoService {
      * @param secretId Secret id of the location.
      * @param body
      */
-    @GET("/locations/{secretId}/comments")
+    @POST("/locations/{secretId}/comments")
     create(
         @Path("secretId") secretId: string,
         @Body() body: CommentCreateWrapper
