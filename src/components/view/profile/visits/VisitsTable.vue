@@ -26,7 +26,7 @@
                 <template v-slot:item.action="{ item }">
                     <!-- View -->
                     <v-btn
-                        :to="`/locations/${item.secretId}`"
+                        :to="`/locations/${item.location.secretId}`"
                         color="primary"
                         text
                     >
