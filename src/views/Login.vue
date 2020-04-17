@@ -20,12 +20,6 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import AuthService from "@/api/services/AuthService";
-import { InputFields } from "@/types/fields/InputFields";
-import { InputField } from "@/types/fields/InputField";
-import { CaptchaUtil } from "@/util/CaptchaUtil";
-import { InputFieldUtil } from "@/util/InputFieldUtil";
-import { ErrorHandler } from "@/api/error/ErrorHandler";
 import LoginForm from "@/components/view/login/LoginForm.vue";
 
 @Component({

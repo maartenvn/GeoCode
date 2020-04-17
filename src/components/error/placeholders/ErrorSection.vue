@@ -1,10 +1,8 @@
 <template>
     <div
-        :class="
-            `error-section ${
-                payload.options.displayFullpage ? 'text-center' : ''
-            }`
-        "
+        :class="`error-section ${
+            payload.options.displayFullpage ? 'text-center' : ''
+        }`"
     >
         <!-- Image (only if fullscreen) -->
         <div
