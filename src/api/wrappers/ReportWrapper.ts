@@ -1,5 +1,5 @@
 export class ReportCreateWrapper {
     reason?: string;
     message?: string;
-    imageUrl?: string;
+    imageId?: string;
 }

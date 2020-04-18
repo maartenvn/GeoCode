@@ -5,7 +5,7 @@ export default class Report {
     id: number;
     message: string;
     reason: string;
-    imageUrl: string;
+    imageId: string;
     creator: UserIdWrapper;
     location: LocationIdWrapper;
 }
