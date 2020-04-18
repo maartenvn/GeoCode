@@ -1,11 +1,13 @@
 <template>
     <v-container class="container--small">
         <!-- Loading -->
-        <template v-if="currentUser.isLoading()"> </template>
+        <template v-if="currentUser.isLoading()">
+            <v-skeleton-loader type="article" style="margin-left: 175px;" />
+        </template>
 
         <!-- Data -->
         <template v-else-if="currentUser.isSuccess()">
-            <v-tabs vertical c>
+            <v-tabs :vertical="$vuetify.breakpoint.mdAndUp" show-arrows>
                 <v-tab class="justify-start">
                     <v-icon left>mdi-account</v-icon>
                     Account settings
@@ -16,7 +18,7 @@
                     Password
                 </v-tab>
 
-                <v-tab-item class="profile__content">
+                <v-tab-item class="ml-md-4">
                     <profile-account
                         :current-user="currentUser.requireData()"
                     />
@@ -45,11 +47,3 @@ export default class Profile extends Vue {
     currentUser: EchoPromise<User>;
 }
 </script>
-
-<style lang="scss">
-.profile {
-    &__content {
-        margin-left: 25px;
-    }
-}
-</style>
