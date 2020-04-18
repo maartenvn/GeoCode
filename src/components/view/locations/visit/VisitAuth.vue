@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import LoginForm from "@/components/view/login/LoginForm.vue";
 import RegisterForm from "@/components/view/register/RegisterForm.vue";
 

@@ -5,7 +5,6 @@ import {
     EchoServiceBuilder,
     FormField,
     FormMultipart,
-    Headers,
     Path,
     POST,
 } from "echofetch";

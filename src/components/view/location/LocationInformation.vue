@@ -104,7 +104,6 @@ import Location from "@/api/models/Location";
 import LocationMap from "@/components/map/location/LocationMap.vue";
 import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 import User from "@/api/models/User";
-import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 
 @Component({
     components: {

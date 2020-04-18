@@ -54,10 +54,6 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { InputField } from "@/types/fields/InputField";
-import RatingService from "@/api/services/RatingService";
-import { InputFieldUtil } from "@/util/InputFieldUtil";
-import { ErrorHandler } from "@/api/error/ErrorHandler";
-import Rating from "@/api/models/Rating";
 import { InputFields } from "@/types/fields/InputFields";
 import Comment from "@/api/models/Comment";
 

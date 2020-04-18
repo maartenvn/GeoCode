@@ -1,7 +1,6 @@
 import Vue from "vue";
-import { EchoError, EchoPromise } from "echofetch";
+import { EchoPromise } from "echofetch";
 import { CustomErrorOptions } from "@/api/error/types/CustomErrorOptions";
-import { ErrorHandler } from "@/api/error/ErrorHandler";
 import { createDecorator, VueDecorator } from "vue-class-component";
 import { ComponentOptions } from "vue/types/umd";
 import { RequestHandler } from "@/api/RequestHandler";

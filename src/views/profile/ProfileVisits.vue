@@ -46,9 +46,6 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
-import { EchoPromise } from "echofetch";
-import User from "@/api/models/User";
 import StatisticsCard from "@/components/statistics/StatisticsCard.vue";
 import UserService from "@/api/services/UserService";
 import LocationsTable from "@/components/view/locations/LocationsTable.vue";

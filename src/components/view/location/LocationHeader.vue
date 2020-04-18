@@ -70,7 +70,6 @@ import { ErrorHandler } from "@/api/error/ErrorHandler";
 import User from "@/api/models/User";
 import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 import { InputFields } from "@/types/fields/InputFields";
-import CommentService from "@/api/services/CommentService";
 import { InputFieldUtil } from "@/util/InputFieldUtil";
 import ReportService from "@/api/services/ReportService";
 
@@ -145,7 +144,6 @@ export default class LocationHeader extends Vue {
                         try {
                             imageId = await ReportService.uploadImage(file);
                         } catch (err) {
-                            console.log(err);
                             // Handle the error.
                             const error = {
                                 message: "Unable to upload image. Try again!",
