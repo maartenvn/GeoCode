@@ -115,7 +115,7 @@
 
                 <statistics-card
                     title="Different countries"
-                    :value="statistics.data.locationCountriesCount"
+                    :value="statistics.data.countriesCount"
                     :flat="true"
                 />
 
