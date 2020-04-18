@@ -3,9 +3,12 @@ import {
     EchoPromise,
     EchoService,
     EchoServiceBuilder,
+    FormField,
+    FormMultipart,
     GET,
     PATCH,
     Path,
+    POST,
 } from "echofetch";
 import User from "../models/User";
 import Location from "../models/Location";
@@ -65,6 +68,16 @@ class UserService extends EchoService {
     @PATCH("/user")
     update(@Body() body: InputFields): EchoPromise<string> {
         return {} as EchoPromise<string>;
+    }
+
+    /**
+     * Upload an image for the avatar.
+     * @param image
+     */
+    @FormMultipart()
+    @POST("/user/avatar")
+    updateAvatar(@FormField("image") image: File): EchoPromise<number> {
+        return {} as EchoPromise<number>;
     }
 }
 

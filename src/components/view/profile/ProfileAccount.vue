@@ -7,69 +7,87 @@
             </div>
 
             <v-card outlined>
-                <v-card-text>
-                    <v-row justify="space-between" align="center" no-gutters>
-                        <v-col cols="auto">
-                            <div>
-                                <strong>USERNAME</strong>
-
-                                <p>
-                                    {{ currentUser.username }}
-                                </p>
-                            </div>
-
-                            <div>
-                                <strong>EMAIL</strong>
-
-                                <p>
-                                    {{ currentUser.email }}
-                                </p>
-                            </div>
-                        </v-col>
-
-                        <v-col cols="auto">
+                <v-form @submit.prevent>
+                    <v-card-text>
+                        <v-row no-gutters>
+                            <!-- Avatar -->
                             <profile-account-avatar
                                 :current-user="currentUser"
+                                :editing="editing"
+                                :avatar-field.sync="fields.avatar"
                             />
-                        </v-col>
-                    </v-row>
-                </v-card-text>
-            </v-card>
-        </v-col>
 
-        <!-- Update account -->
-        <v-col cols="12">
-            <div class="section__title">
-                Change account details
-            </div>
+                            <!-- Data -->
+                            <v-col>
+                                <!-- Username -->
+                                <div>
+                                    <v-text-field
+                                        v-if="editing"
+                                        v-model="fields.username.value"
+                                        :rules="fields.username.rules"
+                                        :error-messages="fields.username.error"
+                                        label="Name"
+                                        placeholder="Your display name"
+                                        :disabled="loading"
+                                        outlined
+                                        required
+                                    />
 
-            <v-form class="section__content" @submit.prevent>
-                <!-- Username -->
-                <v-text-field
-                    v-model="fields.username.value"
-                    :rules="fields.username.rules"
-                    :error-messages="fields.username.error"
-                    label="Name"
-                    placeholder="Your display name"
-                    :disabled="loading"
-                    outlined
-                    required
-                />
+                                    <template v-else>
+                                        <strong>USERNAME</strong>
 
-                <!-- Email -->
-                <v-text-field
-                    v-model="fields.email.value"
-                    :rules="fields.email.rules"
-                    :error-messages="fields.email.error"
-                    label="Email"
-                    placeholder="Your email address"
-                    :disabled="loading"
-                    outlined
-                    required
-                />
+                                        <p>
+                                            {{ currentUser.username }}
+                                        </p>
+                                    </template>
+                                </div>
 
-                <v-row justify="end">
-                    <v-col cols="auto">
+                                <!-- Email -->
+                                <div>
+                                    <v-text-field
+                                        v-if="editing"
+                                        v-model="fields.email.value"
+                                        :rules="fields.email.rules"
+                                        :error-messages="fields.email.error"
+                                        label="Email"
+                                        placeholder="Your email address"
+                                        :disabled="loading"
+                                        outlined
+                                        required
+                                    />
+
+                                    <template v-else>
+                                        <strong>EMAIL</strong>
+
+                                        <p>
+                                            {{ currentUser.email }}
+                                        </p>
+                                    </template>
+                                </div>
+                            </v-col>
+
+                            <template v-if="!editing">
+                                <v-spacer />
+
+                                <!-- Edit button -->
+                                <v-btn
+                                    color="primary"
+                                    depressed
+                                    @click="editing = true"
+                                >
+                                    Edit account
+                                </v-btn>
+                            </template>
+                        </v-row>
+                    </v-card-text>
+
+                    <v-card-actions v-if="editing">
+                        <v-spacer />
+
+                        <v-btn color="error" text @click="cancelEdit">
+                            Cancel
+                        </v-btn>
+
                         <v-btn
                             @click="updateProfile"
                             type="submit"
@@ -80,9 +98,9 @@
                         >
                             Save changes
                         </v-btn>
-                    </v-col>
-                </v-row>
-            </v-form>
+                    </v-card-actions>
+                </v-form>
+            </v-card>
         </v-col>
     </v-row>
 </template>
@@ -95,6 +113,7 @@ import { ErrorHandler } from "@/api/error/ErrorHandler";
 import User from "@/api/models/User";
 import UserService from "@/api/services/UserService";
 import ProfileAccountAvatar from "@/components/view/profile/ProfileAccountAvatar.vue";
+import { EchoError } from "echofetch";
 
 @Component({
     components: { ProfileAccountAvatar },
@@ -112,6 +131,7 @@ export default class ProfileAccount extends Vue {
     fields = {
         username: new InputField({ value: this.currentUser.username }),
         email: new InputField({ value: this.currentUser.email }),
+        avatar: new InputField({ value: null }),
     };
 
     /**
@@ -120,10 +140,50 @@ export default class ProfileAccount extends Vue {
     loading = false;
 
     /**
+     * If editing is enabled for the profile.
+     */
+    editing = false;
+
+    /**
+     * Cancel the changes of the profile.
+     */
+    cancelEdit() {
+        // Reset the fields
+        this.fields.username.value = this.currentUser.username;
+        this.fields.email.value = this.currentUser.email;
+
+        // Disable editing
+        this.editing = false;
+    }
+
+    /**
      * Update the profile settings that have changed on the page.
      */
-    updateProfile() {
+    async updateProfile() {
         this.loading = true;
+
+        // Upload the avatar image, when present.
+        if (this.fields.avatar.value) {
+            const file = this.fields.avatar.value as File;
+
+            try {
+                await UserService.updateAvatar(file);
+            } catch (err) {
+                // Handle the error.
+                const error = {
+                    message: "Unable to upload image. Try again!",
+                } as EchoError;
+
+                ErrorHandler.handle(error, {
+                    id: "reportUploadImage",
+                    style: "SNACKBAR",
+                });
+
+                this.loading = false;
+
+                return;
+            }
+        }
 
         UserService.update(InputFieldUtil.getValues(this.fields))
             .then((_) => {

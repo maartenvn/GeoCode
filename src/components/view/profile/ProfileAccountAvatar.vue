@@ -1,10 +1,10 @@
 <template>
-    <v-hover>
+    <v-hover class="avatar">
         <template v-slot:default="{ hover }">
-            <v-avatar color="primary" size="100">
+            <v-avatar color="primary" size="100" @click="openChangeAvatar">
                 <img
-                    v-if="currentUser.avatarUrl"
-                    :src="currentUser.avatarUrl"
+                    v-if="avatarUrlChangeable"
+                    :src="avatarUrlChangeable"
                     :alt="currentUser.username"
                 />
 
@@ -12,8 +12,22 @@
                     {{ currentUser.username.toUpperCase().charAt(0) }}
                 </span>
 
-                <v-fade-transition>
-                    <v-overlay v-if="hover" absolute color="#036358">
+                <!-- Hidden input for file -->
+                <input
+                    ref="avatarImage"
+                    type="file"
+                    accept="image/*"
+                    class="d-none"
+                    @change="changeAvatar"
+                />
+
+                <v-fade-transition v-if="editing && !loading">
+                    <v-overlay
+                        v-if="hover"
+                        class="avatar__hover"
+                        absolute
+                        color="#036358"
+                    >
                         CHANGE AVATAR
                     </v-overlay>
                 </v-fade-transition>
@@ -23,12 +37,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, PropSync, Vue } from "vue-property-decorator";
 import { InputField } from "@/types/fields/InputField";
 import User from "@/api/models/User";
-import UserService from "@/api/services/UserService";
-import { InputFieldUtil } from "@/util/InputFieldUtil";
-import { ErrorHandler } from "@/api/error/ErrorHandler";
 
 @Component
 export default class ProfileAccountAvatar extends Vue {
@@ -41,37 +52,57 @@ export default class ProfileAccountAvatar extends Vue {
     /**
      * If the profile update request is loading.
      */
-    loading = false;
+    @Prop({ default: false })
+    loading: boolean;
 
     /**
-     * Update the profile settings that have changed on the page.
+     * If editing is enabled.
      */
-    updateProfile() {
-        this.loading = true;
+    @Prop({ default: false })
+    editing: boolean;
 
-        UserService.update(InputFieldUtil.getValues(this.fields))
-            .then((_) => {
-                // Send confirmation message.
-                this.$store.dispatch("snackbar/open", {
-                    message: "Successfully updated profile",
-                    color: "success",
-                });
+    /**
+     * Field containing the avatar.
+     */
+    @PropSync("avatarField", { default: () => new InputField({ value: null }) })
+    _avatarField: InputField;
 
-                // Refetch the profile information.
-                this.$store.dispatch("session/fetch");
-            })
-            .catch((error) => {
-                // Handle field errors.
-                ErrorHandler.handle(
-                    error,
-                    {
-                        style: "SNACKBAR",
-                        id: "profileUpdate",
-                    },
-                    this.fields
-                );
-            })
-            .catch(() => (this.loading = false));
+    /**
+     * Avatar URL for the current user;
+     */
+    avatarUrlChangeable = this.currentUser.avatarUrl;
+    /**
+     * Open the image selection menu.
+     */
+    openChangeAvatar() {
+        if (this.editing) {
+            const element = this.$refs.avatarImage as HTMLElement;
+            element.click();
+        }
+    }
+
+    /**
+     * Update the local avatar URL as an example.
+     */
+    changeAvatar(event: Event) {
+        const target = event.target as HTMLInputElement;
+
+        if (target && target.files && target.files.length == 1) {
+            const file = target.files[0];
+
+            this._avatarField.value = file;
+            this.avatarUrlChangeable = URL.createObjectURL(file);
+        }
     }
 }
 </script>
+
+<style lang="scss">
+.avatar {
+    margin-right: 20px;
+
+    &__hover {
+        cursor: pointer;
+    }
+}
+</style>
