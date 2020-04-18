@@ -1,13 +1,17 @@
 <template>
-    <div class="editor">
+    <div>
         <div class="editor__title">{{ title }}</div>
 
-        <v-textarea v-model="content" :disabled="disabled" outlined />
+        <div class="editor">
+            <div ref="editor"></div>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import { exec, init } from "pell";
+import "pell/dist/pell.css";
 
 @Component
 export default class BasicEditor extends Vue {
@@ -29,6 +33,52 @@ export default class BasicEditor extends Vue {
     @Prop({ default: false })
     disabled: boolean;
 
+    mounted() {
+        // Initialize pell on an HTMLElement
+        init({
+            // <HTMLElement>, required
+            element: this.$refs.editor as HTMLElement,
+
+            // <Function>, required
+            // Use the output html, triggered by element's `oninput` event
+            onChange: (html) => this.$emit("input", html),
+
+            // <Array[string | Object]>, string if overwriting, object if customizing/creating
+            // action.name<string> (only required if overwriting)
+            // action.icon<string> (optional if overwriting, required if custom action)
+            // action.title<string> (optional)
+            // action.result<Function> (required)
+            // Specify the actions you specifically want (in order)
+            actions: [
+                {
+                    icon: "↶",
+                    title: "Undo",
+                    result: () => exec("undo"),
+                },
+                {
+                    icon: "↷",
+                    title: "redo",
+                    result: () => exec("redo"),
+                },
+                "bold",
+                "underline",
+                "italic",
+                "heading1",
+                "heading2",
+            ],
+
+            // classes<Array[string]> (optional)
+            // Choose your custom class names
+            classes: {
+                actionbar: "pell-actionbar editor__actionbar",
+                button:
+                    "pell-button editor__button v-btn v-btn--icon v-btn--round",
+                content: "pell-content",
+                selected: "v-btn--active",
+            },
+        });
+    }
+
     /**
      * Get the content that has been passed as prop.
      */
@@ -47,13 +97,20 @@ export default class BasicEditor extends Vue {
 </script>
 
 <style lang="scss">
-.editor .v-card {
-    box-shadow: none;
-    border: 1px solid rgba(0, 0, 0, 0.38);
-}
-
 .editor {
-    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.38);
+    border-radius: 5px;
+
+    &__actionbar {
+        border-radius: 5px;
+        padding: 5px;
+        border: none;
+        background-color: #f5f5f5 !important;
+    }
+
+    &__button {
+        margin-right: 5px;
+    }
 
     &__title {
         color: rgba(0, 0, 0, 0.6);
