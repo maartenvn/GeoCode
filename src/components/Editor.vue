@@ -34,10 +34,12 @@ export default class BasicEditor extends Vue {
     disabled: boolean;
 
     mounted() {
+        const editor = this.$refs.editor as HTMLElement;
+
         // Initialize pell on an HTMLElement
         init({
             // <HTMLElement>, required
-            element: this.$refs.editor as HTMLElement,
+            element: editor,
 
             // <Function>, required
             // Use the output html, triggered by element's `oninput` event
@@ -77,6 +79,9 @@ export default class BasicEditor extends Vue {
                 selected: "v-btn--active",
             },
         });
+
+        // Set the initial value of the editor.
+        (editor as any).content.innerHTML = this.value;
     }
 
     /**

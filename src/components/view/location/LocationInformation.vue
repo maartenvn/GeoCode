@@ -13,10 +13,18 @@
                         Overview
                     </div>
 
-                    <div
-                        class="section__content text--secondary"
-                        v-html="location.data.description"
-                    ></div>
+                    <!-- Editor -->
+                    <inline-edit
+                        v-model="location.data.description"
+                        :update="updateLocationName"
+                        :enabled="isOwner"
+                        :is-editor="true"
+                    >
+                        <div
+                            class="section__content text--secondary"
+                            v-html="location.data.description"
+                        />
+                    </inline-edit>
                 </v-col>
 
                 <v-divider class="ml-10" vertical />
@@ -105,11 +113,14 @@ import LocationMap from "@/components/map/location/LocationMap.vue";
 import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 import User from "@/api/models/User";
 import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
+import LocationService from "@/api/services/LocationService";
+import InlineEdit from "@/components/util/InlineEdit.vue";
 
 @Component({
     components: {
         ErrorPlaceholder,
         LocationMap,
+        InlineEdit,
     },
 })
 export default class LocationInformation extends Vue {
@@ -126,6 +137,12 @@ export default class LocationInformation extends Vue {
     creator: EchoPromise<User>;
 
     /**
+     * Current user
+     */
+    @StoreGetter("session/currentUser")
+    currentUser: EchoPromise<User>;
+
+    /**
      * Get the latitude value in DMS.
      */
     get latitudeDMS(): string {
@@ -137,6 +154,29 @@ export default class LocationInformation extends Vue {
      */
     get longitudeDMS(): string {
         return CoordinatesUtil.lngToDMS(this.location.requireData().longitude);
+    }
+
+    /**
+     * Get if the current user is the owner of the location.
+     */
+    get isOwner() {
+        return (
+            this.creator &&
+            this.currentUser &&
+            this.creator.isSuccess() &&
+            this.currentUser.isSuccess() &&
+            this.creator.requireData().id === this.currentUser.requireData().id
+        );
+    }
+
+    /**
+     * Update the location description.
+     * @param value Value of the location description.
+     */
+    updateLocationName(value: string): EchoPromise<unknown> {
+        return LocationService.update(this.location.requireData().secretId, {
+            description: value,
+        });
     }
 }
 </script>
