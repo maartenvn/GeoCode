@@ -141,13 +141,11 @@ export default class LocationHeader extends Vue {
                     // Upload an image, when present.
                     if (fields.image.value) {
                         const file = fields.image.value as File;
-                        const formData = new FormData();
-
-                        formData.append("image", file);
 
                         try {
-                            imageId = await ReportService.uploadImage(formData);
+                            imageId = await ReportService.uploadImage(file);
                         } catch (err) {
+                            console.log(err);
                             // Handle the error.
                             const error = {
                                 message: "Unable to upload image. Try again!",

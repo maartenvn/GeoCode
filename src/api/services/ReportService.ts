@@ -3,6 +3,8 @@ import {
     EchoPromise,
     EchoService,
     EchoServiceBuilder,
+    FormField,
+    FormMultipart,
     Headers,
     Path,
     POST,
@@ -30,12 +32,10 @@ class ReportService extends EchoService {
      * @param secretId Secret id of the location.
      * @param body
      */
+    @FormMultipart()
     @POST("/reports/image")
-    @Headers({
-        "Content-Type": "multipart/form-data",
-    })
-    uploadImage(@Body() formData: FormData): EchoPromise<void> {
-        return {} as EchoPromise<void>;
+    uploadImage(@FormField("image") image: File): EchoPromise<number> {
+        return {} as EchoPromise<number>;
     }
 }
 
