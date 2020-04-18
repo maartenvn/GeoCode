@@ -14,7 +14,7 @@
                     </div>
 
                     <div
-                        class="section__content"
+                        class="section__content text--secondary"
                         v-html="location.data.description"
                     ></div>
                 </v-col>
