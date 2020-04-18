@@ -106,7 +106,7 @@
             </v-row>
 
             <!-- Data -->
-            <v-row v-else-if="statistics.isLoading()">
+            <v-row v-else-if="statistics.isSuccess()">
                 <statistics-card
                     title="Different locations"
                     :value="statistics.data.locationsCount"
