@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { RawLocation, VueRouter } from "vue-router/types/router";
+import { VueRouter } from "vue-router/types/router";
 
 export class RouterUtil {
     /**
@@ -9,8 +9,6 @@ export class RouterUtil {
 
     static reload(router: VueRouter) {
         const location = router.currentRoute.path;
-
-        console.log(router.currentRoute.path);
 
         router.replace("/");
 
