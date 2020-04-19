@@ -112,7 +112,6 @@ import UsersService from "@/api/services/UsersService";
 import User from "@/api/models/User";
 import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 import { Event } from "@/util/decorators/EventDecorator";
-import { Optional } from "@/types/Optional";
 
 @Component({
     components: { ErrorPlaceholder },
@@ -156,7 +155,7 @@ export default class LocationRatingCard extends Vue {
     /**
      * Updating is done in a watcher to handle potential lazy loading.
      */
-    @Watch("loading", { immediate: true })
+    @Watch("rating", { immediate: true })
     onLoadingChange() {
         if (!this.loading) {
             this.creator = RequestHandler.handle(

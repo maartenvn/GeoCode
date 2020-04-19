@@ -145,7 +145,7 @@ export default class LocationCommentCard extends Vue {
     /**
      * Updating is done in a watcher to handle potential lazy loading.
      */
-    @Watch("loading", { immediate: true })
+    @Watch("comment", { immediate: true })
     onLoadingChange() {
         if (!this.loading) {
             this.creator = RequestHandler.handle(
