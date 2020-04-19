@@ -19,9 +19,25 @@
             </p>
 
             <div class="setup__print__buttons">
-                <v-btn color="primary" depressed block>A4</v-btn>
-                <v-btn color="primary" depressed block>A5</v-btn>
-                <v-btn color="primary" depressed block>QR-code only</v-btn>
+                <v-btn
+                    :href="pdfUrl"
+                    color="primary"
+                    depressed
+                    block
+                    target="_blank"
+                >
+                    QR-code PDF
+                </v-btn>
+
+                <v-btn
+                    :href="imageUrl"
+                    color="primary"
+                    depressed
+                    block
+                    target="_blank"
+                >
+                    QR-code Image
+                </v-btn>
             </div>
 
             <v-card-actions>
@@ -49,6 +65,7 @@
 
 <script lang="ts">
 import { Component, Prop, PropSync, Vue } from "vue-property-decorator";
+import { QRUtil } from "@/util/QRUtil";
 
 @Component
 export default class SetupPrint extends Vue {
@@ -63,6 +80,26 @@ export default class SetupPrint extends Vue {
      */
     @Prop()
     stepperPosition: number;
+
+    /**
+     * Secret ID of the location to activate.
+     */
+    @Prop()
+    secretId: string;
+
+    /**
+     * Get the URL of the PDF Qr-Code
+     */
+    get pdfUrl(): string {
+        return QRUtil.getQR(this.secretId, "PDF");
+    }
+
+    /**
+     * Get the URL of the Image Qr-Code
+     */
+    get imageUrl(): string {
+        return QRUtil.getQR(this.secretId, "IMAGE");
+    }
 }
 </script>
 

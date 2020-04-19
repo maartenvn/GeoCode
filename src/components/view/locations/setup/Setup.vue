@@ -21,7 +21,11 @@
             <setup-intro :stepper.sync="stepper" :stepper-position="1" />
 
             <!-- Step 2: Print -->
-            <setup-print :stepper.sync="stepper" :stepper-position="2" />
+            <setup-print
+                :secret-id="location.secretId"
+                :stepper.sync="stepper"
+                :stepper-position="2"
+            />
 
             <!-- Step 3: Protect -->
             <setup-protect :stepper.sync="stepper" :stepper-position="3" />
