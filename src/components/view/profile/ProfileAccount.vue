@@ -14,7 +14,9 @@
                             <profile-account-avatar
                                 :current-user="currentUser"
                                 :editing="editing"
-                                :avatar-field.sync="fields.avatar"
+                                :avatar-field.sync="avatarField"
+                                :avatar-url.sync="avatarUrl"
+                                @deleteAction="deleteAvatar"
                             />
 
                             <!-- Data -->
@@ -114,6 +116,7 @@ import User from "@/api/models/User";
 import UserService from "@/api/services/UserService";
 import ProfileAccountAvatar from "@/components/view/profile/ProfileAccountAvatar.vue";
 import { EchoError } from "echofetch";
+import { UserUtil } from "@/util/UserUtil";
 
 @Component({
     components: { ProfileAccountAvatar },
@@ -131,8 +134,21 @@ export default class ProfileAccount extends Vue {
     fields = {
         username: new InputField({ value: this.currentUser.username }),
         email: new InputField({ value: this.currentUser.email }),
-        avatar: new InputField({ value: null }),
+        avatarId: new InputField({
+            value: this.currentUser.avatar ? this.currentUser.avatar.id : null,
+        }),
     };
+
+    /**
+     * Field containing the selected avatar File when the user changes the image.
+     * This is seperate from "fields" because it is not passed to the patch function.
+     */
+    avatarField = new InputField({ value: null });
+
+    /**
+     * Url of the avatar image of the current user.
+     */
+    avatarUrl = UserUtil.getAvatarUrl(this.currentUser);
 
     /**
      * If the profile update request is loading.
@@ -151,25 +167,32 @@ export default class ProfileAccount extends Vue {
         // Reset the fields
         this.fields.username.value = this.currentUser.username;
         this.fields.email.value = this.currentUser.email;
+        this.fields.avatarId.value = this.currentUser.avatar
+            ? this.currentUser.avatar.id
+            : null;
+        this.avatarField.value = null;
+
+        // Reset the avatar URL.
+        this.avatarUrl = UserUtil.getAvatarUrl(this.currentUser);
 
         // Disable editing
         this.editing = false;
     }
 
     /**
-     * Update the profile settings that have changed on the page.
+     * Upload the new avatar image when available.
+     * Update the "avatarId"-field when succeeded.
+     * @returns If the upload succeeded.
      */
-    async updateProfile() {
-        this.loading = true;
-
-        let avatarId;
-
+    async updateAvatar(): Promise<boolean> {
         // Upload the avatar image, when present.
-        if (this.fields.avatar.value) {
-            const file = this.fields.avatar.value as File;
+        if (this.avatarField.value) {
+            const file = this.avatarField.value as File;
 
             try {
-                avatarId = await UserService.updateAvatar(file);
+                this.fields.avatarId.value = await UserService.updateAvatar(
+                    file
+                );
             } catch (err) {
                 // Handle the error.
                 const error = {
@@ -183,14 +206,35 @@ export default class ProfileAccount extends Vue {
 
                 this.loading = false;
 
-                return;
+                return false;
             }
+
+            return true;
         }
 
-        UserService.update({
-            ...InputFieldUtil.getValues(this.fields),
-            avatarId,
-        })
+        return true;
+    }
+
+    /**
+     * Delete the avatar image
+     */
+    async deleteAvatar() {
+        this.fields.avatarId.value = -1;
+    }
+
+    /**
+     * Update the profile settings that have changed on the page.
+     */
+    async updateProfile() {
+        this.loading = true;
+
+        // Update the avatar.
+        if (!(await this.updateAvatar())) {
+            return;
+        }
+
+        // Update the profile.
+        UserService.update(InputFieldUtil.getValues(this.fields))
             .then(() => {
                 // Send confirmation message.
                 this.$store.dispatch("snackbar/open", {

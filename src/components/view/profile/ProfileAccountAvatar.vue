@@ -1,50 +1,54 @@
 <template>
-    <v-hover class="avatar">
-        <template v-slot:default="{ hover }">
-            <v-avatar
-                :color="avatarUrlChangeable ? 'primary' : ''"
-                size="100"
-                @click="openChangeAvatar"
-            >
-                <img
-                    v-if="avatarUrlChangeable"
-                    :src="avatarUrlChangeable"
-                    :alt="currentUser.username"
-                />
+    <div class="avatar">
+        <v-hover>
+            <template v-slot:default="{ hover }">
+                <v-avatar
+                    :color="!avatarUrl ? 'primary' : ''"
+                    size="100"
+                    @click="openChangeAvatar"
+                >
+                    <img
+                        v-if="_avatarUrl"
+                        :src="_avatarUrl"
+                        :alt="currentUser.username"
+                    />
 
-                <span v-else class="white--text headline">
-                    {{ currentUser.username.toUpperCase().charAt(0) }}
-                </span>
+                    <span v-else class="white--text headline">
+                        {{ currentUser.username.toUpperCase().charAt(0) }}
+                    </span>
 
-                <!-- Hidden input for file -->
-                <input
-                    ref="avatarImage"
-                    type="file"
-                    accept="image/*"
-                    class="d-none"
-                    @change="changeAvatar"
-                />
+                    <!-- Hidden input for file -->
+                    <input
+                        ref="avatarImage"
+                        type="file"
+                        accept="image/*"
+                        class="d-none"
+                        @change="changeAvatar"
+                    />
 
-                <v-fade-transition v-if="editing && !loading">
-                    <v-overlay
-                        v-if="hover"
-                        class="avatar__hover"
-                        absolute
-                        color="#036358"
-                    >
-                        CHANGE AVATAR
-                    </v-overlay>
-                </v-fade-transition>
-            </v-avatar>
-        </template>
-    </v-hover>
+                    <v-fade-transition v-if="editing && !loading">
+                        <v-overlay v-if="hover" class="avatar__hover" absolute>
+                            CHANGE AVATAR
+                        </v-overlay>
+                    </v-fade-transition>
+                </v-avatar>
+            </template>
+        </v-hover>
+
+        <div v-if="editing" class="d-flex justify-center mt-2">
+            <v-btn color="error" text @click="onDeleteAvatar">
+                Delete
+            </v-btn>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, PropSync, Vue } from "vue-property-decorator";
+import { Component, Prop, PropSync, Vue, Watch } from "vue-property-decorator";
 import { InputField } from "@/types/fields/InputField";
 import User from "@/api/models/User";
 import { UserUtil } from "@/util/UserUtil";
+import { Event } from "@/util/decorators/EventDecorator";
 
 @Component
 export default class ProfileAccountAvatar extends Vue {
@@ -73,9 +77,16 @@ export default class ProfileAccountAvatar extends Vue {
     _avatarField: InputField;
 
     /**
-     * Avatar URL for the current user;
+     * Avatar URL for the current user.
      */
-    avatarUrlChangeable = UserUtil.getAvatarUrl(this.currentUser);
+    @PropSync("avatarUrl")
+    _avatarUrl: string;
+
+    /**
+     * Action when the avatar "delete" button is pressed.
+     */
+    @Event()
+    deleteAction: () => void;
 
     /**
      * Open the image selection menu.
@@ -97,8 +108,19 @@ export default class ProfileAccountAvatar extends Vue {
             const file = target.files[0];
 
             this._avatarField.value = file;
-            this.avatarUrlChangeable = URL.createObjectURL(file);
+            this._avatarUrl = URL.createObjectURL(file);
         }
+    }
+
+    /**
+     * Delete the avatar image
+     */
+    onDeleteAvatar() {
+        // Call the delete avatar event.
+        this.deleteAction();
+
+        // Update the avatar URL.
+        this._avatarUrl = "";
     }
 }
 </script>
@@ -109,6 +131,7 @@ export default class ProfileAccountAvatar extends Vue {
 
     &__hover {
         cursor: pointer;
+        background-color: rgba(0, 0, 0, 0.5);
     }
 }
 </style>
