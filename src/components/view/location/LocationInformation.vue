@@ -60,14 +60,14 @@
                             Created on
                         </span>
                         <span class="li__content">
-                            06/03/2020
+                            {{ createdAtFormat }}
                         </span>
 
                         <span class="li__title">
                             Last scan
                         </span>
                         <span class="li__content">
-                            5 hours ago
+                            {{ lastVisitFormat }}
                         </span>
                     </div>
                 </v-col>
@@ -115,6 +115,7 @@ import User from "@/api/models/User";
 import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 import LocationService from "@/api/services/LocationService";
 import InlineEdit from "@/components/util/InlineEdit.vue";
+import LocationStatistics from "@/api/models/LocationStatistics";
 
 @Component({
     components: {
@@ -137,6 +138,12 @@ export default class LocationInformation extends Vue {
     creator: EchoPromise<User>;
 
     /**
+     * Statistics for the location.
+     */
+    @Prop()
+    statistics: EchoPromise<LocationStatistics>;
+
+    /**
      * Current user
      */
     @StoreGetter("session/currentUser")
@@ -154,6 +161,47 @@ export default class LocationInformation extends Vue {
      */
     get longitudeDMS(): string {
         return CoordinatesUtil.lngToDMS(this.location.requireData().longitude);
+    }
+
+    /**
+     * Get the createdAt as a string.
+     */
+    get createdAtFormat(): string {
+        const date = new Date(this.location.requireData().createdAt);
+
+        return date.toLocaleDateString();
+    }
+
+    /**
+     * Get the last visit timestamp as a string.
+     */
+    get lastVisitFormat(): string {
+        if (this.statistics.isSuccess()) {
+            const date = new Date(
+                this.statistics.requireData().lastVisit.timestamp
+            );
+            const currentDate = new Date();
+
+            const diff = Math.abs(currentDate.getDate() - date.getDate());
+            const hours = Math.floor(diff / 36e5);
+            const minutes = Math.floor(diff / 1000 / 60);
+
+            if (hours >= 48) {
+                return date.toLocaleDateString();
+            }
+
+            if (minutes >= 60) {
+                return `${hours} hour(s) ago`;
+            }
+
+            if (minutes < 1) {
+                return "Just now";
+            }
+
+            return `${minutes} minute(s) ago`;
+        }
+
+        return "";
     }
 
     /**

@@ -11,4 +11,5 @@ export default class Location {
     address: string;
     active: boolean;
     rating: number;
+    createdAt: string;
 }

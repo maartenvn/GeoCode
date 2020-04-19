@@ -63,6 +63,7 @@
                                     <location-information
                                         :creator="creator"
                                         :location="location"
+                                        :statistics="statistics"
                                     />
                                 </v-tab-item>
 
@@ -145,7 +146,7 @@ export default class LocationView extends Vue {
         {
             id: "locationStatistics",
             style: "SECTION",
-            displayFullpage: true,
+            displayFullpage: false,
         }
     );
 
