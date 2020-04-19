@@ -10,7 +10,7 @@
             </v-row>
 
             <!-- Data -->
-            <v-row v-else-if="statistics.isLoading()">
+            <v-row v-else-if="statistics.isSuccess()">
                 <statistics-card
                     :value="statistics.data.visitedLocationsCount"
                     title="Visited Locations"
