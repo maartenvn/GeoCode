@@ -7,35 +7,54 @@
 
         <!-- Data -->
         <template v-else-if="location.data">
-            <div class="location__title">
-                <inline-edit
-                    :value="location.data.name"
-                    :update="updateLocationName"
-                    :enabled="isOwner"
-                />
-            </div>
-
-            <div class="location__info">
-                <v-row>
-                    <v-col cols="auto" class="d-flex">
-                        <v-rating
-                            class="pr-2"
-                            :value="3"
-                            dense
-                            small
-                            readonly
+            <v-row justify="space-between" no-gutters>
+                <v-col cols="auto">
+                    <div class="location__title">
+                        <inline-edit
+                            :value="location.data.name"
+                            :update="updateLocationName"
+                            :enabled="isOwner"
                         />
-                        15 reviews
-                    </v-col>
+                    </div>
 
-                    <v-divider class="divider--vertical" vertical />
+                    <div class="location__info">
+                        <v-row>
+                            <v-col cols="auto" class="d-flex">
+                                <v-rating
+                                    class="pr-2"
+                                    :value="3"
+                                    dense
+                                    small
+                                    readonly
+                                />
+                                15 reviews
+                            </v-col>
 
-                    <v-col cols="auto" class="d-flex">
-                        <v-icon left>mdi-qrcode-scan</v-icon>
-                        171 scans
-                    </v-col>
-                </v-row>
-            </div>
+                            <v-divider class="divider--vertical" vertical />
+
+                            <v-col cols="auto" class="d-flex">
+                                <v-icon left>mdi-qrcode-scan</v-icon>
+                                171 scans
+                            </v-col>
+                        </v-row>
+                    </div>
+                </v-col>
+
+                <v-col cols="auto" align-self="center">
+                    <v-btn
+                        v-if="isOwner"
+                        color="warning"
+                        text
+                        @click="openDeactivateLocation"
+                    >
+                        <v-icon left>
+                            mdi-eye-off
+                        </v-icon>
+
+                        Deactivate
+                    </v-btn>
+                </v-col>
+            </v-row>
         </template>
 
         <!-- Error -->
@@ -54,6 +73,9 @@ import InlineEdit from "@/components/util/InlineEdit.vue";
 import LocationService from "@/api/services/LocationService";
 import User from "@/api/models/User";
 import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
+import ConfirmModal from "@/components/modal/ConfirmModal.vue";
+import { ErrorHandler } from "@/api/error/ErrorHandler";
+import { RouterUtil } from "@/util/RouterUtil";
 
 @Component({
     components: {
@@ -87,6 +109,43 @@ export default class LocationHeader extends Vue {
     updateLocationName(value: string): EchoPromise<unknown> {
         return LocationService.update(this.location.requireData().secretId, {
             name: value,
+        });
+    }
+
+    /**
+     * Deactivate the location.
+     */
+    openDeactivateLocation() {
+        this.$store.dispatch("modal/open", {
+            component: ConfirmModal,
+            componentPayload: {
+                message: `Are you sure you want to deactivate this location?`,
+                action: (instance: Vue) => {
+                    instance.$set(instance, "loading", true);
+
+                    LocationService.update(
+                        this.location.requireData().secretId,
+                        {
+                            active: false,
+                        }
+                    )
+                        .then(() => {
+                            RouterUtil.reload(this.$router);
+
+                            // Close the modal.
+                            this.$store.dispatch("modal/close");
+                        })
+                        .catch((error) =>
+                            ErrorHandler.handle(error, {
+                                id: "deactivateLocation",
+                                style: "SNACKBAR",
+                            })
+                        )
+                        .finally(() =>
+                            instance.$set(instance, "loading", false)
+                        );
+                },
+            },
         });
     }
 
