@@ -204,8 +204,6 @@ export default class ProfileAccount extends Vue {
                     style: "SNACKBAR",
                 });
 
-                this.loading = false;
-
                 return false;
             }
 
@@ -230,6 +228,7 @@ export default class ProfileAccount extends Vue {
 
         // Update the avatar.
         if (!(await this.updateAvatar())) {
+            this.loading = false;
             return;
         }
 
@@ -256,7 +255,7 @@ export default class ProfileAccount extends Vue {
                     this.fields
                 );
             })
-            .catch(() => (this.loading = false));
+            .finally(() => (this.loading = false));
     }
 }
 </script>

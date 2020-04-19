@@ -44,10 +44,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, PropSync, Vue, Watch } from "vue-property-decorator";
+import { Component, Prop, PropSync, Vue } from "vue-property-decorator";
 import { InputField } from "@/types/fields/InputField";
 import User from "@/api/models/User";
-import { UserUtil } from "@/util/UserUtil";
 import { Event } from "@/util/decorators/EventDecorator";
 
 @Component
