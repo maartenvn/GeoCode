@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Model, Prop, PropSync, Vue } from "vue-property-decorator";
+import { Component, PropSync, Vue } from "vue-property-decorator";
 import AuthService from "@/api/services/AuthService";
 import { InputFields } from "@/types/fields/InputFields";
 import { InputField } from "@/types/fields/InputField";

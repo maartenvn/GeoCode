@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-card-title>
-            Leave a review
+            Report this location
 
             <v-spacer />
 
@@ -12,23 +12,19 @@
 
         <v-card-text>
             <p>
-                Leave a review at this location.
+                Report this location.
             </p>
 
             <v-form>
-                <!-- Rating -->
-                <div class="pt-2 pb-7">
-                    <label class="pb-4">Rating</label>
-
-                    <v-rating
-                        v-model="fields.rating.value"
-                        color="primary"
-                        background-color="primary"
-                        :readonly="loading"
-                        hover
-                        dense
-                    />
-                </div>
+                <!-- Reason -->
+                <v-select
+                    v-model="fields.reason.value"
+                    :error-messages="fields.reason.error"
+                    :rules="fields.reason.rules"
+                    :items="reasons"
+                    label="Reason"
+                    outlined
+                />
 
                 <!-- Message -->
                 <v-textarea
@@ -40,6 +36,22 @@
                     placeholder="Leave a message"
                     outlined
                 />
+
+                <!-- Image -->
+                <v-file-input
+                    v-model="imageField.value"
+                    accept="image/*"
+                    label="Optional image"
+                    prepend-icon="mdi-image"
+                    :show-size="1000"
+                    outlined
+                >
+                    <template v-slot:selection="{ index, text }">
+                        <v-chip color="primary" dark label small>
+                            {{ text }}
+                        </v-chip>
+                    </template>
+                </v-file-input>
             </v-form>
         </v-card-text>
 
@@ -72,7 +84,7 @@ import Rating from "@/api/models/Rating";
 import { InputFields } from "@/types/fields/InputFields";
 
 @Component
-export default class RatingActionModal extends Vue {
+export default class ReportCreateModal extends Vue {
     /**
      * Payload, passed when opening the modal.
      */
@@ -80,7 +92,7 @@ export default class RatingActionModal extends Vue {
     payload: {
         secretId: string;
         rating: Rating;
-        action: (fields: InputFields, instance: Vue) => void;
+        action: (fields: InputFields, image: InputField, instance: Vue) => void;
     };
 
     /**
@@ -89,22 +101,34 @@ export default class RatingActionModal extends Vue {
     loading = false;
 
     /**
+     * Reasons for a report.
+     */
+    reasons = [
+        "Spam",
+        "Inappropriate content",
+        "Damaged QR-code",
+        "Invalid location",
+    ];
+
+    /**
      * Input Fields
      */
     fields = {
-        rating: new InputField({
-            value: this.payload.rating ? this.payload.rating.rating : 0,
-        }),
-        message: new InputField({
-            value: this.payload.rating ? this.payload.rating.message : "",
-        }),
+        reason: new InputField(),
+        message: new InputField(),
     };
+
+    /**
+     * Image field for selecting an image.
+     * This is seperate from "fields" because it is not passed to the patch function.
+     */
+    imageField = new InputField({ value: null });
 
     /**
      * Execute the given action.
      */
     confirm() {
-        this.payload.action(this.fields, this);
+        this.payload.action(this.fields, this.imageField, this);
     }
 
     /**

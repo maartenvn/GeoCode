@@ -14,9 +14,6 @@ import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 import ErrorBus from "@/api/error/ErrorBus";
 import { EchoError } from "echofetch";
 import { CustomErrorOptions } from "@/api/error/types/CustomErrorOptions";
-import ErrorCard from "@/components/error/placeholders/ErrorCard.vue";
-import ErrorSection from "@/components/error/placeholders/ErrorSection.vue";
-import { ErrorHandler } from "@/api/error/ErrorHandler";
 
 @Component({
     components: { ErrorPlaceholder },

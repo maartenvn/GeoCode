@@ -10,7 +10,7 @@
             </v-row>
 
             <!-- Data -->
-            <v-row v-else-if="statistics.isLoading()">
+            <v-row v-else-if="statistics.isSuccess()">
                 <statistics-card
                     :value="statistics.data.visitedLocationsCount"
                     title="Visited Locations"
@@ -46,9 +46,6 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
-import { EchoPromise } from "echofetch";
-import User from "@/api/models/User";
 import StatisticsCard from "@/components/statistics/StatisticsCard.vue";
 import UserService from "@/api/services/UserService";
 import LocationsTable from "@/components/view/locations/LocationsTable.vue";
