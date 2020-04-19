@@ -1,7 +1,11 @@
 <template>
     <v-hover class="avatar">
         <template v-slot:default="{ hover }">
-            <v-avatar color="primary" size="100" @click="openChangeAvatar">
+            <v-avatar
+                :color="avatarUrlChangeable ? 'primary' : ''"
+                size="100"
+                @click="openChangeAvatar"
+            >
                 <img
                     v-if="avatarUrlChangeable"
                     :src="avatarUrlChangeable"
@@ -40,6 +44,7 @@
 import { Component, Prop, PropSync, Vue } from "vue-property-decorator";
 import { InputField } from "@/types/fields/InputField";
 import User from "@/api/models/User";
+import { UserUtil } from "@/util/UserUtil";
 
 @Component
 export default class ProfileAccountAvatar extends Vue {
@@ -70,7 +75,8 @@ export default class ProfileAccountAvatar extends Vue {
     /**
      * Avatar URL for the current user;
      */
-    avatarUrlChangeable = this.currentUser.avatarUrl;
+    avatarUrlChangeable = UserUtil.getAvatarUrl(this.currentUser);
+
     /**
      * Open the image selection menu.
      */

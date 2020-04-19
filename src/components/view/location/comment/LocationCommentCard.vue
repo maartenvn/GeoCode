@@ -22,10 +22,10 @@
 
                         <!-- Data -->
                         <template v-else-if="creator.isSuccess()">
-                            <v-avatar color="primary">
+                            <v-avatar :color="!avatarUrl ? 'primary' : ''">
                                 <img
-                                    v-if="creator.data.avatarUrl"
-                                    :src="creator.data.avatarUrl"
+                                    v-if="avatarUrl"
+                                    :src="avatarUrl"
                                     :alt="creator.data.username"
                                 />
 
@@ -101,6 +101,7 @@ import User from "@/api/models/User";
 import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 import { Event } from "@/util/decorators/EventDecorator";
 import Comment from "@/api/models/Comment";
+import { UserUtil } from "@/util/UserUtil";
 
 @Component({
     components: { ErrorPlaceholder },
@@ -166,6 +167,17 @@ export default class LocationCommentCard extends Vue {
             this.currentUser.isSuccess() &&
             this.creator.requireData().id === this.currentUser.requireData().id
         );
+    }
+
+    /**
+     * Get the avatar URL for the creator
+     */
+    get avatarUrl() {
+        if (this.creator.isSuccess()) {
+            return UserUtil.getAvatarUrl(this.currentUser.requireData());
+        }
+
+        return "";
     }
 }
 </script>

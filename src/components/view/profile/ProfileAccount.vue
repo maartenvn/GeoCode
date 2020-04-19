@@ -162,12 +162,14 @@ export default class ProfileAccount extends Vue {
     async updateProfile() {
         this.loading = true;
 
+        let avatarId;
+
         // Upload the avatar image, when present.
         if (this.fields.avatar.value) {
             const file = this.fields.avatar.value as File;
 
             try {
-                await UserService.updateAvatar(file);
+                avatarId = await UserService.updateAvatar(file);
             } catch (err) {
                 // Handle the error.
                 const error = {
@@ -185,8 +187,11 @@ export default class ProfileAccount extends Vue {
             }
         }
 
-        UserService.update(InputFieldUtil.getValues(this.fields))
-            .then((_) => {
+        UserService.update({
+            ...InputFieldUtil.getValues(this.fields),
+            avatarId,
+        })
+            .then(() => {
                 // Send confirmation message.
                 this.$store.dispatch("snackbar/open", {
                     message: "Successfully updated profile",
