@@ -103,7 +103,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { RequestHandler } from "@/api/RequestHandler";
 import { EchoPromise } from "echofetch";
 import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
@@ -132,7 +132,7 @@ export default class LocationRatingCard extends Vue {
     /**
      * Get the user for the rating.
      */
-    creator: EchoPromise<User>;
+    creator?: EchoPromise<User> | null = null;
 
     /**
      * Get the current logged in user.
@@ -152,9 +152,11 @@ export default class LocationRatingCard extends Vue {
     @Event()
     modifyAction: (rating: Rating) => void;
 
-    constructor() {
-        super();
-
+    /**
+     * Updating is done in a watcher to handle potential lazy loading.
+     */
+    @Watch("rating", { immediate: true })
+    onLoadingChange() {
         if (!this.loading) {
             this.creator = RequestHandler.handle(
                 UsersService.get(this.rating.creator.id),

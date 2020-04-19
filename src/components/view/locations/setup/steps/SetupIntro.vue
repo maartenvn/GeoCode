@@ -17,7 +17,7 @@
                 more steps.
             </p>
 
-            <h3>How to people visit my location?</h3>
+            <h3>How do people visit my location?</h3>
 
             <ol>
                 <li>
