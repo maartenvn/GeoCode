@@ -53,7 +53,7 @@
 
                         <v-tab href="#tab-name">
                             Search by name
-                            <v-icon>mdi-textbox</v-icon>
+                            <v-icon>mdi-form-textbox</v-icon>
                         </v-tab>
                     </v-tabs>
 
