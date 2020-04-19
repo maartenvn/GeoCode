@@ -41,6 +41,14 @@
                 </v-col>
 
                 <v-col cols="auto" align-self="center">
+                    <v-btn color="error" text @click="openCreateReport">
+                        <v-icon left>
+                            mdi-alert-octagon
+                        </v-icon>
+
+                        Report
+                    </v-btn>
+
                     <v-btn
                         v-if="isOwner"
                         color="warning"
@@ -79,13 +87,17 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { EchoPromise } from "echofetch";
+import { EchoError, EchoPromise } from "echofetch";
 import Location from "@/api/models/Location";
 import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 import InlineEdit from "@/components/util/InlineEdit.vue";
 import LocationService from "@/api/services/LocationService";
 import User from "@/api/models/User";
 import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
+import { InputFields } from "@/types/fields/InputFields";
+import { InputFieldUtil } from "@/util/InputFieldUtil";
+import ReportService from "@/api/services/ReportService";
+import { InputField } from "@/types/fields/InputField";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
 import { ErrorHandler } from "@/api/error/ErrorHandler";
 import { RouterUtil } from "@/util/RouterUtil";
@@ -186,6 +198,81 @@ export default class LocationHeader extends Vue {
             this.currentUser.isSuccess() &&
             this.creator.requireData().id === this.currentUser.requireData().id
         );
+    }
+
+    /**
+     * Open the create report modal.
+     */
+    openCreateReport() {
+        this.$store.dispatch("modal/open", {
+            component: () =>
+                import(
+                    "@/components/modal/location/report/ReportCreateModal.vue"
+                ),
+            componentPayload: {
+                secretId: this.location.requireData().secretId,
+                action: async (
+                    fields: InputFields,
+                    image: InputField,
+                    instance: Vue
+                ) => {
+                    instance.$set(instance, "loading", true);
+
+                    let imageId = null;
+
+                    // Upload an image, when present.
+                    if (image.value) {
+                        const file = image.value as File;
+
+                        try {
+                            imageId = await ReportService.uploadImage(file);
+                        } catch (err) {
+                            // Handle the error.
+                            const error = {
+                                message: "Unable to upload image. Try again!",
+                            } as EchoError;
+
+                            ErrorHandler.handle(error, {
+                                id: "reportUploadImage",
+                                style: "SNACKBAR",
+                            });
+
+                            instance.$set(instance, "loading", false);
+
+                            return;
+                        }
+                    }
+
+                    // Create the report with the received
+                    ReportService.create(this.location.requireData().secretId, {
+                        ...InputFieldUtil.getValues(fields),
+                        imageId,
+                    })
+                        .then(() => {
+                            this.$store.dispatch("snackbar/open", {
+                                message:
+                                    "Your report has been submitted. Thank you",
+                                color: "success",
+                            });
+
+                            this.$store.dispatch("modal/close");
+                        })
+                        .catch((error) => {
+                            ErrorHandler.handle(
+                                error,
+                                {
+                                    id: "reportCreate",
+                                    style: "SNACKBAR",
+                                },
+                                fields
+                            );
+                        })
+                        .finally(() =>
+                            instance.$set(instance, "loading", false)
+                        );
+                },
+            },
+        });
     }
 }
 </script>

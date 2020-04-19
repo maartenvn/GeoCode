@@ -86,7 +86,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { DataTableHeader } from "vuetify";
 import { EchoPromise } from "echofetch";
 import { ErrorHandler } from "@/api/error/ErrorHandler";
 import Location from "@/api/models/Location";

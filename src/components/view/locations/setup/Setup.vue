@@ -55,8 +55,6 @@ import SetupIntro from "@/components/view/locations/setup/steps/SetupIntro.vue";
 import SetupRules from "@/components/view/locations/setup/steps/SetupPlace.vue";
 import SetupProtect from "@/components/view/locations/setup/steps/SetupProtect.vue";
 import SetupActivate from "@/components/view/locations/setup/steps/SetupActivate.vue";
-import { RequestHandler } from "@/api/RequestHandler";
-import LocationService from "@/api/services/LocationService";
 import Location from "@/api/models/Location";
 
 @Component({

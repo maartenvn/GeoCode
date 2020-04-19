@@ -1,12 +1,10 @@
 import {
-    Body,
     EchoPromise,
     EchoService,
     EchoServiceBuilder,
     GET,
     Path,
 } from "echofetch";
-import Location from "../models/Location";
 import config from "@/config";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
 import User from "@/api/models/User";
