@@ -97,6 +97,7 @@ import { LateRequest } from "@/api/decorators/LateRequestDecorator";
 import UsersService from "@/api/services/UsersService";
 import { EchoPromise } from "echofetch";
 import User from "@/api/models/User";
+import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 
 @Component({
     components: {
