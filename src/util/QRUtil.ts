@@ -8,7 +8,7 @@ export class QRUtil {
      * @param size Size of the QR-code (only when type === "IMAGE")
      */
     static getQR(secretId: string, type: "PDF" | "IMAGE", size = 600) {
-        let url = `${config.BACKEND.URL}locations/visit/${secretId}/qrcode`;
+        let url = `${config.BACKEND.URL}locations/${secretId}/qrcode`;
 
         // Add endpoint for pdf.
         if (type === "PDF") {
@@ -16,7 +16,7 @@ export class QRUtil {
         }
 
         // Add the frontend url
-        url = url + `?frontend=${config.FRONTEND.URL}`;
+        url = url + `?frontend=${config.FRONTEND.URL}locations/visit/`;
 
         // Add size
         url = url + `&size=${size}`;
