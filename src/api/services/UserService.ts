@@ -16,7 +16,7 @@ import config from "@/config";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
 import { InputFields } from "@/types/fields/InputFields";
 import Visit from "@/api/models/Visit";
-import Statistics from "@/api/models/Statistics";
+import UserStatistics from "@/api/models/UserStatistics";
 
 class UserService extends EchoService {
     /**
@@ -58,8 +58,8 @@ class UserService extends EchoService {
      * Get statistics for the logged in user.
      */
     @GET("/user/statistics")
-    getStatistics(): EchoPromise<Statistics> {
-        return {} as EchoPromise<Statistics>;
+    getStatistics(): EchoPromise<UserStatistics> {
+        return {} as EchoPromise<UserStatistics>;
     }
 
     /**

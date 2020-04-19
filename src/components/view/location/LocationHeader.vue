@@ -52,7 +52,6 @@ import Location from "@/api/models/Location";
 import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 import InlineEdit from "@/components/util/InlineEdit.vue";
 import LocationService from "@/api/services/LocationService";
-import { ErrorHandler } from "@/api/error/ErrorHandler";
 import User from "@/api/models/User";
 import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 
