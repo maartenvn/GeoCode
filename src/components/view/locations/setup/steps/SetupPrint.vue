@@ -18,27 +18,7 @@
                 available depending on where you want to hide it.
             </p>
 
-            <div class="setup__print__buttons">
-                <v-btn
-                    :href="pdfUrl"
-                    color="primary"
-                    depressed
-                    block
-                    target="_blank"
-                >
-                    QR-code PDF
-                </v-btn>
-
-                <v-btn
-                    :href="imageUrl"
-                    color="primary"
-                    depressed
-                    block
-                    target="_blank"
-                >
-                    QR-code Image
-                </v-btn>
-            </div>
+            <qr-code-downloads :secret-id="secretId" />
 
             <v-card-actions>
                 <v-btn
@@ -65,9 +45,11 @@
 
 <script lang="ts">
 import { Component, Prop, PropSync, Vue } from "vue-property-decorator";
-import { QRUtil } from "@/util/QRUtil";
+import QrCodeDownloads from "@/components/view/location/qrcode/QrCodeDownloads.vue";
 
-@Component
+@Component({
+    components: { QrCodeDownloads },
+})
 export default class SetupPrint extends Vue {
     /**
      * Used for keeping the current position of the stepper.
@@ -86,38 +68,5 @@ export default class SetupPrint extends Vue {
      */
     @Prop()
     secretId: string;
-
-    /**
-     * Get the URL of the PDF Qr-Code
-     */
-    get pdfUrl(): string {
-        return QRUtil.getQR(this.secretId, "PDF");
-    }
-
-    /**
-     * Get the URL of the Image Qr-Code
-     */
-    get imageUrl(): string {
-        return QRUtil.getQR(this.secretId, "IMAGE");
-    }
 }
 </script>
-
-<style lang="scss">
-.setup {
-    &__print {
-        &__buttons {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-
-            > * {
-                min-width: 20% !important;
-                margin-bottom: 10px;
-            }
-        }
-    }
-}
-</style>

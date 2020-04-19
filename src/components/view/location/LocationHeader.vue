@@ -53,6 +53,19 @@
 
                         Deactivate
                     </v-btn>
+
+                    <v-btn
+                        v-if="isOwner"
+                        color="primary"
+                        text
+                        @click="openQrCodeLocation"
+                    >
+                        <v-icon left>
+                            mdi-qrcode
+                        </v-icon>
+
+                        Download QR-code
+                    </v-btn>
                 </v-col>
             </v-row>
         </template>
@@ -109,6 +122,19 @@ export default class LocationHeader extends Vue {
     updateLocationName(value: string): EchoPromise<unknown> {
         return LocationService.update(this.location.requireData().secretId, {
             name: value,
+        });
+    }
+
+    /**
+     * Open QR-code download modal
+     */
+    openQrCodeLocation() {
+        this.$store.dispatch("modal/open", {
+            component: () =>
+                import("@/components/modal/location/qrcode/QrCodeModal.vue"),
+            componentPayload: {
+                secretId: this.location.requireData().secretId,
+            },
         });
     }
 

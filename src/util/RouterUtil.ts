@@ -10,6 +10,8 @@ export class RouterUtil {
     static reload(router: VueRouter) {
         const location = router.currentRoute.path;
 
+        console.log(router.currentRoute.path);
+
         router.replace("/");
 
         Vue.nextTick(() => router.push(location));
