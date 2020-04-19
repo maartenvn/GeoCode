@@ -72,6 +72,7 @@ import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 import { InputFields } from "@/types/fields/InputFields";
 import { InputFieldUtil } from "@/util/InputFieldUtil";
 import ReportService from "@/api/services/ReportService";
+import { InputField } from "@/types/fields/InputField";
 
 @Component({
     components: {
@@ -132,14 +133,18 @@ export default class LocationHeader extends Vue {
                 ),
             componentPayload: {
                 secretId: this.location.requireData().secretId,
-                action: async (fields: InputFields, instance: Vue) => {
+                action: async (
+                    fields: InputFields,
+                    image: InputField,
+                    instance: Vue
+                ) => {
                     instance.$set(instance, "loading", true);
 
                     let imageId = null;
 
                     // Upload an image, when present.
-                    if (fields.image.value) {
-                        const file = fields.image.value as File;
+                    if (image.value) {
+                        const file = image.value as File;
 
                         try {
                             imageId = await ReportService.uploadImage(file);

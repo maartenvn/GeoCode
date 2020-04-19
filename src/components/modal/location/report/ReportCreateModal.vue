@@ -39,7 +39,7 @@
 
                 <!-- Image -->
                 <v-file-input
-                    v-model="fields.image.value"
+                    v-model="imageField.value"
                     accept="image/*"
                     label="Optional image"
                     prepend-icon="mdi-image"
@@ -92,7 +92,7 @@ export default class ReportCreateModal extends Vue {
     payload: {
         secretId: string;
         rating: Rating;
-        action: (fields: InputFields, instance: Vue) => void;
+        action: (fields: InputFields, image: InputField, instance: Vue) => void;
     };
 
     /**
@@ -116,14 +116,19 @@ export default class ReportCreateModal extends Vue {
     fields = {
         reason: new InputField(),
         message: new InputField(),
-        image: new InputField({ value: null }),
     };
+
+    /**
+     * Image field for selecting an image.
+     * This is seperate from "fields" because it is not passed to the patch function.
+     */
+    imageField = new InputField({ value: null });
 
     /**
      * Execute the given action.
      */
     confirm() {
-        this.payload.action(this.fields, this);
+        this.payload.action(this.fields, this.imageField, this);
     }
 
     /**
