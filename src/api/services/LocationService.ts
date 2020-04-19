@@ -37,6 +37,15 @@ class LocationService extends EchoService {
     }
 
     /**
+     * Get the statistics for a specific location.
+     * @param secretId Secret id of the location.
+     */
+    @GET("/locations/{secretId}/statistics")
+    getStatistics(@Path("secretId") secretId: string): EchoPromise<Location> {
+        return {} as EchoPromise<Location>;
+    }
+
+    /**
      * Get a list of visits for a specific location.
      * @param secretId Secret id of the location.
      */

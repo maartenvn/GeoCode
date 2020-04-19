@@ -9,7 +9,11 @@
             <!-- General information -->
             <v-row>
                 <v-col cols="12">
-                    <location-header :location="location" :creator="creator" />
+                    <location-header
+                        :location="location"
+                        :statistics="statistics"
+                        :creator="creator"
+                    />
                 </v-col>
             </v-row>
 
@@ -131,6 +135,15 @@ export default class LocationView extends Vue {
                     "This location does not exist or was removed by the original creator or an administrator. Sorry for the inconvenience.",
             },
         ],
+    });
+
+    /**
+     * Statistics for the location
+     */
+    statistics = RequestHandler.handle(LocationService.get(this.secretId), {
+        id: "locationStatistics",
+        style: "SECTION",
+        displayFullpage: true,
     });
 
     /**

@@ -16,7 +16,13 @@
             </div>
 
             <div class="location__info">
-                <v-row>
+                <!-- Loading -->
+                <template v-if="statistics.isLoading()">
+                    <v-skeleton-loader class="mt-2" type="text" width="300" />
+                </template>
+
+                <!-- Data -->
+                <v-row v-else-if="statistics.isSuccess()">
                     <v-col cols="auto" class="d-flex">
                         <v-rating
                             class="pr-2"
@@ -25,14 +31,14 @@
                             small
                             readonly
                         />
-                        15 reviews
+                        {{ statistics.data.reviewsCount }} reviews
                     </v-col>
 
                     <v-divider class="divider--vertical" vertical />
 
                     <v-col cols="auto" class="d-flex">
                         <v-icon left>mdi-qrcode-scan</v-icon>
-                        171 scans
+                        {{ statistics.data.visitsCount }} scans
                     </v-col>
                 </v-row>
             </div>
@@ -54,6 +60,7 @@ import InlineEdit from "@/components/util/InlineEdit.vue";
 import LocationService from "@/api/services/LocationService";
 import User from "@/api/models/User";
 import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
+import LocationStatistics from "@/api/models/LocationStatistics";
 
 @Component({
     components: {
@@ -73,6 +80,12 @@ export default class LocationHeader extends Vue {
      */
     @Prop()
     creator: EchoPromise<User>;
+
+    /**
+     * Statistics for the location.
+     */
+    @Prop()
+    statistics: EchoPromise<LocationStatistics>;
 
     /**
      * Current user
