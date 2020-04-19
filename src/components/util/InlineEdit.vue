@@ -1,41 +1,67 @@
 <template>
     <div>
         <template v-if="editing">
-            <div class="edit__input">
-                <v-text-field
-                    class="d-inline-block"
-                    v-model="field.value"
-                    :rules="field.rules"
-                    :error-messages="field.error"
-                />
+            <v-row class="edit__input" no-gutters>
+                <v-col :cols="isEditor ? '12' : 'auto'">
+                    <!-- Editor -->
+                    <editor
+                        v-if="isEditor"
+                        v-model="field.value"
+                        class="mb-4"
+                    />
 
-                <v-btn
-                    class="edit__input__button"
-                    color="success"
-                    depressed
-                    icon
-                    :loading="loading"
-                    :disabled="loading"
-                    @click="onEditCheckClick"
-                >
-                    <v-icon>mdi-check</v-icon>
-                </v-btn>
+                    <!-- Text Field -->
+                    <v-text-field
+                        v-else
+                        class="d-inline-block"
+                        v-model="field.value"
+                        :rules="field.rules"
+                        :error-messages="field.error"
+                    />
+                </v-col>
 
-                <v-btn
-                    class="edit__input__button"
-                    color="error"
-                    depressed
-                    icon
-                    @click="onEditCloseClick"
+                <v-col
+                    :cols="isEditor ? '12' : 'auto'"
+                    class="d-flex justify-end align-center"
                 >
-                    <v-icon>mdi-close</v-icon>
-                </v-btn>
-            </div>
+                    <v-btn
+                        class="edit__input__button"
+                        color="error"
+                        text
+                        :icon="!isEditor"
+                        @click="onEditCloseClick"
+                    >
+                        <span v-if="isEditor">Cancel</span>
+                        <v-icon v-if="!isEditor">mdi-close</v-icon>
+                    </v-btn>
+
+                    <v-btn
+                        class="edit__input__button"
+                        color="success"
+                        depressed
+                        :icon="!isEditor"
+                        :loading="loading"
+                        :disabled="loading"
+                        @click="onEditCheckClick"
+                    >
+                        <span v-if="isEditor">Confirm</span>
+                        <v-icon v-if="!isEditor">mdi-check</v-icon>
+                    </v-btn>
+                </v-col>
+            </v-row>
         </template>
 
         <template v-else>
             <div class="edit__field">
-                {{ field.value }}
+                <!-- Slot -->
+                <template v-if="!!this.$slots.default">
+                    <slot />
+                </template>
+
+                <!-- Text -->
+                <template v-else>
+                    {{ field.value }}
+                </template>
 
                 <v-btn
                     v-if="enabled"
@@ -55,8 +81,11 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { InputField } from "@/types/fields/InputField";
 import { EchoPromise } from "echofetch";
 import { ErrorHandler } from "@/api/error/ErrorHandler";
+import Editor from "@/components/Editor.vue";
 
-@Component
+@Component({
+    components: { Editor },
+})
 export default class InlineEdit extends Vue {
     /**
      * Value to display.
@@ -81,6 +110,12 @@ export default class InlineEdit extends Vue {
      */
     @Prop({ default: true })
     enabled: boolean;
+
+    /**
+     * Is WYSIWYG editor
+     */
+    @Prop({ default: false })
+    isEditor: boolean;
 
     /**
      * Copy of value to prevent mutating prop directly.
@@ -133,6 +168,9 @@ export default class InlineEdit extends Vue {
                 this.editing = false;
                 this.valueCopy = this.field.value;
                 this.loading = false;
+
+                // Emit the changes (for when v-model is used)
+                this.$emit("input", this.field.value);
             })
             .catch((error) => {
                 this.loading = false;

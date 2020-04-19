@@ -949,6 +949,11 @@
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
   integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
 
+"@types/pell@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/pell/-/pell-1.0.0.tgz#23258e596cc8737bc3bbbb886d352097ec1bdafe"
+  integrity sha512-bzABuVySvnApxf+eBiWQmNRrf3uECd/9BznZPXsFx0HP9qWQB6pEqDqH8px3GC8izJWKSnhC85XkAqiGLTA5NQ==
+
 "@types/q@^1.5.1":
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.2.tgz#690a1475b84f2a884fd07cd797c00f5f31356ea8"
@@ -6381,6 +6386,11 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
+pell@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/pell/-/pell-1.0.6.tgz#9edb026f1edec2b4964251cdb2cd6fcadff08a76"
+  integrity sha512-wuackvgjFCHmVABy7ACSmY2u53w+TlYFrVL2hN6V3rGL/iWWwVXMw2uphpZSXNnqFQTI8nMpD3UNNX8+R4BAYw==
+
 performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
@@ -7059,6 +7069,11 @@ readdirp@~3.3.0:
   integrity sha512-zz0pAkSPOXXm1viEwygWIPSPkcBYjW1xU5j/JBh5t9bGCJwa6f9+BJa6VaB2g+b55yVrmXzqkyLf4xaWYM0IkQ==
   dependencies:
     picomatch "^2.0.7"
+
+recaptcha-v3@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/recaptcha-v3/-/recaptcha-v3-1.8.0.tgz#b39ae7cba5322ed7027359c3f14502e44e909f83"
+  integrity sha512-ugtg4JHDZiYJwv3ZjWBBZntsTCVpRk2BD8AhVVpSw9jv71SSx+SS9H342VaE0D2XV78DpRdDuiMO9ZIgl4zI3A==
 
 rechoir@^0.6.2:
   version "0.6.2"

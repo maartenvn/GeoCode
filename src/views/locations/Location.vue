@@ -36,9 +36,7 @@
                             <v-icon>mdi-map-marker-circle</v-icon>
                         </v-tab>
 
-                        <template
-                            v-if="visits.isSuccess() && visits.data.length > 0"
-                        >
+                        <template v-if="showGuestbook">
                             <v-tab
                                 href="#tab-guestbook"
                                 style="
@@ -144,6 +142,12 @@ export default class LocationView extends Vue {
     creator: EchoPromise<User>;
 
     /**
+     * Current logged in user.
+     */
+    @StoreGetter("session/currentUser")
+    currentUser: EchoPromise<User>;
+
+    /**
      * List with visits of the user for this location.
      */
     visits = RequestHandler.handle(
@@ -158,5 +162,37 @@ export default class LocationView extends Vue {
      * Object for storing the current opened tab.
      */
     tab: any = null;
+
+    /**
+     * Get if the current user is the owner of the location.
+     */
+    get isOwner() {
+        return (
+            this.creator &&
+            this.currentUser &&
+            this.creator.isSuccess() &&
+            this.currentUser.isSuccess() &&
+            this.creator.requireData().id === this.currentUser.requireData().id
+        );
+    }
+
+    /**
+     * Should the guestbook be showed to the user.
+     */
+    get showGuestbook(): boolean {
+        // If the user is the owner, show the guestbook.
+        if (
+            this.creator &&
+            this.currentUser &&
+            this.creator.isSuccess() &&
+            this.currentUser.isSuccess() &&
+            this.creator.requireData().id === this.currentUser.requireData().id
+        ) {
+            return true;
+        }
+
+        // Otherwise, the user should have visited the location.
+        return this.visits.isSuccess() && this.visits.requireData().length > 0;
+    }
 }
 </script>

@@ -92,7 +92,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { RequestHandler } from "@/api/RequestHandler";
 import { EchoPromise } from "echofetch";
 import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
@@ -101,6 +101,7 @@ import User from "@/api/models/User";
 import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 import { Event } from "@/util/decorators/EventDecorator";
 import Comment from "@/api/models/Comment";
+import { Optional } from "@/types/Optional";
 
 @Component({
     components: { ErrorPlaceholder },
@@ -119,9 +120,9 @@ export default class LocationCommentCard extends Vue {
     comment: Comment;
 
     /**
-     * Get the user for the comment.
+     * Get the user for the rating.
      */
-    creator: EchoPromise<User>;
+    creator?: EchoPromise<User> | null = null;
 
     /**
      * Get the current logged in user.
@@ -141,9 +142,11 @@ export default class LocationCommentCard extends Vue {
     @Event()
     modifyAction: (comment: Comment) => void;
 
-    constructor() {
-        super();
-
+    /**
+     * Updating is done in a watcher to handle potential lazy loading.
+     */
+    @Watch("comment", { immediate: true })
+    onLoadingChange() {
         if (!this.loading) {
             this.creator = RequestHandler.handle(
                 UsersService.get(this.comment.creator.id),

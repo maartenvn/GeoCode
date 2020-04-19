@@ -1,6 +1,6 @@
 <template>
     <v-col cols="12" sm="6" md="4">
-        <v-card class="statistics__card" color="primary" dark>
+        <v-card class="statistics__card" :color="color" :flat="flat" dark>
             <!-- Loading -->
             <template v-if="loading">
                 <div class="statistics__card__stat">
@@ -53,6 +53,18 @@ export default class StatisticsCard extends Vue {
      */
     @Prop()
     title: string;
+
+    /**
+     * Color of the card.
+     */
+    @Prop({ default: "primary" })
+    color: string;
+
+    /**
+     * If the card is flat or not.
+     */
+    @Prop({ default: false })
+    flat: boolean;
 }
 </script>
 

@@ -18,11 +18,7 @@
                 available depending on where you want to hide it.
             </p>
 
-            <div class="setup__print__buttons">
-                <v-btn color="primary" depressed block>A4</v-btn>
-                <v-btn color="primary" depressed block>A5</v-btn>
-                <v-btn color="primary" depressed block>QR-code only</v-btn>
-            </div>
+            <qr-code-downloads :secret-id="secretId" />
 
             <v-card-actions>
                 <v-btn
@@ -49,8 +45,11 @@
 
 <script lang="ts">
 import { Component, Prop, PropSync, Vue } from "vue-property-decorator";
+import QrCodeDownloads from "@/components/view/location/qrcode/QrCodeDownloads.vue";
 
-@Component
+@Component({
+    components: { QrCodeDownloads },
+})
 export default class SetupPrint extends Vue {
     /**
      * Used for keeping the current position of the stepper.
@@ -63,24 +62,11 @@ export default class SetupPrint extends Vue {
      */
     @Prop()
     stepperPosition: number;
+
+    /**
+     * Secret ID of the location to activate.
+     */
+    @Prop()
+    secretId: string;
 }
 </script>
-
-<style lang="scss">
-.setup {
-    &__print {
-        &__buttons {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-
-            > * {
-                min-width: 20% !important;
-                margin-bottom: 10px;
-            }
-        }
-    }
-}
-</style>

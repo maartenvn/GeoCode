@@ -48,6 +48,32 @@
 
                         Report
                     </v-btn>
+
+                    <v-btn
+                        v-if="isOwner"
+                        color="warning"
+                        text
+                        @click="openDeactivateLocation"
+                    >
+                        <v-icon left>
+                            mdi-eye-off
+                        </v-icon>
+
+                        Deactivate
+                    </v-btn>
+
+                    <v-btn
+                        v-if="isOwner"
+                        color="primary"
+                        text
+                        @click="openQrCodeLocation"
+                    >
+                        <v-icon left>
+                            mdi-qrcode
+                        </v-icon>
+
+                        Download QR-code
+                    </v-btn>
                 </v-col>
             </v-row>
         </template>
@@ -66,13 +92,15 @@ import Location from "@/api/models/Location";
 import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 import InlineEdit from "@/components/util/InlineEdit.vue";
 import LocationService from "@/api/services/LocationService";
-import { ErrorHandler } from "@/api/error/ErrorHandler";
 import User from "@/api/models/User";
 import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 import { InputFields } from "@/types/fields/InputFields";
 import { InputFieldUtil } from "@/util/InputFieldUtil";
 import ReportService from "@/api/services/ReportService";
 import { InputField } from "@/types/fields/InputField";
+import ConfirmModal from "@/components/modal/ConfirmModal.vue";
+import { ErrorHandler } from "@/api/error/ErrorHandler";
+import { RouterUtil } from "@/util/RouterUtil";
 
 @Component({
     components: {
@@ -106,6 +134,56 @@ export default class LocationHeader extends Vue {
     updateLocationName(value: string): EchoPromise<unknown> {
         return LocationService.update(this.location.requireData().secretId, {
             name: value,
+        });
+    }
+
+    /**
+     * Open QR-code download modal
+     */
+    openQrCodeLocation() {
+        this.$store.dispatch("modal/open", {
+            component: () =>
+                import("@/components/modal/location/qrcode/QrCodeModal.vue"),
+            componentPayload: {
+                secretId: this.location.requireData().secretId,
+            },
+        });
+    }
+
+    /**
+     * Deactivate the location.
+     */
+    openDeactivateLocation() {
+        this.$store.dispatch("modal/open", {
+            component: ConfirmModal,
+            componentPayload: {
+                message: `Are you sure you want to deactivate this location?`,
+                action: (instance: Vue) => {
+                    instance.$set(instance, "loading", true);
+
+                    LocationService.update(
+                        this.location.requireData().secretId,
+                        {
+                            active: false,
+                        }
+                    )
+                        .then(() => {
+                            RouterUtil.reload(this.$router);
+
+                            // Close the modal.
+                            this.$store.dispatch("modal/close");
+                        })
+                        .catch((error) =>
+                            ErrorHandler.handle(error, {
+                                id: "deactivateLocation",
+                                style: "SNACKBAR",
+                            })
+                        )
+                        .finally(() =>
+                            instance.$set(instance, "loading", false)
+                        );
+                },
+            },
         });
     }
 
