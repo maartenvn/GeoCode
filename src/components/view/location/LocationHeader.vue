@@ -20,7 +20,7 @@
                     <v-col cols="auto" class="d-flex">
                         <v-rating
                             class="pr-2"
-                            :value="3"
+                            :value="location.requireData().rating"
                             dense
                             small
                             readonly
