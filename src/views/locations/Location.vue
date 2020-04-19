@@ -140,11 +140,14 @@ export default class LocationView extends Vue {
     /**
      * Statistics for the location
      */
-    statistics = RequestHandler.handle(LocationService.get(this.secretId), {
-        id: "locationStatistics",
-        style: "SECTION",
-        displayFullpage: true,
-    });
+    statistics = RequestHandler.handle(
+        LocationService.getStatistics(this.secretId),
+        {
+            id: "locationStatistics",
+            style: "SECTION",
+            displayFullpage: true,
+        }
+    );
 
     /**
      * Creator for the given location.
