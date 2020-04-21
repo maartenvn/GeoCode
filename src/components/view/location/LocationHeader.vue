@@ -33,6 +33,10 @@
                                 <v-rating
                                     class="pr-2"
                                     :value="location.requireData().rating"
+                                    color="primary"
+                                    background-color="primary"
+                                    half-increments
+                                    half-icon="mdi-star-half-full"
                                     dense
                                     small
                                     readonly
