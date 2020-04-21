@@ -187,7 +187,7 @@ export default class LocationRatingCard extends Vue {
      */
     get avatarUrl() {
         if (this.creator?.isSuccess()) {
-            return UserUtil.getAvatarUrl(this.currentUser.requireData());
+            return UserUtil.getAvatarUrl(this.creator.requireData());
         }
 
         return "";
