@@ -178,11 +178,11 @@ export default class LocationInformation extends Vue {
     get lastVisitFormat(): string {
         if (this.statistics.isSuccess()) {
             const date = new Date(
-                this.statistics.requireData().lastVisit.timestamp
+                this.statistics.requireData().lastVisit.createdAt
             );
             const currentDate = new Date();
 
-            const diff = Math.abs(currentDate.getDate() - date.getDate());
+            const diff = Math.abs(currentDate.getTime() - date.getTime());
             const hours = Math.floor(diff / 36e5);
             const minutes = Math.floor(diff / 1000 / 60);
 
