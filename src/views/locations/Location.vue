@@ -30,16 +30,6 @@
                             <v-icon>mdi-information</v-icon>
                         </v-tab>
 
-                        <v-tab href="#tab-ratings">
-                            Ratings
-                            <v-icon>mdi-star</v-icon>
-                        </v-tab>
-
-                        <v-tab href="#tab-nearby">
-                            Nearby locations
-                            <v-icon>mdi-map-marker-circle</v-icon>
-                        </v-tab>
-
                         <template v-if="showGuestbook">
                             <v-tab
                                 href="#tab-guestbook"
@@ -53,6 +43,16 @@
                                 <v-icon>mdi-book-account</v-icon>
                             </v-tab>
                         </template>
+
+                        <v-tab href="#tab-ratings">
+                            Ratings
+                            <v-icon>mdi-star</v-icon>
+                        </v-tab>
+
+                        <v-tab href="#tab-nearby">
+                            Nearby locations
+                            <v-icon>mdi-map-marker-circle</v-icon>
+                        </v-tab>
                     </v-tabs>
 
                     <v-row>
@@ -67,6 +67,11 @@
                                     />
                                 </v-tab-item>
 
+                                <!-- Guestbook -->
+                                <v-tab-item value="tab-guestbook">
+                                    <location-guestbook :secret-id="secretId" />
+                                </v-tab-item>
+
                                 <!-- Ratings -->
                                 <v-tab-item value="tab-ratings">
                                     <location-ratings :secret-id="secretId" />
@@ -74,11 +79,6 @@
 
                                 <!-- Nearby -->
                                 <v-tab-item value="tab-nearby"> </v-tab-item>
-
-                                <!-- Guestbook -->
-                                <v-tab-item value="tab-guestbook">
-                                    <location-guestbook :secret-id="secretId" />
-                                </v-tab-item>
                             </v-tabs-items>
                         </v-col>
                     </v-row>

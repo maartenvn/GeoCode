@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { RawLocation, VueRouter } from "vue-router/types/router";
+import { VueRouter } from "vue-router/types/router";
 
 export class RouterUtil {
     /**

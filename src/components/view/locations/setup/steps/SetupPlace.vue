@@ -97,6 +97,7 @@
             </ul>
 
             <v-checkbox
+                class="ml-4"
                 v-model="acceptRules"
                 label="I have read the rules & accept the consequences of not following them."
             />

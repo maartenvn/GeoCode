@@ -77,7 +77,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, PropSync, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { InputField } from "@/types/fields/InputField";
 import { EchoPromise } from "echofetch";
 import { ErrorHandler } from "@/api/error/ErrorHandler";

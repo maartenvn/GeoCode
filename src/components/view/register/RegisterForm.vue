@@ -184,10 +184,7 @@ export default class Register extends Vue {
                     captcha: token,
                 })
             )
-                .then((data) => {
-                    // Finish loading
-                    this._loading = false;
-
+                .then(() => {
                     // Send confirmation message.
                     this.$store.dispatch("snackbar/open", {
                         message: "Account was successfully created",
@@ -197,9 +194,6 @@ export default class Register extends Vue {
                     this.$emit("registerSuccessAction");
                 })
                 .catch((error) => {
-                    // Finish loading
-                    this._loading = false;
-
                     ErrorHandler.handle(
                         error,
                         {
@@ -208,6 +202,10 @@ export default class Register extends Vue {
                         },
                         this.fields
                     );
+                })
+                .finally(() => {
+                    // Finish loading
+                    this._loading = false;
                 });
         });
     }
