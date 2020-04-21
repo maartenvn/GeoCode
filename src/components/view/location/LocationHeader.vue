@@ -18,23 +18,37 @@
                     </div>
 
                     <div class="location__info">
-                        <v-row>
+                        <!-- Loading -->
+                        <template v-if="statistics.isLoading()">
+                            <v-skeleton-loader
+                                class="mt-2"
+                                type="text"
+                                width="300"
+                            />
+                        </template>
+
+                        <!-- Data -->
+                        <v-row v-else-if="statistics.isSuccess()">
                             <v-col cols="auto" class="d-flex">
                                 <v-rating
                                     class="pr-2"
-                                    :value="3"
+                                    :value="location.requireData().rating"
+                                    color="primary"
+                                    background-color="primary"
+                                    half-increments
+                                    half-icon="mdi-star-half-full"
                                     dense
                                     small
                                     readonly
                                 />
-                                15 reviews
+                                {{ statistics.data.ratingsCount }} reviews
                             </v-col>
 
                             <v-divider class="divider--vertical" vertical />
 
                             <v-col cols="auto" class="d-flex">
                                 <v-icon left>mdi-qrcode-scan</v-icon>
-                                171 scans
+                                {{ statistics.data.visitsCount }} scans
                             </v-col>
                         </v-row>
                     </div>
@@ -101,6 +115,7 @@ import { InputField } from "@/types/fields/InputField";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
 import { ErrorHandler } from "@/api/error/ErrorHandler";
 import { RouterUtil } from "@/util/RouterUtil";
+import LocationStatistics from "@/api/models/LocationStatistics";
 
 @Component({
     components: {
@@ -120,6 +135,12 @@ export default class LocationHeader extends Vue {
      */
     @Prop()
     creator: EchoPromise<User>;
+
+    /**
+     * Statistics for the location.
+     */
+    @Prop()
+    statistics: EchoPromise<LocationStatistics>;
 
     /**
      * Current user

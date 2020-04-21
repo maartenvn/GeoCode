@@ -9,7 +9,11 @@
             <!-- General information -->
             <v-row>
                 <v-col cols="12">
-                    <location-header :location="location" :creator="creator" />
+                    <location-header
+                        :location="location"
+                        :statistics="statistics"
+                        :creator="creator"
+                    />
                 </v-col>
             </v-row>
 
@@ -59,6 +63,7 @@
                                     <location-information
                                         :creator="creator"
                                         :location="location"
+                                        :statistics="statistics"
                                     />
                                 </v-tab-item>
 
@@ -132,6 +137,18 @@ export default class LocationView extends Vue {
             },
         ],
     });
+
+    /**
+     * Statistics for the location
+     */
+    statistics = RequestHandler.handle(
+        LocationService.getStatistics(this.secretId),
+        {
+            id: "locationStatistics",
+            style: "SECTION",
+            displayFullpage: false,
+        }
+    );
 
     /**
      * Creator for the given location.

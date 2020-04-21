@@ -10,4 +10,6 @@ export default class Location {
     country: string;
     address: string;
     active: boolean;
+    rating: number;
+    createdAt: string;
 }
