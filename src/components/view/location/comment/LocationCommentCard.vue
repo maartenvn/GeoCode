@@ -175,7 +175,7 @@ export default class LocationCommentCard extends Vue {
      * Get the avatar URL for the creator
      */
     get avatarUrl() {
-        if (this.creator.isSuccess()) {
+        if (this.creator?.isSuccess()) {
             return UserUtil.getAvatarUrl(this.currentUser.requireData());
         }
 
