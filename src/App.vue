@@ -64,6 +64,7 @@ export default class App extends Vue {
         font-size: 1.25rem;
         font-weight: 500;
         line-height: 2rem;
+        padding-bottom: 10px;
         display: flex;
     }
 

@@ -1,137 +1,49 @@
 <template>
     <v-container class="container--small">
         <!-- Loading -->
-        <template v-if="currentUser.isLoading()"> </template>
+        <template v-if="currentUser.isLoading()">
+            <v-skeleton-loader type="article" style="margin-left: 175px;" />
+        </template>
 
         <!-- Data -->
         <template v-else-if="currentUser.isSuccess()">
-            <v-row align="center" justify="center">
-                <v-col class="section" cols="12" md="6">
-                    <div class="section__title">
-                        Your profile
-                    </div>
+            <v-tabs :vertical="$vuetify.breakpoint.mdAndUp" show-arrows>
+                <v-tab class="justify-start">
+                    <v-icon left>mdi-account</v-icon>
+                    Account settings
+                </v-tab>
 
-                    <v-form class="section__content" @submit.prevent>
-                        <!-- Username -->
-                        <v-text-field
-                            v-model="fields.username.value"
-                            :rules="fields.username.rules"
-                            :error-messages="fields.username.error"
-                            label="Name"
-                            placeholder="Your display name"
-                            outlined
-                            required
-                        />
+                <v-tab class="justify-start">
+                    <v-icon left>mdi-lock</v-icon>
+                    Password
+                </v-tab>
 
-                        <!-- Email -->
-                        <v-text-field
-                            v-model="fields.email.value"
-                            :rules="fields.email.rules"
-                            :error-messages="fields.email.error"
-                            label="Email"
-                            placeholder="Your email address"
-                            outlined
-                            required
-                        />
-
-                        <v-row justify="end">
-                            <v-col cols="auto">
-                                <v-btn
-                                    @click="updateProfile"
-                                    type="submit"
-                                    color="primary"
-                                    depressed
-                                >
-                                    Save changes
-                                </v-btn>
-                            </v-col>
-                        </v-row>
-                    </v-form>
-                </v-col>
-            </v-row>
+                <v-tab-item class="ml-md-4">
+                    <profile-account
+                        :current-user="currentUser.requireData()"
+                    />
+                </v-tab-item>
+            </v-tabs>
         </template>
     </v-container>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
-import { InputFields } from "@/types/fields/InputFields";
+import { Component, Vue } from "vue-property-decorator";
 import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 import { EchoPromise } from "echofetch";
-import { InputField } from "@/types/fields/InputField";
 import User from "@/api/models/User";
-import UserService from "@/api/services/UserService";
-import { InputFieldUtil } from "@/util/InputFieldUtil";
-import { ErrorHandler } from "@/api/error/ErrorHandler";
+import ProfileAccount from "@/components/view/profile/ProfileAccount.vue";
+import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 
-@Component
+@Component({
+    components: { ErrorPlaceholder, ProfileAccount },
+})
 export default class Profile extends Vue {
-    /**
-     * Input fields values & properties.
-     */
-    fields: InputFields;
-
     /**
      * Logged in user.
      */
     @StoreGetter("session/currentUser")
     currentUser: EchoPromise<User>;
-
-    constructor() {
-        super();
-
-        this.fields = {
-            username: new InputField(),
-            email: new InputField(),
-        };
-    }
-
-    /**
-     * Called when the component is created.
-     */
-    created() {
-        // Check if the current user is already defined on initial page load.
-        // If this is the case, force update the fields.
-        this.onCurrentUserUpdate(this.currentUser);
-    }
-
-    /**
-     * Set the fields value when the "currentUser" becomes available
-     */
-    @Watch("currentUser")
-    onCurrentUserUpdate(val: EchoPromise<User>) {
-        if (val.data) {
-            this.fields.username.value = val.data.username;
-            this.fields.email.value = val.data.email;
-        }
-    }
-
-    /**
-     * Update the profile settings that have changed on the page.
-     */
-    updateProfile() {
-        UserService.update(InputFieldUtil.getValues(this.fields))
-            .then((_) => {
-                // Send confirmation message.
-                this.$store.dispatch("snackbar/open", {
-                    message: "Successfully updated profile",
-                    color: "success",
-                });
-
-                // Refetch the profile information.
-                this.$store.dispatch("session/fetch");
-            })
-            .catch((error) => {
-                // Handle field errors.
-                ErrorHandler.handle(
-                    error,
-                    {
-                        style: "SNACKBAR",
-                        id: "profileUpdate",
-                    },
-                    this.fields
-                );
-            });
-    }
 }
 </script>
