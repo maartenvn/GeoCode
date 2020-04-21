@@ -176,7 +176,10 @@ export default class LocationInformation extends Vue {
      * Get the last visit timestamp as a string.
      */
     get lastVisitFormat(): string {
-        if (this.statistics.isSuccess()) {
+        if (
+            this.statistics.isSuccess() &&
+            this.statistics.requireData().lastVisit
+        ) {
             const date = new Date(
                 this.statistics.requireData().lastVisit.createdAt
             );
@@ -201,7 +204,7 @@ export default class LocationInformation extends Vue {
             return `${minutes} minute(s) ago`;
         }
 
-        return "";
+        return "Never";
     }
 
     /**
