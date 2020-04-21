@@ -1,8 +1,11 @@
 <template>
     <v-container class="container--small">
-        <!-- Setup: when location is not active. -->
+        <!-- Location is inactive -->
         <template v-if="location.isSuccess() && !location.data.active">
-            <setup :location="location.data" />
+            <!-- Setup -->
+            <template v-if="isOwner">
+                <setup :location="location.data" />
+            </template>
         </template>
 
         <template v-else>
@@ -89,7 +92,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { RequestHandler } from "@/api/RequestHandler";
 import LocationService from "@/api/services/LocationService";
 import LocationHeader from "@/components/view/location/LocationHeader.vue";
@@ -100,12 +103,15 @@ import UserService from "@/api/services/UserService";
 import LocationGuestbook from "@/components/view/location/LocationGuestbook.vue";
 import { LateRequest } from "@/api/decorators/LateRequestDecorator";
 import UsersService from "@/api/services/UsersService";
-import { EchoPromise } from "echofetch";
+import { EchoError, EchoPromise } from "echofetch";
 import User from "@/api/models/User";
 import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
+import ErrorSection from "@/components/error/placeholders/ErrorSection.vue";
+import { ErrorHandler } from "@/api/error/ErrorHandler";
 
 @Component({
     components: {
+        ErrorSection,
         LocationGuestbook,
         Setup,
         LocationHeader,
@@ -199,18 +205,48 @@ export default class LocationView extends Vue {
      */
     get showGuestbook(): boolean {
         // If the user is the owner, show the guestbook.
-        if (
-            this.creator &&
-            this.currentUser &&
-            this.creator.isSuccess() &&
-            this.currentUser.isSuccess() &&
-            this.creator.requireData().id === this.currentUser.requireData().id
-        ) {
+        if (this.isOwner) {
             return true;
         }
 
         // Otherwise, the user should have visited the location.
         return this.visits.isSuccess() && this.visits.requireData().length > 0;
+    }
+
+    /**
+     * Throw an error when the location is inactive.
+     */
+    @Watch("location", { immediate: true })
+    @Watch("creator", { immediate: true })
+    @Watch("currentUser", { immediate: true })
+    isInactive() {
+        if (
+            this.location.isSuccess() &&
+            !this.location.requireData().active &&
+            this.creator.isSuccess()
+        ) {
+            if (this.isOwner) {
+                return;
+            }
+
+            const error = {
+                code: "location_inactive",
+            } as EchoError;
+
+            ErrorHandler.handle(error, {
+                id: "locationInactive",
+                style: "SECTION",
+                displayFullpage: true,
+                customMessages: [
+                    {
+                        code: "location_inactive",
+                        message: "Location is currently inactive",
+                        description:
+                            "The creator has currently deactivated this location. Please try again later.",
+                    },
+                ],
+            });
+        }
     }
 }
 </script>
