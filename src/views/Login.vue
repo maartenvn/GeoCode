@@ -7,59 +7,11 @@
                         Login
                     </v-card-title>
 
-                    <v-form @submit.prevent>
-                        <v-card-text>
-                            <p class="pb-4">
-                                Login into your existing GeoCode account.
-                            </p>
-
-                            <!-- Email -->
-                            <v-text-field
-                                v-model="fields.email.value"
-                                :rules="fields.email.rules"
-                                :error-messages="fields.email.error"
-                                :disabled="loading"
-                                append-icon="mdi-email"
-                                label="Email"
-                                placeholder="Please enter your email address"
-                                type="email"
-                                outlined
-                                required
-                            />
-
-                            <!-- Password -->
-                            <v-text-field
-                                v-model="fields.password.value"
-                                :rules="fields.password.rules"
-                                :error-messages="fields.password.error"
-                                :disabled="loading"
-                                append-icon="mdi-lock"
-                                label="Password"
-                                placeholder="Enter your password"
-                                type="password"
-                                outlined
-                                required
-                            />
-                        </v-card-text>
-
-                        <v-card-actions>
-                            <v-btn to="/register" color="primary" text>
-                                Create an account
-                            </v-btn>
-
-                            <v-spacer />
-
-                            <v-btn
-                                color="primary"
-                                depressed
-                                @click="login"
-                                :disabled="loading"
-                                type="submit"
-                            >
-                                Login
-                            </v-btn>
-                        </v-card-actions>
-                    </v-form>
+                    <login-form
+                        :loading.sync="loading"
+                        @loginSuccessAction="onLoginSuccess"
+                        @registerClick="onRegisterClick"
+                    />
                 </v-card>
             </v-col>
         </v-row>
@@ -67,83 +19,40 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
-import UserService from "@/api/services/UserService";
-import AuthService from "@/api/services/AuthService";
-import { InputFields } from "@/types/fields/InputFields";
-import { InputField } from "@/types/fields/InputField";
-import { CaptchaUtil } from "@/util/CaptchaUtil";
-import { InputFieldUtil } from "@/util/InputFieldUtil";
-import { ErrorHandler } from "@/api/error/ErrorHandler";
+import { Component, Vue } from "vue-property-decorator";
+import LoginForm from "@/components/view/login/LoginForm.vue";
 
-@Component
+@Component({
+    components: {
+        LoginForm,
+    },
+})
 export default class Login extends Vue {
     /**
      * If the form is loading.
      */
     loading: boolean;
 
-    /**
-     * Input fields values & properties.
-     */
-    fields: InputFields;
-
     constructor() {
         super();
 
         this.loading = false;
-        this.fields = {
-            email: new InputField(),
-            password: new InputField()
-        };
     }
 
     /**
-     * Login request
+     * Navigate to the register page when the register button is clicked.
      */
-    login(): void {
-        // Set loading.
-        this.loading = true;
+    onRegisterClick() {
+        // Navigate to the register page.
+        this.$router.push("/register");
+    }
 
-        CaptchaUtil.execute("login")
-            .then(token => {
-                // Execute the login request.
-                AuthService.login(
-                    Object.assign(InputFieldUtil.getValues(this.fields), {
-                        captcha: token
-                    })
-                )
-                    .then(data => {
-                        // Send confirmation message.
-                        this.$store.dispatch("snackbar/open", {
-                            message: "Successfully logged in",
-                            color: "success"
-                        });
-
-                        // Navigate to the home page.
-                        this.$router.push("/");
-
-                        // Update the current user inside the store.
-                        this.$store.dispatch("session/fetch");
-                    })
-                    .catch(error => {
-                        // Finish loading
-                        this.loading = false;
-
-                        ErrorHandler.handle(
-                            error,
-                            {
-                                id: "login",
-                                style: "SNACKBAR"
-                            },
-                            this.fields
-                        );
-                    });
-            })
-            .finally(() => {
-                // Finish loading
-                this.loading = false;
-            });
+    /**
+     * Navigate to the home page when the login succeeded.
+     */
+    onLoginSuccess() {
+        // Navigate to the home page.
+        this.$router.push("/");
     }
 }
 </script>

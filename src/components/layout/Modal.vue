@@ -25,18 +25,18 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { mapState, mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 import { ModalData } from "@/store/modules/modal";
 import LoadingModal from "../modal/LoadingModal.vue";
 
 @Component({
     computed: {
-        ...mapState("modal", ["data"])
+        ...mapState("modal", ["data"]),
     },
 
     methods: {
-        ...mapActions("modal", ["close"])
-    }
+        ...mapActions("modal", ["close"]),
+    },
 })
 export default class Modal extends Vue {
     /**
@@ -75,7 +75,7 @@ export default class Modal extends Vue {
         if (this.$store.state.modal.data.component instanceof Promise) {
             return () => ({
                 component: this.$store.state.modal.data.component(),
-                loading: LoadingModal
+                loading: LoadingModal,
             });
         } else {
             return this.$store.state.modal.data.component;

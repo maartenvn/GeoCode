@@ -22,16 +22,16 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { mapState, mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 @Component({
     computed: {
-        ...mapState("snackbar", ["data"])
+        ...mapState("snackbar", ["data"]),
     },
 
     methods: {
-        ...mapActions("snackbar", ["close"])
-    }
+        ...mapActions("snackbar", ["close"]),
+    },
 })
 export default class Snackbar extends Vue {
     /**

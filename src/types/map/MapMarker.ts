@@ -1,4 +1,4 @@
-import { LatLng, LatLngExpression, latLng } from "leaflet";
+import { LatLng, latLng, LatLngExpression } from "leaflet";
 
 export class MapMarker {
     /**

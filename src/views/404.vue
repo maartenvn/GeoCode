@@ -16,7 +16,7 @@ export default class NotFound extends Vue {
             code: "404",
             config: {},
             isAxiosError: false,
-            toJSON: () => new Object()
+            toJSON: () => new Object(),
         };
 
         // Throw an error with the "404" status code.
@@ -24,7 +24,7 @@ export default class NotFound extends Vue {
         ErrorHandler.handle(error, {
             id: "not_found",
             style: "SECTION",
-            displayFullpage: true
+            displayFullpage: true,
         });
     }
 }

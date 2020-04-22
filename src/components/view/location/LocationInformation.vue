@@ -13,10 +13,18 @@
                         Overview
                     </div>
 
-                    <div
-                        class="section__content"
-                        v-html="location.data.description"
-                    ></div>
+                    <!-- Editor -->
+                    <inline-edit
+                        v-model="location.data.description"
+                        :update="updateLocationName"
+                        :enabled="isOwner"
+                        :is-editor="true"
+                    >
+                        <div
+                            class="section__content text--secondary"
+                            v-html="location.data.description"
+                        />
+                    </inline-edit>
                 </v-col>
 
                 <v-divider class="ml-10" vertical />
@@ -30,29 +38,36 @@
                         <span class="li__title">
                             Coordinates
                         </span>
-                        <span class="li__content">
-                            25° N, 23° E
-                        </span>
+                        <ul class="li__content">
+                            <li>{{ latitudeDMS }}</li>
+                            <li>{{ longitudeDMS }}</li>
+                        </ul>
 
                         <span class="li__title">
                             Created by
                         </span>
                         <span class="li__content">
-                            <a>Barry Benson</a>
+                            <template v-if="creator && creator.isLoading()">
+                                <v-skeleton-loader dense type="text" />
+                            </template>
+
+                            <template v-else-if="creator.isSuccess()">
+                                <a>{{ creator.data.username }}</a>
+                            </template>
                         </span>
 
                         <span class="li__title">
                             Created on
                         </span>
                         <span class="li__content">
-                            06/03/2020
+                            {{ createdAtFormat }}
                         </span>
 
                         <span class="li__title">
                             Last scan
                         </span>
                         <span class="li__content">
-                            5 hours ago
+                            {{ lastVisitFormat }}
                         </span>
                     </div>
                 </v-col>
@@ -74,7 +89,7 @@
                         :location="location"
                         :center="[
                             location.data.latitude,
-                            location.data.longitude
+                            location.data.longitude,
                         ]"
                         :zoom="15"
                     />
@@ -90,20 +105,129 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { EchoPromise } from "echofetch";
+import { CoordinatesUtil } from "@/util/CoordinatesUtil";
 import Location from "@/api/models/Location";
 import LocationMap from "@/components/map/location/LocationMap.vue";
 import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
+import User from "@/api/models/User";
+import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
+import LocationService from "@/api/services/LocationService";
+import InlineEdit from "@/components/util/InlineEdit.vue";
+import LocationStatistics from "@/api/models/LocationStatistics";
 
 @Component({
     components: {
         ErrorPlaceholder,
-        LocationMap
-    }
+        LocationMap,
+        InlineEdit,
+    },
 })
 export default class LocationInformation extends Vue {
+    /**
+     * Location.
+     */
     @Prop()
     location: EchoPromise<Location>;
+
+    /**
+     * Creator for the given location.
+     */
+    @Prop()
+    creator: EchoPromise<User>;
+
+    /**
+     * Statistics for the location.
+     */
+    @Prop()
+    statistics: EchoPromise<LocationStatistics>;
+
+    /**
+     * Current user
+     */
+    @StoreGetter("session/currentUser")
+    currentUser: EchoPromise<User>;
+
+    /**
+     * Get the latitude value in DMS.
+     */
+    get latitudeDMS(): string {
+        return CoordinatesUtil.latToDMS(this.location.requireData().latitude);
+    }
+
+    /**
+     * Get the longitude value in DMS.
+     */
+    get longitudeDMS(): string {
+        return CoordinatesUtil.lngToDMS(this.location.requireData().longitude);
+    }
+
+    /**
+     * Get the createdAt as a string.
+     */
+    get createdAtFormat(): string {
+        const date = new Date(this.location.requireData().createdAt);
+
+        return date.toLocaleDateString();
+    }
+
+    /**
+     * Get the last visit timestamp as a string.
+     */
+    get lastVisitFormat(): string {
+        if (
+            this.statistics.isSuccess() &&
+            this.statistics.requireData().lastVisit
+        ) {
+            const date = new Date(
+                this.statistics.requireData().lastVisit.createdAt
+            );
+            const currentDate = new Date();
+
+            const diff = Math.abs(currentDate.getTime() - date.getTime());
+            const hours = Math.floor(diff / 36e5);
+            const minutes = Math.floor(diff / 1000 / 60);
+
+            if (hours >= 48) {
+                return date.toLocaleDateString();
+            }
+
+            if (minutes >= 60) {
+                return `${hours} hour(s) ago`;
+            }
+
+            if (minutes < 1) {
+                return "Just now";
+            }
+
+            return `${minutes} minute(s) ago`;
+        }
+
+        return "Never";
+    }
+
+    /**
+     * Get if the current user is the owner of the location.
+     */
+    get isOwner() {
+        return (
+            this.creator &&
+            this.currentUser &&
+            this.creator.isSuccess() &&
+            this.currentUser.isSuccess() &&
+            this.creator.requireData().id === this.currentUser.requireData().id
+        );
+    }
+
+    /**
+     * Update the location description.
+     * @param value Value of the location description.
+     */
+    updateLocationName(value: string): EchoPromise<unknown> {
+        return LocationService.update(this.location.requireData().secretId, {
+            description: value,
+        });
+    }
 }
 </script>

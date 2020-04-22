@@ -12,7 +12,7 @@ export function StoreGetter(getterName: string): VueDecorator {
                 options.computed = {};
             }
 
-            options.computed[key] = function(this: Vue) {
+            options.computed[key] = function (this: Vue) {
                 return this.$store.getters[getterName];
             };
         }

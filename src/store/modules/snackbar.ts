@@ -38,7 +38,7 @@ export const snackbar = {
 
     state: {
         open: false,
-        data: {}
+        data: {},
     },
 
     mutations: {
@@ -63,9 +63,9 @@ export const snackbar = {
             // This is so you only have to provide the changes.
             state.data = {
                 ...new SnackbarData(),
-                ...data
+                ...data,
             };
-        }
+        },
     },
 
     actions: {
@@ -88,6 +88,6 @@ export const snackbar = {
          */
         close(context: any) {
             context.commit("SET_OPEN", false);
-        }
-    }
+        },
+    },
 };

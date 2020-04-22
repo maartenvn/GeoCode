@@ -6,7 +6,7 @@
         </template>
 
         <!-- Data -->
-        <template v-else-if="locations.data">
+        <template v-else-if="locations.isSuccess()">
             <v-data-table
                 :headers="tableHeaders"
                 :search="tableSearch"
@@ -31,6 +31,22 @@
                     No locations found with the given parameters
                 </template>
 
+                <template v-slot:item.active="{ item }">
+                    <template v-if="activeEnabled">
+                        <template v-if="!item.active">
+                            <v-chip color="warning" text-color="white" small>
+                                Not activated
+                            </v-chip>
+                        </template>
+
+                        <template v-else>
+                            <v-chip color="success" text-color="white" small>
+                                Activated
+                            </v-chip>
+                        </template>
+                    </template>
+                </template>
+
                 <template v-slot:item.action="{ item }">
                     <!-- Delete -->
                     <v-btn
@@ -44,11 +60,22 @@
 
                     <!-- View -->
                     <v-btn
-                        :to="`/location/${item.secretId}`"
+                        v-if="item.active || !activeEnabled"
+                        :to="`/locations/${item.secretId}`"
                         color="primary"
                         text
                     >
                         View
+                        <v-icon right>mdi-arrow-right</v-icon>
+                    </v-btn>
+
+                    <v-btn
+                        v-else
+                        :to="`/locations/${item.secretId}`"
+                        color="warning"
+                        text
+                    >
+                        Activate
                         <v-icon right>mdi-arrow-right</v-icon>
                     </v-btn>
                 </template>
@@ -58,8 +85,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
-import { DataTableHeader } from "vuetify";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { EchoPromise } from "echofetch";
 import { ErrorHandler } from "@/api/error/ErrorHandler";
 import Location from "@/api/models/Location";
@@ -81,32 +107,35 @@ export default class LocationsTable extends Vue {
     deleteEnabled: boolean;
 
     /**
+     * Should the "active"-column be showed.
+     */
+    @Prop({ default: false })
+    activeEnabled: boolean;
+
+    /**
      * List with headers for the Vuetify data table.
      */
-    tableHeaders: Array<DataTableHeader>;
+    tableHeaders = [
+        {
+            text: "Name",
+            value: "name",
+        },
+        {
+            text: "",
+            value: "active",
+        },
+        {
+            text: "",
+            value: "action",
+            sortable: false,
+            align: "end",
+        },
+    ];
 
     /**
      * Value of the search field.
      */
-    tableSearch: string;
-
-    constructor() {
-        super();
-
-        this.tableHeaders = [
-            {
-                text: "Name",
-                value: "name"
-            },
-            {
-                text: "",
-                value: "action",
-                sortable: false,
-                align: "end"
-            }
-        ];
-        this.tableSearch = "";
-    }
+    tableSearch = "";
 
     /**
      * Open a model to confirm the delete of a location.
@@ -119,7 +148,7 @@ export default class LocationsTable extends Vue {
                 message: `Are you sure you want to delete '${location.name}? This action is permanent and cannot be undone!'`,
                 action: () =>
                     LocationService.delete(location.secretId)
-                        .then(data => {
+                        .then((data) => {
                             // Close the modal.
                             this.$store.dispatch("modal/close");
 
@@ -136,16 +165,16 @@ export default class LocationsTable extends Vue {
                             // Send confirmation message.
                             this.$store.dispatch("snackbar/open", {
                                 message: "Location has been deleted",
-                                color: "success"
+                                color: "success",
                             });
                         })
-                        .catch(error => {
+                        .catch((error) => {
                             ErrorHandler.handle(error, {
                                 style: "SNACKBAR",
-                                id: "locationDelete"
+                                id: "locationDelete",
                             });
-                        })
-            }
+                        }),
+            },
         });
     }
 }

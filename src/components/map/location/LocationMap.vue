@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { LatLng, Map } from "leaflet";
 import { EchoPromise } from "echofetch";
 import { MapMarker } from "@/types/map/MapMarker";
@@ -39,8 +39,8 @@ import LocationPopup from "@/components/map/popup/LocationPopup.vue";
 
 @Component({
     components: {
-        MarkerMap
-    }
+        MarkerMap,
+    },
 })
 export default class LocationMap extends Vue {
     /**

@@ -20,14 +20,17 @@
             :zoom="zoom"
             :center="center"
             :options="mapOptions"
-            :style="
-                `height: ${height}; width: ${width}; z-index: 1; margin: auto;`
-            "
+            :style="`height: ${height}; width: ${width}; z-index: 1; margin: auto;`"
             gestureHandling
             @click="handleMapClick"
         >
             <l-tile-layer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+
+            <l-control-attribution
+                position="bottomleft"
+                prefix="&copy; <a href='https://openstreetmap.org/copyright'>OpenStreetMap contributors</a>"
             />
 
             <!-- Marker -->
@@ -48,10 +51,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch, Emit } from "vue-property-decorator";
-import { LMap, LTileLayer, LMarker, LPopup } from "vue2-leaflet";
+import { Component, Emit, Prop, Vue, Watch } from "vue-property-decorator";
+import {
+    LMap,
+    LMarker,
+    LPopup,
+    LTileLayer,
+    LControlAttribution,
+} from "vue2-leaflet";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
-import { LatLng, Map, LeafletMouseEvent, MapOptions } from "leaflet";
+import { LeafletMouseEvent, Map, MapOptions } from "leaflet";
 import { MapMarker } from "@/types/map/MapMarker";
 
 @Component({
@@ -59,8 +68,9 @@ import { MapMarker } from "@/types/map/MapMarker";
         LMap,
         LTileLayer,
         LMarker,
-        LPopup
-    }
+        LPopup,
+        LControlAttribution,
+    },
 })
 export default class MarkerMap extends Vue {
     /**
@@ -162,7 +172,7 @@ export default class MarkerMap extends Vue {
         this.searchProvider = new OpenStreetMapProvider();
         this.mapOptions = {
             zoomSnap: 0.5,
-            gestureHandling: true
+            gestureHandling: true,
         };
     }
 
@@ -185,7 +195,7 @@ export default class MarkerMap extends Vue {
                 this.searchEntries = results.map((result: any) => {
                     return {
                         text: result.label,
-                        value: result
+                        value: result,
                     };
                 });
 

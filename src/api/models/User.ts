@@ -1,6 +1,8 @@
+import UserAvatar from "@/api/models/UserAvatar";
+
 export default class User {
-    public id: number;
-    public username: string;
-    public email: string;
-    public avatarUrl: string;
+    id: number;
+    username: string;
+    email: string;
+    avatar: UserAvatar;
 }

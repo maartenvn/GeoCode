@@ -53,7 +53,7 @@
 
                         <v-tab href="#tab-name">
                             Search by name
-                            <v-icon>mdi-textbox</v-icon>
+                            <v-icon>mdi-form-textbox</v-icon>
                         </v-tab>
                     </v-tabs>
 
@@ -87,7 +87,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 import LocationService from "@/api/services/LocationService";
 import LocationMap from "@/components/map/location/LocationMap.vue";
@@ -99,8 +99,8 @@ import { RequestHandler } from "@/api/RequestHandler";
     components: {
         LocationMap,
         LocationsTable,
-        ErrorPlaceholder
-    }
+        ErrorPlaceholder,
+    },
 })
 export default class LocationView extends Vue {
     tab: any;
@@ -108,7 +108,7 @@ export default class LocationView extends Vue {
     locations = RequestHandler.handle(LocationService.getAll(), {
         id: "location",
         style: "SECTION",
-        displayFullpage: true
+        displayFullpage: true,
     });
 
     /**
@@ -130,7 +130,7 @@ export default class LocationView extends Vue {
         this.$store.dispatch("modal/open", {
             component: () =>
                 import("@/components/modal/location/LocationCreateModal.vue"),
-            fullscreen: true
+            fullscreen: true,
         });
     }
 }

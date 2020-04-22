@@ -20,7 +20,11 @@
             </div>
         </div>
 
-        <locations-table :locations="locations" :deleteEnabled="true" />
+        <locations-table
+            :locations="locations"
+            :delete-enabled="true"
+            :active-enabled="true"
+        />
     </v-container>
 </template>
 
@@ -32,8 +36,8 @@ import UserService from "@/api/services/UserService";
 
 @Component({
     components: {
-        LocationsTable
-    }
+        LocationsTable,
+    },
 })
 export default class ProfileLocations extends Vue {
     /**
@@ -42,7 +46,7 @@ export default class ProfileLocations extends Vue {
     locations = RequestHandler.handle(UserService.getLocations(), {
         id: "userLocations",
         style: "SECTION",
-        displayFullpage: true
+        displayFullpage: true,
     });
 
     /**
@@ -52,7 +56,7 @@ export default class ProfileLocations extends Vue {
         this.$store.dispatch("modal/open", {
             component: () =>
                 import("@/components/modal/location/LocationCreateModal.vue"),
-            fullscreen: true
+            fullscreen: true,
         });
     }
 }
