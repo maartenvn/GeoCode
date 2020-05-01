@@ -87,7 +87,11 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { EchoPromise } from "echofetch";
+import { ArrayUtil } from "@/util/ArrayUtil";
+import { ErrorHandler } from "@/api/error/ErrorHandler";
 import Tour from "@/api/models/Tour";
+import ConfirmModal from "@/components/modal/ConfirmModal.vue";
+import TourService from "@/api/services/TourService";
 
 @Component
 export default class ToursTable extends Vue {
@@ -137,5 +141,39 @@ export default class ToursTable extends Vue {
      * Value of the search field.
      */
     tableSearch = "";
+
+    /**
+     * Open a model to confirm the delete of a tour.
+     * @param tour Tour to delete.
+     */
+    openConfirmDelete(tour: Tour) {
+        this.$store.dispatch("modal/open", {
+            component: ConfirmModal,
+            componentPayload: {
+                message: `Are you sure you want to delete '${tour.name}? This action is permanent and cannot be undone!'`,
+                action: () =>
+                    TourService.delete(tour.secretId)
+                        .then(() => {
+                            // Close the modal.
+                            this.$store.dispatch("modal/close");
+
+                            // Remove the location from the table.
+                            ArrayUtil.delete(this.tours.requireData(), tour);
+
+                            // Send confirmation message.
+                            this.$store.dispatch("snackbar/open", {
+                                message: "Tour has been deleted",
+                                color: "success",
+                            });
+                        })
+                        .catch((error) => {
+                            ErrorHandler.handle(error, {
+                                style: "SNACKBAR",
+                                id: "tourDelete",
+                            });
+                        }),
+            },
+        });
+    }
 }
 </script>
