@@ -22,7 +22,7 @@
 
         <!-- Error -->
         <template v-else>
-            <error-placeholder id="locations" />
+            <error-placeholder error-id="locations" />
         </template>
     </div>
 </template>

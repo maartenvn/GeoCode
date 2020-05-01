@@ -84,7 +84,7 @@
 
         <!-- Error -->
         <template v-else-if="tours.isError()">
-            <error-placeholder id="tours" />
+            <error-placeholder error-id="tours" />
         </template>
     </div>
 </template>

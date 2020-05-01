@@ -23,7 +23,7 @@
 
         <!-- Error -->
         <template v-else-if="showLocations && locations.isError()">
-            <error-placeholder id="locations" />
+            <error-placeholder error-id="locations" />
         </template>
     </div>
 </template>
