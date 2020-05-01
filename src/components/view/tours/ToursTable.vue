@@ -81,6 +81,11 @@
                 </template>
             </v-data-table>
         </template>
+
+        <!-- Error -->
+        <template v-else-if="tours.isError()">
+            <error-placeholder id="tours" />
+        </template>
     </div>
 </template>
 
@@ -92,8 +97,11 @@ import { ErrorHandler } from "@/api/error/ErrorHandler";
 import Tour from "@/api/models/Tour";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
 import TourService from "@/api/services/TourService";
+import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 
-@Component
+@Component({
+    components: { ErrorPlaceholder },
+})
 export default class ToursTable extends Vue {
     /**
      * List with tours.

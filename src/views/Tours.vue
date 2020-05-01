@@ -55,7 +55,6 @@ export default class Tours extends Vue {
     tours = RequestHandler.handle(TourService.getAll(), {
         id: "tours",
         style: "SECTION",
-        displayFullpage: false,
     });
 
     /**

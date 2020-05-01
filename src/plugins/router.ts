@@ -75,6 +75,12 @@ const routes = [
     },
 
     {
+        path: "/profile/tours/",
+        name: "Your tours",
+        component: () => import("../views/profile/ProfileTours.vue"),
+    },
+
+    {
         path: "/profile/visits/",
         name: "Your visits",
         component: () => import("../views/profile/ProfileVisits.vue"),
