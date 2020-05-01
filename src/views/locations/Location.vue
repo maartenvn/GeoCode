@@ -94,20 +94,20 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { RequestHandler } from "@/api/RequestHandler";
+import { LateRequest } from "@/api/decorators/LateRequestDecorator";
+import { ErrorHandler } from "@/api/error/ErrorHandler";
+import { EchoError, EchoPromise } from "echofetch";
+import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
+import UsersService from "@/api/services/UsersService";
+import UserService from "@/api/services/UserService";
+import User from "@/api/models/User";
+import ErrorSection from "@/components/error/placeholders/ErrorSection.vue";
 import LocationService from "@/api/services/LocationService";
 import LocationHeader from "@/components/view/location/LocationHeader.vue";
 import LocationInformation from "@/components/view/location/LocationInformation.vue";
 import LocationRatings from "@/components/view/location/LocationRatings.vue";
-import Setup from "@/components/view/locations/setup/Setup.vue";
-import UserService from "@/api/services/UserService";
 import LocationGuestbook from "@/components/view/location/LocationGuestbook.vue";
-import { LateRequest } from "@/api/decorators/LateRequestDecorator";
-import UsersService from "@/api/services/UsersService";
-import { EchoError, EchoPromise } from "echofetch";
-import User from "@/api/models/User";
-import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
-import ErrorSection from "@/components/error/placeholders/ErrorSection.vue";
-import { ErrorHandler } from "@/api/error/ErrorHandler";
+import Setup from "@/components/view/locations/setup/Setup.vue";
 
 @Component({
     components: {

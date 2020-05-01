@@ -39,6 +39,12 @@ const routes = [
     },
 
     {
+        path: "/tours/:secretId",
+        name: "Tour",
+        component: () => import("../views/tours/Tour.vue"),
+    },
+
+    {
         path: "/login",
         name: "Login",
         component: () => import("../views/Login.vue"),
