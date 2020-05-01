@@ -128,7 +128,7 @@
                                         @click:close="removeLocation(item)"
                                     >
                                         <strong>
-                                            {{ getLocationPosition(item) + 1 }})
+                                            {{ getLocationPosition(item) + 1 }}.
                                             {{ item.name }}
                                         </strong>
                                     </v-chip>
