@@ -208,19 +208,24 @@ export default class MarkerMap extends Vue {
         // Set the searchbar is currently loading.
         this.searchLoading = true;
 
+        const searchValueCopy = this.searchValue;
+
         this.searchProvider
             .search({ query: val })
             .then((results: Array<any>) => {
-                // Map the results on an object that can be displayed in the autocomplete component.
-                this.searchEntries = results.map((result: any) => {
-                    return {
-                        text: result.label,
-                        value: result,
-                    };
-                });
+                // Only update the search entries when the current text in the searchfield equals the original request.
+                if (this.searchValue === searchValueCopy) {
+                    // Map the results on an object that can be displayed in the autocomplete component.
+                    this.searchEntries = results.map((result: any) => {
+                        return {
+                            text: result.label,
+                            value: result,
+                        };
+                    });
 
-                // Set the searchbar is done loading.
-                this.searchLoading = false;
+                    // Set the searchbar is done loading.
+                    this.searchLoading = false;
+                }
             });
     }
 

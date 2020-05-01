@@ -27,10 +27,9 @@
             </v-row>
 
             <div class="section__description">
-                GeoCode contains user defined locations in various countries and
-                cities in the world. Use the map below to find a location near
-                any place you want to visit. You can type a location in the
-                searchbar below.
+                GeoCode contains user defined tours. These tours will guide you
+                across multiple GeoCode locations. Use the table below to search
+                for a tour you would like to visit.
             </div>
         </div>
 
