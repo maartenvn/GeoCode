@@ -49,6 +49,12 @@ export default class Navigation extends Vue {
             to: "/locations",
             icon: "mdi-map-marker",
         },
+
+        {
+            title: "Tours",
+            to: "/tours",
+            icon: "mdi-routes",
+        },
     ];
 
     /**

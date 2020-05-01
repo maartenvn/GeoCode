@@ -33,6 +33,12 @@ const routes = [
     },
 
     {
+        path: "/tours",
+        name: "Tours",
+        component: () => import("../views/Tours.vue"),
+    },
+
+    {
         path: "/login",
         name: "Login",
         component: () => import("../views/Login.vue"),

@@ -1,8 +1,8 @@
-export class InputField {
+export class InputField<T> {
     /**
      * Value of the input field.
      */
-    value: unknown;
+    value: T | unknown;
 
     /**
      * Rules that the input value has to comply with.
