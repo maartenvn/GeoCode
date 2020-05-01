@@ -21,7 +21,7 @@
         </div>
 
         <tours-table
-            :locations="locations"
+            :tours="tours"
             :delete-enabled="true"
             :active-enabled="true"
         />
@@ -41,12 +41,11 @@ import ToursTable from "@/components/view/tours/ToursTable.vue";
 })
 export default class ProfileTours extends Vue {
     /**
-     * List with locations.
+     * List with tours.
      */
-    locations = RequestHandler.handle(UserService.getLocations(), {
+    tours = RequestHandler.handle(UserService.getTours(), {
         id: "userTours",
         style: "SECTION",
-        displayFullpage: true,
     });
 
     /**
