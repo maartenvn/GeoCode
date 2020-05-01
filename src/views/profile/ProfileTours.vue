@@ -44,7 +44,7 @@ export default class ProfileTours extends Vue {
      * List with tours.
      */
     tours = RequestHandler.handle(UserService.getTours(), {
-        id: "userTours",
+        id: "tours",
         style: "SECTION",
     });
 
