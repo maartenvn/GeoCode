@@ -32,6 +32,24 @@
                     No users found with the given parameters
                 </template>
 
+                <template v-slot:item.position="{ item }">
+                    <template v-if="getPosition(item) === 1">
+                        <img src="@/assets/img/medal_first.svg" />
+                    </template>
+
+                    <template v-else-if="getPosition(item) === 2">
+                        <img src="@/assets/img/medal_second.svg" />
+                    </template>
+
+                    <template v-else-if="getPosition(item) === 3">
+                        <img src="@/assets/img/medal_third.svg" />
+                    </template>
+
+                    <template v-else>
+                        <strong>{{ getPosition(item) }}</strong>
+                    </template>
+                </template>
+
                 <template v-slot:item.avatar="{ item }">
                     <user-avatar
                         :username="item.user.username"
@@ -78,6 +96,11 @@ export default class LeaderboardsTable extends Vue {
      */
     tableHeaders = [
         {
+            text: "#",
+            value: "position",
+        },
+
+        {
             text: "",
             value: "avatar",
         },
@@ -114,6 +137,18 @@ export default class LeaderboardsTable extends Vue {
      */
     getAvatarUrl(user: User): string {
         return UserUtil.getAvatarUrl(user);
+    }
+
+    /**
+     * Get the position of a leaderboard user in the list.
+     * @param leaderboardUser
+     */
+    getPosition(leaderboardUser: LeaderboardUser): number {
+        if (this.users.isSuccess()) {
+            return this.users.requireData().indexOf(leaderboardUser);
+        }
+
+        return 0;
     }
 }
 </script>
