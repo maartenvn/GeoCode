@@ -33,6 +33,12 @@ const routes = [
     },
 
     {
+        path: "/leaderboards",
+        name: "Leaderboards",
+        component: () => import("../views/Leaderboards.vue"),
+    },
+
+    {
         path: "/login",
         name: "Login",
         component: () => import("../views/Login.vue"),
