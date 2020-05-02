@@ -9,6 +9,44 @@
         </template>
 
         <template v-else>
+            <!-- Warnings -->
+            <template v-if="location.isSuccess() && statistics.isSuccess()">
+                <!-- Warning: low ratings (lower than 2) -->
+                <template
+                    v-if="
+                        statistics.data.ratingsCount > 1 &&
+                        location.data.rating < 2
+                    "
+                >
+                    <v-alert type="error" border="left">
+                        This location has a very low rating! It could
+                        potentially be no longer valid or spam. Proceed with
+                        extreme caution
+                    </v-alert>
+                </template>
+
+                <!-- Warning: low ratings (lower than 2.5) -->
+                <template
+                    v-else-if="
+                        statistics.data.ratingsCount > 1 &&
+                        location.data.rating < 2.5
+                    "
+                >
+                    <v-alert type="warning" border="left">
+                        This location has a low rating! It may be damaged or no
+                        longer available. Proceed with caution.
+                    </v-alert>
+                </template>
+
+                <!-- Warning: no scans -->
+                <template v-if="statistics.data.visitsCount < 1">
+                    <v-alert type="warning" text border="left">
+                        This location has not been visited yet! Proceed with
+                        caution.
+                    </v-alert>
+                </template>
+            </template>
+
             <!-- General information -->
             <v-row>
                 <v-col cols="12">
