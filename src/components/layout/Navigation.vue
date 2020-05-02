@@ -68,6 +68,12 @@ export default class Navigation extends Vue {
         },
 
         {
+            title: "My Achievements",
+            to: "/profile/achievements",
+            icon: "mdi-trophy",
+        },
+
+        {
             title: "My Locations",
             to: "/profile/locations",
             icon: "mdi-database-marker",

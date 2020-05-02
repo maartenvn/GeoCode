@@ -63,6 +63,12 @@ const routes = [
     },
 
     {
+        path: "/profile/achievements/",
+        name: "Your achievements",
+        component: () => import("../views/profile/ProfileAchievements.vue"),
+    },
+
+    {
         path: "/profile/locations/",
         name: "Your location",
         component: () => import("../views/profile/ProfileLocations.vue"),

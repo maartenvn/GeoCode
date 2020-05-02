@@ -23,7 +23,7 @@
                         :current-user="currentUser.requireData()"
                     />
 
-                    <profile-achievements
+                    <profile-account-achievements
                         :current-user="currentUser.requireData()"
                     />
                 </v-tab-item>
@@ -39,10 +39,14 @@ import { EchoPromise } from "echofetch";
 import User from "@/api/models/User";
 import ProfileAccount from "@/components/view/profile/ProfileAccount.vue";
 import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
-import ProfileAchievements from "@/components/view/profile/ProfileAchievements.vue";
+import ProfileAccountAchievements from "@/components/view/profile/ProfileAccountAchievements.vue";
 
 @Component({
-    components: { ProfileAchievements, ErrorPlaceholder, ProfileAccount },
+    components: {
+        ProfileAccountAchievements,
+        ErrorPlaceholder,
+        ProfileAccount,
+    },
 })
 export default class Profile extends Vue {
     /**

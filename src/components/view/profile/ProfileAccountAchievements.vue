@@ -4,6 +4,18 @@
         <v-col cols="12">
             <div class="section__title">
                 Achievements
+
+                <v-spacer />
+
+                <v-btn color="primary" to="/achievements" text>
+                    Available achievements
+
+                    <v-icon right>mdi-arrow-right</v-icon>
+                </v-btn>
+            </div>
+
+            <div class="section__description">
+                All the achievement you have earned.
             </div>
 
             <v-row>
@@ -63,7 +75,7 @@ import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 @Component({
     components: { ErrorPlaceholder, AchievementBadge },
 })
-export default class ProfileAchievements extends Vue {
+export default class ProfileAccountAchievements extends Vue {
     /**
      * Logged in user.
      */
