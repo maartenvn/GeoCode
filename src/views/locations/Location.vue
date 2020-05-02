@@ -119,7 +119,9 @@
                                 </v-tab-item>
 
                                 <!-- Nearby -->
-                                <v-tab-item value="tab-nearby"> </v-tab-item>
+                                <v-tab-item value="tab-nearby">
+                                    <location-nearby :location="location" />
+                                </v-tab-item>
                             </v-tabs-items>
                         </v-col>
                     </v-row>
@@ -146,9 +148,11 @@ import LocationInformation from "@/components/view/location/LocationInformation.
 import LocationRatings from "@/components/view/location/LocationRatings.vue";
 import LocationGuestbook from "@/components/view/location/LocationGuestbook.vue";
 import Setup from "@/components/view/locations/setup/Setup.vue";
+import LocationNearby from "@/components/view/location/LocationNearby.vue";
 
 @Component({
     components: {
+        LocationNearby,
         ErrorSection,
         LocationGuestbook,
         Setup,
