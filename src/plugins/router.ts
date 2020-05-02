@@ -33,6 +33,12 @@ const routes = [
     },
 
     {
+        path: "/achievements",
+        name: "Achievements",
+        component: () => import("../views/Achievements.vue"),
+    },
+
+    {
         path: "/login",
         name: "Login",
         component: () => import("../views/Login.vue"),
