@@ -15,8 +15,8 @@ import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
 import User from "@/api/models/User";
 import Achievement from "@/api/models/Achievement";
 import { AchievementCreateWrapper } from "@/api/wrappers/AchievementWrapper";
-import AchConditionFilter from "@/api/models/AchConditionFilter";
-import AchConditionField from "@/api/models/AchConditionField";
+import AchievementFilter from "@/api/models/AchievementFilter";
+import AchievementField from "@/api/models/AchievementField";
 
 class AchievementService extends EchoService {
     /**
@@ -40,16 +40,16 @@ class AchievementService extends EchoService {
      * Get list with filters for achievements.
      */
     @GET("/achievements/filters")
-    getFilters(): EchoPromise<Array<AchConditionFilter>> {
-        return {} as EchoPromise<Array<AchConditionFilter>>;
+    getFilters(): EchoPromise<Array<AchievementFilter>> {
+        return {} as EchoPromise<Array<AchievementFilter>>;
     }
 
     /**
      * Get list with fields for achievements.
      */
     @GET("/achievements/fields")
-    getFields(): EchoPromise<Array<AchConditionField>> {
-        return {} as EchoPromise<Array<AchConditionField>>;
+    getFields(): EchoPromise<Array<AchievementField>> {
+        return {} as EchoPromise<Array<AchievementField>>;
     }
 
     /**

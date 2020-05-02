@@ -1,9 +1,11 @@
-import AchCondition from "@/api/models/AchCondition";
+import AchievementCondition from "@/api/models/AchievementCondition";
+import AchievementImage from "@/api/models/AchievementImage";
 
 export default class Achievement {
     id: number;
     name: string;
     description: string;
-    image: string;
-    conditions: Array<AchCondition>;
+    image: AchievementImage;
+    conditions: Array<AchievementCondition>;
+    achievedAt?: string;
 }
