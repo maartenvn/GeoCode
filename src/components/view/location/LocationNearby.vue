@@ -1,5 +1,9 @@
 <template>
-    <div>
+    <div class="section">
+        <div class="section__title">
+            Nearby locations
+        </div>
+
         <!-- Loading -->
         <template v-if="location.isLoading()">
             <v-skeleton-loader dense type="image" height="400px" />
