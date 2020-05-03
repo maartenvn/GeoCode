@@ -42,6 +42,7 @@ import { TourCreatePopupPayload } from "@/types/map/tour/TourCreatePopup";
 import { ArrayUtil } from "@/util/ArrayUtil";
 import TourCreatePopup from "@/components/map/popup/TourCreatePopup.vue";
 import { MapLine } from "@/types/map/MapLine";
+import LocationPopup from "@/components/map/popup/LocationPopup.vue";
 
 @Component({
     components: { MarkerMap, ErrorPlaceholder },
@@ -101,7 +102,9 @@ export default class TourMap extends Vue {
     /**
      * Component to display inside the popup of a marker.
      */
-    popupComponent: unknown = TourCreatePopup;
+    get popupComponent(): unknown {
+        return this.showSelect ? TourCreatePopup : LocationPopup;
+    }
 
     /**
      * List with all the available locations.
@@ -215,7 +218,7 @@ export default class TourMap extends Vue {
             );
 
             const line = new MapLine([startCoord, endCoord]);
-            line.color = "#c0392b";
+            line.color = this.showSelect ? "#c0392b" : "#2980b9";
 
             _lines.push(line);
         }
