@@ -9,4 +9,5 @@ export default class Tour {
     createdAt: string;
     active: boolean;
     locations: Array<Location>;
+    totalDistance: number;
 }

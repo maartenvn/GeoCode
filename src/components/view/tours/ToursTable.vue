@@ -47,6 +47,16 @@
                     </template>
                 </template>
 
+                <template v-slot:item.totalDistance="{ item }">
+                    <v-chip
+                        :color="getDistanceColor(item)"
+                        text-color="white"
+                        small
+                    >
+                        {{ item.totalDistance }} km
+                    </v-chip>
+                </template>
+
                 <template v-slot:item.action="{ item }">
                     <!-- Delete -->
                     <v-btn
@@ -135,7 +145,7 @@ export default class ToursTable extends Vue {
         },
         {
             text: "Distance",
-            value: "distance",
+            value: "totalDistance",
         },
         {
             text: "",
@@ -170,6 +180,31 @@ export default class ToursTable extends Vue {
                 country,
             };
         });
+    }
+
+    /**
+     * Get the distance color for a given distance.
+     *  0 km - 5 km: green
+     *  5 km - 10 km: orange
+     *  10 km - ...: red
+     */
+    getDistanceColor(distance: number): string {
+        // 0 km - 5 km: green
+        if (distance >= 0 && distance <= 5) {
+            return "success";
+        }
+
+        // 5 km - 10 km: orange
+        if (distance > 5 && distance <= 10) {
+            return "warning";
+        }
+
+        // 10 km - ...: red
+        if (distance > 10) {
+            return "error";
+        }
+
+        return "primary";
     }
 
     /**
