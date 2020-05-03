@@ -51,5 +51,10 @@ pipeline {
         sh 'rm -rf .[!.]* *'
       }
     }
-  }  
+  }
+  post {
+     failure {
+        sh 'rm -rf .[!.]* *'
+     }
+  }
 }
