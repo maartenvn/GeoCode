@@ -7,6 +7,7 @@
             <v-col cols="12">
                 <tour-header
                     :tour="tour"
+                    :statistics="statistics"
                     :creator="creator"
                     :is-owner="isOwner"
                 />
@@ -61,7 +62,18 @@ export default class Tour extends Vue {
     });
 
     /**
-     * Creator for the given location.
+     * Statistics for the given location.
+     */
+    statistics = RequestHandler.handle(
+        TourService.getStatistics(this.secretId),
+        {
+            id: "tourStatistics",
+            style: "SECTION",
+        }
+    );
+
+    /**
+     * Creator for the given tour.
      */
     @LateRequest("tour", "creator.id", UsersService.get, {
         id: "tourCreator",

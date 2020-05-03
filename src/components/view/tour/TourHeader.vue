@@ -26,7 +26,35 @@
                     </div>
 
                     <!-- Statistics -->
-                    <div class="tour__info"></div>
+                    <div class="tour__info">
+                        <!-- Loading -->
+                        <template v-if="statistics.isLoading()">
+                            <v-skeleton-loader
+                                class="mt-2"
+                                type="text"
+                                width="300"
+                            />
+                        </template>
+
+                        <!-- Data -->
+                        <v-row v-else-if="statistics.isSuccess()">
+                            <!-- Distance -->
+                            <v-col cols="auto" class="d-flex">
+                                <v-icon left>mdi-map-marker-distance</v-icon>
+                                {{ tour.data.totalDistance }}
+                                km
+                            </v-col>
+
+                            <v-divider class="divider--vertical" vertical />
+
+                            <!-- Completion count -->
+                            <v-col cols="auto" class="d-flex">
+                                <v-icon left>mdi-account-check</v-icon>
+                                {{ statistics.data.completionCount }}
+                                completions
+                            </v-col>
+                        </v-row>
+                    </div>
                 </v-col>
 
                 <v-col cols="auto" align-self="center">
@@ -75,6 +103,7 @@ import TourService from "@/api/services/TourService";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
 import { RouterUtil } from "@/util/RouterUtil";
 import { ErrorHandler } from "@/api/error/ErrorHandler";
+import TourStatistics from "@/api/models/TourStatistics";
 
 @Component({
     components: { InlineEdit },
@@ -85,6 +114,12 @@ export default class TourHeader extends Vue {
      */
     @Prop()
     tour: EchoPromise<Tour>;
+
+    /**
+     * Tour statistics.
+     */
+    @Prop()
+    statistics: EchoPromise<TourStatistics>;
 
     /**
      * Creator of the tour
