@@ -17,6 +17,7 @@
         <!-- Map -->
         <l-map
             ref="map"
+            id="map"
             :zoom="zoom"
             :center="center"
             :options="mapOptions"
@@ -36,16 +37,26 @@
             <!-- Marker -->
             <l-marker
                 v-for="(marker, index) of markers"
-                :key="index"
+                :key="`${index}-marker`"
                 :lat-lng="marker.getLatLng()"
+                :icon="marker.getIcon()"
             >
                 <l-popup v-if="popupComponent !== undefined">
                     <component
                         :is="popupComponent"
                         :payload="marker.getPopupPayload()"
+                        :map="map"
                     />
                 </l-popup>
             </l-marker>
+
+            <!-- Lines -->
+            <l-polyline
+                v-for="(line, index) of lines"
+                :key="`${index}-line`"
+                :lat-lngs="line.getLatLngTuples()"
+                :color="line.color"
+            />
         </l-map>
     </div>
 </template>
@@ -58,10 +69,12 @@ import {
     LPopup,
     LTileLayer,
     LControlAttribution,
+    LPolyline,
 } from "vue2-leaflet";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import { LeafletMouseEvent, Map, MapOptions } from "leaflet";
 import { MapMarker } from "@/types/map/MapMarker";
+import { MapLine } from "@/types/map/MapLine";
 
 @Component({
     components: {
@@ -69,6 +82,7 @@ import { MapMarker } from "@/types/map/MapMarker";
         LTileLayer,
         LMarker,
         LPopup,
+        LPolyline,
         LControlAttribution,
     },
 })
@@ -102,6 +116,12 @@ export default class MarkerMap extends Vue {
      */
     @Prop({ default: () => [] })
     markers: Array<MapMarker>;
+
+    /**
+     * Lines to display on the map.
+     */
+    @Prop({ default: () => [] })
+    lines: Array<MapLine>;
 
     /**
      * Popup component to display inside the popup.
@@ -155,7 +175,7 @@ export default class MarkerMap extends Vue {
     /**
      * Map object.
      */
-    map: Map;
+    map: Map | null = null;
 
     /**
      * Map options
@@ -188,19 +208,24 @@ export default class MarkerMap extends Vue {
         // Set the searchbar is currently loading.
         this.searchLoading = true;
 
+        const searchValueCopy = this.searchValue;
+
         this.searchProvider
             .search({ query: val })
             .then((results: Array<any>) => {
-                // Map the results on an object that can be displayed in the autocomplete component.
-                this.searchEntries = results.map((result: any) => {
-                    return {
-                        text: result.label,
-                        value: result,
-                    };
-                });
+                // Only update the search entries when the current text in the searchfield equals the original request.
+                if (this.searchValue === searchValueCopy) {
+                    // Map the results on an object that can be displayed in the autocomplete component.
+                    this.searchEntries = results.map((result: any) => {
+                        return {
+                            text: result.label,
+                            value: result,
+                        };
+                    });
 
-                // Set the searchbar is done loading.
-                this.searchLoading = false;
+                    // Set the searchbar is done loading.
+                    this.searchLoading = false;
+                }
             });
     }
 
