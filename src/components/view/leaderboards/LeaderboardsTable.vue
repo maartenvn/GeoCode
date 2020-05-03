@@ -11,7 +11,8 @@
                 :headers="tableHeaders"
                 :search="tableSearch"
                 :items="users.data"
-                sort-by="value"
+                sort-field="position"
+                sort-desc="true"
             >
                 <template v-slot:top>
                     <v-text-field
@@ -34,27 +35,31 @@
 
                 <template v-slot:item.position="{ item }">
                     <template v-if="getPosition(item) === 1">
-                        <img src="@/assets/img/medal_first.svg" />
+                        <img
+                            class="leaderboard__medal"
+                            src="@/assets/img/medal_first.svg"
+                        />
                     </template>
 
                     <template v-else-if="getPosition(item) === 2">
-                        <img src="@/assets/img/medal_second.svg" />
+                        <img
+                            class="leaderboard__medal"
+                            height="40"
+                            src="@/assets/img/medal_second.svg"
+                        />
                     </template>
 
                     <template v-else-if="getPosition(item) === 3">
-                        <img src="@/assets/img/medal_third.svg" />
+                        <img
+                            class="leaderboard__medal"
+                            height="40"
+                            src="@/assets/img/medal_third.svg"
+                        />
                     </template>
 
                     <template v-else>
                         <strong>{{ getPosition(item) }}</strong>
                     </template>
-                </template>
-
-                <template v-slot:item.avatar="{ item }">
-                    <user-avatar
-                        :username="item.user.username"
-                        :avatar-url="getAvatarUrl(user)"
-                    />
                 </template>
             </v-data-table>
         </template>
@@ -101,11 +106,6 @@ export default class LeaderboardsTable extends Vue {
         },
 
         {
-            text: "",
-            value: "avatar",
-        },
-
-        {
             text: "Username",
             value: "user.username",
         },
@@ -145,10 +145,19 @@ export default class LeaderboardsTable extends Vue {
      */
     getPosition(leaderboardUser: LeaderboardUser): number {
         if (this.users.isSuccess()) {
-            return this.users.requireData().indexOf(leaderboardUser);
+            return this.users.requireData().indexOf(leaderboardUser) + 1;
         }
 
-        return 0;
+        return -1;
     }
 }
 </script>
+
+<style lang="scss">
+.leaderboard {
+    &__medal {
+        height: 50px;
+        padding: 5px;
+    }
+}
+</style>
