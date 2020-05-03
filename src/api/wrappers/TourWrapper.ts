@@ -14,4 +14,5 @@ export class TourUpdateWrapper {
     public name?: string;
     public description?: string;
     public listed?: boolean;
+    public active?: boolean;
 }

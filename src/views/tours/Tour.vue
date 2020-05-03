@@ -1,5 +1,7 @@
 <template>
     <v-container class="container--small">
+        <!-- If the user is the owner of the tour & the tour is deactivated -->
+
         <!-- General information -->
         <v-row>
             <v-col cols="12">

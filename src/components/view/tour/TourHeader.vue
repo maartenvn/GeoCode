@@ -7,6 +7,14 @@
 
         <!-- Data -->
         <template v-else-if="tour.isSuccess()">
+            <!-- Warning: low ratings (lower than 2) -->
+            <template v-if="isOwner && !tour.data.active">
+                <v-alert type="warning" border="left" text>
+                    Your tour is currently deactivated. Click the
+                    "active"-button to activate it again.
+                </v-alert>
+            </template>
+
             <v-row justify="space-between" no-gutters>
                 <v-col cols="auto">
                     <div class="tour__title">
@@ -22,18 +30,35 @@
                 </v-col>
 
                 <v-col cols="auto" align-self="center">
-                    <v-btn
-                        v-if="isOwner"
-                        color="warning"
-                        text
-                        @click="() => void 0"
-                    >
-                        <v-icon left>
-                            mdi-eye-off
-                        </v-icon>
+                    <template v-if="isOwner">
+                        <!-- Deactivate -->
+                        <v-btn
+                            v-if="tour.data.active"
+                            color="warning"
+                            text
+                            @click="openDeactivateTour"
+                        >
+                            <v-icon left>
+                                mdi-eye-off
+                            </v-icon>
 
-                        Deactivate
-                    </v-btn>
+                            Deactivate
+                        </v-btn>
+
+                        <!-- Activate -->
+                        <v-btn
+                            v-else
+                            color="primary"
+                            text
+                            @click="openActivateTour"
+                        >
+                            <v-icon left>
+                                mdi-eye
+                            </v-icon>
+
+                            Activate
+                        </v-btn>
+                    </template>
                 </v-col>
             </v-row>
         </template>
@@ -47,6 +72,9 @@ import InlineEdit from "@/components/util/InlineEdit.vue";
 import Tour from "@/api/models/Tour";
 import User from "@/api/models/User";
 import TourService from "@/api/services/TourService";
+import ConfirmModal from "@/components/modal/ConfirmModal.vue";
+import { RouterUtil } from "@/util/RouterUtil";
+import { ErrorHandler } from "@/api/error/ErrorHandler";
 
 @Component({
     components: { InlineEdit },
@@ -77,6 +105,74 @@ export default class TourHeader extends Vue {
     updateLocationName(value: string): EchoPromise<unknown> {
         return TourService.update(this.tour.requireData().secretId, {
             name: value,
+        });
+    }
+
+    /**
+     * Deactivate the tour.
+     */
+    openDeactivateTour() {
+        this.$store.dispatch("modal/open", {
+            component: ConfirmModal,
+            componentPayload: {
+                message: `Are you sure you want to deactivate this tour?`,
+                action: (instance: Vue) => {
+                    instance.$set(instance, "loading", true);
+
+                    TourService.update(this.tour.requireData().secretId, {
+                        active: false,
+                    })
+                        .then(() => {
+                            RouterUtil.reload(this.$router);
+
+                            // Close the modal.
+                            this.$store.dispatch("modal/close");
+                        })
+                        .catch((error) =>
+                            ErrorHandler.handle(error, {
+                                id: "deactivateTour",
+                                style: "SNACKBAR",
+                            })
+                        )
+                        .finally(() =>
+                            instance.$set(instance, "loading", false)
+                        );
+                },
+            },
+        });
+    }
+
+    /**
+     * Activate the tour.
+     */
+    openActivateTour() {
+        this.$store.dispatch("modal/open", {
+            component: ConfirmModal,
+            componentPayload: {
+                message: `Are you sure you want to activate this tour?`,
+                action: (instance: Vue) => {
+                    instance.$set(instance, "loading", true);
+
+                    TourService.update(this.tour.requireData().secretId, {
+                        active: true,
+                    })
+                        .then(() => {
+                            RouterUtil.reload(this.$router);
+
+                            // Close the modal.
+                            this.$store.dispatch("modal/close");
+                        })
+                        .catch((error) =>
+                            ErrorHandler.handle(error, {
+                                id: "activateTour",
+                                style: "SNACKBAR",
+                            })
+                        )
+                        .finally(() =>
+                            instance.$set(instance, "loading", false)
+                        );
+                },
+            },
         });
     }
 }
