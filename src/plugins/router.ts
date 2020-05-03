@@ -37,6 +37,7 @@ const routes = [
         name: "Leaderboards",
         component: () => import("../views/Leaderboards.vue"),
     },
+        
     {
         path: "/tours",
         name: "Tours",
