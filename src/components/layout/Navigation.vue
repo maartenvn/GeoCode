@@ -51,6 +51,11 @@ export default class Navigation extends Vue {
         },
 
         {
+            title: "Leaderboards",
+            to: "/leaderboards",
+            icon: "mdi-arrow-up-bold-circle-outline",
+        },
+        {
             title: "Tours",
             to: "/tours",
             icon: "mdi-routes",

@@ -22,21 +22,10 @@
 
                         <!-- Data -->
                         <template v-else-if="creator.isSuccess()">
-                            <v-avatar :color="!avatarUrl ? 'primary' : ''">
-                                <img
-                                    v-if="avatarUrl"
-                                    :src="avatarUrl"
-                                    :alt="creator.data.username"
-                                />
-
-                                <span v-else class="white--text headline">
-                                    {{
-                                        creator.data.username
-                                            .toUpperCase()
-                                            .charAt(0)
-                                    }}
-                                </span>
-                            </v-avatar>
+                            <user-avatar
+                                :username="creator.data.username"
+                                :avatar-url="avatarUrl"
+                            />
                         </template>
                     </v-col>
 
@@ -102,9 +91,10 @@ import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 import { Event } from "@/util/decorators/EventDecorator";
 import Comment from "@/api/models/Comment";
 import { UserUtil } from "@/util/UserUtil";
+import UserAvatar from "@/components/user/UserAvatar.vue";
 
 @Component({
-    components: { ErrorPlaceholder },
+    components: { UserAvatar, ErrorPlaceholder },
 })
 export default class LocationCommentCard extends Vue {
     /**

@@ -33,6 +33,12 @@ const routes = [
     },
 
     {
+        path: "/leaderboards",
+        name: "Leaderboards",
+        component: () => import("../views/Leaderboards.vue"),
+    },
+        
+    {
         path: "/tours",
         name: "Tours",
         component: () => import("../views/Tours.vue"),
