@@ -11,6 +11,8 @@
             </v-col>
         </v-row>
 
+        <v-divider class="mt-3 mb-3" />
+
         <!-- Detailed information -->
         <tour-information :creator="creator" :tour="tour" :is-owner="isOwner" />
     </v-container>
