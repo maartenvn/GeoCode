@@ -10,7 +10,7 @@
             <v-data-table
                 :headers="tableHeaders"
                 :search="tableSearch"
-                :items="tours.data"
+                :items="toursData"
             >
                 <template v-slot:top>
                     <v-text-field
@@ -134,6 +134,10 @@ export default class ToursTable extends Vue {
             value: "country",
         },
         {
+            text: "Distance",
+            value: "distance",
+        },
+        {
             text: "",
             value: "active",
         },
@@ -149,6 +153,24 @@ export default class ToursTable extends Vue {
      * Value of the search field.
      */
     tableSearch = "";
+
+    /**
+     * Get the list with tours in a modified form to display inside the table.
+     */
+    get toursData(): Array<Tour> {
+        return this.tours.requireData().map((tour) => {
+            // Convert the locations to a list of unique country names.
+            // Using set and casting back to array to remove duplicates.
+            const country = [
+                ...new Set(tour.locations.map((tour) => tour.country)),
+            ].join(", ");
+
+            return {
+                ...tour,
+                country,
+            };
+        });
+    }
 
     /**
      * Open a model to confirm the delete of a tour.
