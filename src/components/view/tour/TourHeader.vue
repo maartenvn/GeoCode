@@ -41,7 +41,7 @@
                             <!-- Distance -->
                             <v-col cols="auto" class="d-flex">
                                 <v-icon left>mdi-map-marker-distance</v-icon>
-                                {{ tour.data.totalDistance }}
+                                {{ tour.data.totalDistance.toFixed(2) }}
                                 km
                             </v-col>
 
