@@ -16,7 +16,7 @@
                     <v-text-field
                         v-model="tableSearch"
                         prepend-icon="mdi-database-marker"
-                        label="Search for a country or address"
+                        label="Search for a tour name or country"
                         single-line
                         outlined
                         dense
