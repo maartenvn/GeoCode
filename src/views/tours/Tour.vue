@@ -12,13 +12,7 @@
         </v-row>
 
         <!-- Detailed information -->
-        <v-row>
-            <tour-information
-                :creator="creator"
-                :tour="location"
-                :is-owner="isOwner"
-            />
-        </v-row>
+        <tour-information :creator="creator" :tour="tour" :is-owner="isOwner" />
     </v-container>
 </template>
 

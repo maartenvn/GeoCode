@@ -42,6 +42,7 @@ const routes = [
         path: "/tours/:secretId",
         name: "Tour",
         component: () => import("../views/tours/Tour.vue"),
+        props: true,
     },
 
     {

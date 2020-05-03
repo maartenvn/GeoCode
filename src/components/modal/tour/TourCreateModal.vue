@@ -173,6 +173,7 @@ export default class TourCreateModal extends Vue {
         name: new InputField(),
         description: new InputField(),
         listed: new InputField({ value: true }),
+        active: new InputField({ value: true }),
         locations: new InputField<Array<Location>>({ value: [] }),
     };
 

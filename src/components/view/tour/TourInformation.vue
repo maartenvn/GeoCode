@@ -1,12 +1,12 @@
 <template>
     <div>
         <!-- Loading -->
-        <template v-if="location.isLoading()">
+        <template v-if="tour.isLoading()">
             <v-skeleton-loader dense type="article" />
         </template>
 
         <!-- Data -->
-        <template v-else-if="location.data">
+        <template v-else-if="tour.data">
             <v-row>
                 <v-col class="section" cols="12" sm="8">
                     <div class="section__title">
@@ -15,14 +15,14 @@
 
                     <!-- Editor -->
                     <inline-edit
-                        v-model="location.data.description"
+                        v-model="tour.data.description"
                         :update="updateTourDescription"
                         :enabled="isOwner"
                         :is-editor="true"
                     >
                         <div
                             class="section__content text--secondary"
-                            v-html="location.data.description"
+                            v-html="tour.data.description"
                         />
                     </inline-edit>
                 </v-col>
@@ -39,16 +39,19 @@
                             Locations
                         </span>
 
-                        <ul class="li__content">
-                            <li>
-                                <a
-                                    v-for="(location, index) of tour.data
-                                        .locations"
-                                    :key="index"
+                        <ul
+                            class="li__content"
+                            style="list-style-type: decimal;"
+                        >
+                            <li
+                                v-for="(location, index) of tour.data.locations"
+                                :key="index"
+                            >
+                                <router-link
                                     :to="`/locations/${location.secretId}`"
                                 >
                                     {{ location.name }}
-                                </a>
+                                </router-link>
                             </li>
                         </ul>
 
