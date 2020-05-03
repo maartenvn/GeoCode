@@ -1,8 +1,6 @@
 <template>
     <v-container class="container--small">
-        <p v-for="report in reports" :key="report.id">
-            {{ report.location.name }}
-        </p>
+        Admin Page
     </v-container>
 </template>
 
@@ -20,8 +18,5 @@ import { RequestHandler } from "@/api/RequestHandler";
         AdminNavigation
     }
 })
-export default class Home extends Vue {
-    reports = AdminService.getAll().then((data: string) => console.log(data));
-    // console.log(reports);
-}
+export default class Home extends Vue {}
 </script>

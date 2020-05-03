@@ -60,6 +60,11 @@ const routes = [
         path: "/admin/",
         name: "Admin Page",
         component: () => import("../views/admin/Home.vue")
+    },
+    {
+        path: "/admin/reports",
+        name: "Admin Reports List",
+        component: () => import("../views/admin/Reports.vue")
     }
 ];
 

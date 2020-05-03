@@ -1,10 +1,21 @@
 import config from "@/config";
-import { GET, EchoPromise, EchoService, EchoServiceBuilder } from "echofetch";
+import {
+    GET,
+    Path,
+    EchoPromise,
+    EchoService,
+    EchoServiceBuilder
+} from "echofetch";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
 
 class AdminService extends EchoService {
     @GET("/reports")
     getAll(): EchoPromise<string> {
+        return {} as EchoPromise<string>;
+    }
+
+    @GET("/reports/{reportId}")
+    getReport(@Path("reportId") reportId: string): EchoPromise<string> {
         return {} as EchoPromise<string>;
     }
 }

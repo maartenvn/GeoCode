@@ -62,6 +62,11 @@ export default class AdminNavigation extends Vue {
                 title: "Home",
                 to: "/admin/",
                 icon: "mdi-home"
+            },
+            {
+                title: "Reports",
+                to: "/admin/reports",
+                icon: "mdi-home"
             }
         ];
     }
