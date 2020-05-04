@@ -15,7 +15,7 @@
                 <template
                     v-if="
                         statistics.data.ratingsCount > 1 &&
-                        location.data.rating < 2
+                        location.data.rating <= 2
                     "
                 >
                     <v-alert type="error" border="left">

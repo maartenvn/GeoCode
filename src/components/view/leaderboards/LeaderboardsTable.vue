@@ -104,6 +104,7 @@ export default class LeaderboardsTable extends Vue {
             text: "#",
             value: "position",
             width: "50px",
+            align: "center",
         },
 
         {
