@@ -49,11 +49,11 @@
 
                 <template v-slot:item.totalDistance="{ item }">
                     <v-chip
-                        :color="getDistanceColor(item)"
+                        :color="getDistanceColor(item.totalDistance)"
                         text-color="white"
                         small
                     >
-                        {{ item.totalDistance }} km
+                        {{ item.totalDistance.toFixed(2) }} km
                     </v-chip>
                 </template>
 
