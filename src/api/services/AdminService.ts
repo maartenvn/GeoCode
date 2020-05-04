@@ -25,6 +25,11 @@ class AdminService extends EchoService {
     ): EchoPromise<string> {
         return {} as EchoPromise<string>;
     }
+
+    @GET("/statistics")
+    getStats(): EchoPromise<string> {
+        return {} as EchoPromise<string>;
+    }
 }
 
 export default new EchoServiceBuilder()
