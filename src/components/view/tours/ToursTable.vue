@@ -53,7 +53,7 @@
                         text-color="white"
                         small
                     >
-                        {{ item.totalDistance }} km
+                        {{ item.totalDistance.toFixed(2) }} km
                     </v-chip>
                 </template>
 
