@@ -1,15 +1,22 @@
 <template>
     <v-container class="container--small">
         <p>Reports for {{ location.data.name }}</p>
+        <!-- Loading -->
+        <template v-if="reports.isLoading()">
+            <v-skeleton-loader type="table" dense />
+        </template>
 
-        <v-data-table :headers="headers" :items="reports.data">
-            <template v-slot:item.action="{ item }">
-                <v-btn @click="openReport(item)" color="primary" text>
-                    Show details
-                    <v-icon right>mdi-arrow-right</v-icon>
-                </v-btn>
-            </template>
-        </v-data-table>
+        <!-- Data -->
+        <template v-else-if="reports.isSuccess()">
+            <v-data-table :headers="headers" :items="reports.data">
+                <template v-slot:item.action="{ item }">
+                    <v-btn @click="openReport(item)" color="primary" text>
+                        Show details
+                        <v-icon right>mdi-arrow-right</v-icon>
+                    </v-btn>
+                </template>
+            </v-data-table>
+        </template>
     </v-container>
 </template>
 
