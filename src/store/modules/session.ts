@@ -6,7 +6,7 @@ export const session = {
     namespaced: true,
 
     state: {
-        currentUser: null
+        currentUser: null,
     },
 
     mutations: {
@@ -18,7 +18,7 @@ export const session = {
          */
         SET_CURRENTUSER(state: any, currentUser: EchoPromise<User>) {
             state.currentUser = currentUser;
-        }
+        },
     },
 
     actions: {
@@ -29,7 +29,7 @@ export const session = {
          */
         fetch(context: any) {
             context.commit("SET_CURRENTUSER", UserService.get());
-        }
+        },
     },
 
     getters: {
@@ -49,6 +49,6 @@ export const session = {
          */
         isAuthenticated(state: any): boolean {
             return state.currentUser.isSuccess();
-        }
-    }
+        },
+    },
 };

@@ -8,17 +8,17 @@ Vue.use(Vuetify);
 
 export default new Vuetify({
     icons: {
-        iconfont: "mdi"
+        iconfont: "mdi",
     },
     theme: {
         options: {
-            customProperties: true
+            customProperties: true,
         },
         themes: {
             light: {
                 primary: "#4CAF50",
-                secondary: "#FF9800"
-            }
-        }
-    }
+                secondary: "#FF9800",
+            },
+        },
+    },
 });

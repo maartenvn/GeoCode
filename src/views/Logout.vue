@@ -29,14 +29,13 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import UserService from "@/api/services/UserService";
 import AuthService from "@/api/services/AuthService";
 
 @Component
 export default class Logout extends Vue {
     created() {
         // Attempt to logout the current user.
-        AuthService.handleLogout();
+        AuthService.handleLogout(true);
     }
 }
 </script>

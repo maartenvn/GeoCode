@@ -5,7 +5,7 @@
         :style="invert ? 'background-color: #f4f5f4' : ';'"
     >
         <v-responsive class="mx-auto" min-height="30vh" :max-width="1280">
-            <v-row align="center" justify="center" style="height: 100%">
+            <v-row align="center" justify="center" style="height: 100%;">
                 <v-col cols="12" sm="8" :order-sm="invert ? 2 : 1">
                     <!-- Title -->
                     <div class="step__title">
@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class HomeTutorialStep extends Vue {

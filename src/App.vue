@@ -36,8 +36,8 @@ import AdminNavigation from "@/components/admin/AdminNavigation.vue";
         AdminNavigation,
         RouterViewWrapper,
         Snackbar,
-        Modal
-    }
+        Modal,
+    },
 })
 export default class App extends Vue {
     created() {
@@ -51,7 +51,7 @@ export default class App extends Vue {
                 if (options.style === "SNACKBAR") {
                     this.$store.dispatch("snackbar/open", {
                         message: error.message,
-                        color: "error"
+                        color: "error",
                     });
                 }
             }
@@ -69,6 +69,7 @@ export default class App extends Vue {
         font-size: 1.25rem;
         font-weight: 500;
         line-height: 2rem;
+        padding-bottom: 10px;
         display: flex;
     }
 
@@ -81,6 +82,14 @@ export default class App extends Vue {
         padding-top: 16px;
         padding-bottom: 16px;
     }
+}
+
+label {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 16px;
+    line-height: 1;
+    min-height: 8px;
+    margin-bottom: 7px;
 }
 
 .divider {

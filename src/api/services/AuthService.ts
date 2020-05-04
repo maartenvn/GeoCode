@@ -3,16 +3,17 @@ import {
     EchoPromise,
     EchoService,
     EchoServiceBuilder,
-    POST
+    POST,
 } from "echofetch";
 import {
     AuthLoginWrapper,
-    AuthRegisterWrapper
+    AuthRegisterWrapper,
 } from "@/api/wrappers/AuthWrapper";
 import { ErrorHandler } from "@/api/error/ErrorHandler";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
 import config from "@/config";
 import store from "@/store/store";
+import router from "@/plugins/router";
 
 class AuthService extends EchoService {
     /**
@@ -43,31 +44,36 @@ class AuthService extends EchoService {
 
     /**
      * Call the logout function and show the progress
+     * @param goHome If the user should be send to the homepage after logging out.
      */
-    handleLogout() {
+    handleLogout(goHome = false) {
         // Send loading message.
         store.dispatch("snackbar/open", {
             message: "Logging out...",
             color: "info",
-            timeout: 120 * 1000
+            timeout: 120 * 1000,
         });
 
         this.logout()
-            .then(_ => {
+            .then((_) => {
                 // Send confirmation message.
                 store.dispatch("snackbar/open", {
                     message: "Successfully logged out",
-                    color: "success"
+                    color: "success",
                 });
+
+                if (goHome) {
+                    router.push("/");
+                }
 
                 // Update the current user inside the store.
                 store.dispatch("session/fetch");
             })
-            .catch(error => {
+            .catch((error) => {
                 ErrorHandler.handle(error, {
                     style: "SECTION",
                     id: "logout",
-                    displayFullpage: true
+                    displayFullpage: true,
                 });
             });
     }
