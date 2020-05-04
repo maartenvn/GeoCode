@@ -22,7 +22,7 @@
 
         <!-- Error -->
         <template v-else>
-            <error-handler id="locations" />
+            <error-placeholder error-id="locations" />
         </template>
     </div>
 </template>
@@ -36,10 +36,12 @@ import { LocationPopupPayload } from "@/types/map/location/LocationPopup";
 import Location from "@/api/models/Location";
 import MarkerMap from "@/components/map/MarkerMap.vue";
 import LocationPopup from "@/components/map/popup/LocationPopup.vue";
+import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 
 @Component({
     components: {
         MarkerMap,
+        ErrorPlaceholder,
     },
 })
 export default class LocationMap extends Vue {
@@ -81,11 +83,6 @@ export default class LocationMap extends Vue {
 
     @Prop({ default: false })
     searchEnabled: boolean;
-
-    /**
-     * URL of the tile provider server.
-     */
-    tileServer: string;
 
     /**
      * Component to display inside the popup of a marker.

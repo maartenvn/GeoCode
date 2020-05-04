@@ -49,6 +49,18 @@ export default class Navigation extends Vue {
             to: "/locations",
             icon: "mdi-map-marker",
         },
+
+        {
+            title: "Tours",
+            to: "/tours",
+            icon: "mdi-routes",
+        },
+
+        {
+            title: "Leaderboards",
+            to: "/leaderboards",
+            icon: "mdi-arrow-up-bold-circle-outline",
+        },
     ];
 
     /**
@@ -65,6 +77,12 @@ export default class Navigation extends Vue {
             title: "My Locations",
             to: "/profile/locations",
             icon: "mdi-database-marker",
+        },
+
+        {
+            title: "My Tours",
+            to: "/profile/tours",
+            icon: "mdi-routes",
         },
 
         {

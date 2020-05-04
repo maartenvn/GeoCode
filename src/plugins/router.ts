@@ -33,6 +33,25 @@ const routes = [
     },
 
     {
+        path: "/leaderboards",
+        name: "Leaderboards",
+        component: () => import("../views/Leaderboards.vue"),
+    },
+
+    {
+        path: "/tours",
+        name: "Tours",
+        component: () => import("../views/Tours.vue"),
+    },
+
+    {
+        path: "/tours/:secretId",
+        name: "Tour",
+        component: () => import("../views/tours/Tour.vue"),
+        props: true,
+    },
+
+    {
         path: "/login",
         name: "Login",
         component: () => import("../views/Login.vue"),
@@ -60,6 +79,12 @@ const routes = [
         path: "/profile/locations/",
         name: "Your location",
         component: () => import("../views/profile/ProfileLocations.vue"),
+    },
+
+    {
+        path: "/profile/tours/",
+        name: "Your tours",
+        component: () => import("../views/profile/ProfileTours.vue"),
     },
 
     {
