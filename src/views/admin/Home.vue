@@ -1,22 +1,31 @@
 <template>
     <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
-            <v-card class="stat elevation-12">
-                <div class="stat__number">{{ stats.data.locationsCount }}</div>
-                <div class="stat__title">locations</div>
-            </v-card>
-            <v-card class="stat elevation-12">
-                <div class="stat__number">{{ stats.data.usersCount }}</div>
-                <div class="stat__title">users</div>
-            </v-card>
-            <v-card class="stat elevation-12">
-                <div class="stat__number">{{ stats.data.visitsCount }}</div>
-                <div class="stat__title">visits</div>
-            </v-card>
-            <v-card class="stat elevation-12">
-                <div class="stat__number">{{ stats.data.countriesCount }}</div>
-                <div class="stat__title">countries</div>
-            </v-card>
+            <v-row v-if="stats.isLoading()">
+                <statistics-card :loading="true" />
+                <statistics-card :loading="true" />
+                <statistics-card :loading="true" />
+            </v-row>
+
+            <!-- Data -->
+            <v-row v-else-if="stats.isSuccess()">
+                <statistics-card
+                    title="VISITS"
+                    :value="stats.data.visitsCount"
+                />
+
+                <statistics-card
+                    title="LOCATIONS"
+                    :value="stats.data.locationsCount"
+                />
+
+                <statistics-card
+                    title="COUNTRIES"
+                    :value="stats.data.countriesCount"
+                />
+
+                <statistics-card title="USERS" :value="stats.data.usersCount" />
+            </v-row>
         </v-row>
     </v-container>
 </template>
@@ -29,31 +38,18 @@ import AdminService from "@/api/services/AdminService";
 import { HandleRequest } from "@/api/decorators/HandleRequestDecorator";
 import { EchoPromise } from "echofetch";
 import { RequestHandler } from "@/api/RequestHandler";
+import StatisticsCard from "@/components/statistics/StatisticsCard.vue";
 
-@Component
+@Component({
+    components: {
+        StatisticsCard,
+    },
+})
 export default class Home extends Vue {
     stats = RequestHandler.handle(AdminService.getStats(), {
         id: "adminStats",
-        style: "SNACKBAR",
+        style: "SECTION",
+        displayFullpage: true,
     });
 }
 </script>
-
-<style lang="scss">
-.stat {
-    margin: 2rem;
-    width: 15%;
-    text-align: center;
-
-    &__number {
-        font-size: 8rem;
-        font-weight: bold;
-    }
-
-    &__title {
-        padding-bottom: 1rem;
-        font-size: 2rem;
-        text-transform: uppercase;
-    }
-}
-</style>

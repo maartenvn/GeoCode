@@ -34,14 +34,16 @@ export default class LocationReports extends Vue {
 
     location = RequestHandler.handle(LocationService.get(this.secretId), {
         id: "location",
-        style: "SNACKBAR",
+        style: "SECTION",
+        displayFullpage: true,
     });
 
     reports = RequestHandler.handle(
         AdminService.getLocationReports(this.secretId),
         {
             id: "locationReports",
-            style: "SNACKBAR",
+            style: "SECTION",
+            displayFullpage: true,
         }
     );
 

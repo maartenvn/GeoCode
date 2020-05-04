@@ -42,7 +42,8 @@ import Report from "@/api/models/Report.ts";
 export default class Home extends Vue {
     reports = RequestHandler.handle(AdminService.getAll(), {
         id: "admin",
-        style: "SNACKBAR",
+        style: "SECTION",
+        displayFullpage: true,
     });
 
     headers = [
