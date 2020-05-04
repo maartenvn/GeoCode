@@ -60,14 +60,14 @@ export default class AdminNavigation extends Vue {
         this.links = [
             {
                 title: "Home",
-                to: "/admin/",
-                icon: "mdi-home"
+                to: "/admin",
+                icon: "mdi-home",
             },
             {
                 title: "Reports",
                 to: "/admin/reports",
-                icon: "mdi-home"
-            }
+                icon: "mdi-alert-octagon",
+            },
         ];
     }
 

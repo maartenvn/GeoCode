@@ -96,13 +96,20 @@ const routes = [
     {
         path: "/admin/",
         name: "Admin Page",
-        component: () => import("../views/admin/Home.vue")
+        component: () => import("../views/admin/Home.vue"),
     },
 
     {
         path: "/admin/reports",
         name: "Admin Reports List",
-        component: () => import("../views/admin/Reports.vue")
+        component: () => import("../views/admin/Reports.vue"),
+    },
+
+    {
+        path: "/admin/reports/:secretId",
+        name: "Admin Location Reports",
+        component: () => import("../views/admin/Location.vue"),
+        props: true,
     },
 ];
 

@@ -2,7 +2,7 @@
     <v-app>
         <v-content>
             <!-- Admin Panel Navigation -->
-            <admin-navigation v-if="$route.fullPath.startsWith('/admin/')" />
+            <admin-navigation v-if="$route.fullPath.startsWith('/admin')" />
 
             <!-- Navigation -->
             <navigation v-else />

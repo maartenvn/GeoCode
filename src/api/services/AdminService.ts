@@ -4,7 +4,7 @@ import {
     Path,
     EchoPromise,
     EchoService,
-    EchoServiceBuilder
+    EchoServiceBuilder,
 } from "echofetch";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
 
@@ -16,6 +16,13 @@ class AdminService extends EchoService {
 
     @GET("/reports/{reportId}")
     getReport(@Path("reportId") reportId: string): EchoPromise<string> {
+        return {} as EchoPromise<string>;
+    }
+
+    @GET("locations/{secretId}/reports")
+    getLocationReports(
+        @Path("secretId") secretId: string
+    ): EchoPromise<string> {
         return {} as EchoPromise<string>;
     }
 }

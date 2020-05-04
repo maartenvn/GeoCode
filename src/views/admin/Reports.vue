@@ -7,27 +7,18 @@
 
         <!-- Data -->
         <template v-else-if="reports.isSuccess()">
-            <table style="width:100%">
-                <tr>
-                    <th>Location</th>
-                    <th>Creator</th>
-                    <th>Date</th>
-                    <th>go</th>
-                </tr>
-                <tr v-for="(report, index) in reports.data" :key="index">
-                    <td>{{ report.location.name }}</td>
-                    <td>{{ report.creator.username }}</td>
-                    <td>{{ report.creator.createdAt }}</td>
-                    <td><v-btn @click="openReport(report.id)">-></v-btn></td>
-                </tr>
-            </table>
-
-            <!-- <v-data-table
-                :headers="headers"
-                :items="reports"
-                >
-             </v-data-table>
-             -->
+            <v-data-table :headers="headers" :items="reports.data">
+                <template v-slot:item.action="{ item }">
+                    <v-btn
+                        :to="`/admin/reports/${item.location.secretId}`"
+                        color="primary"
+                        text
+                    >
+                        Show reports
+                        <v-icon right>mdi-arrow-right</v-icon>
+                    </v-btn>
+                </template>
+            </v-data-table>
         </template>
 
         <!-- Error -->
@@ -45,40 +36,34 @@ import AdminService from "@/api/services/AdminService";
 import { HandleRequest } from "@/api/decorators/HandleRequestDecorator";
 import { EchoPromise } from "echofetch";
 import { RequestHandler } from "@/api/RequestHandler";
+import Report from "@/api/models/Report.ts";
 
-@Component({
-    components: {
-        AdminNavigation
-    }
-})
+@Component
 export default class Home extends Vue {
     reports = RequestHandler.handle(AdminService.getAll(), {
         id: "admin",
-        style: "SNACKBAR"
+        style: "SNACKBAR",
     });
 
     headers = [
         {
             text: "Location",
-            value: "location.name"
+            value: "location.name",
         },
         {
             text: "Creator",
-            value: "creator.username"
+            value: "creator.username",
         },
         {
             text: "Created at",
-            value: "creator.createdAt"
-        }
+            value: "createdAt",
+        },
+        {
+            text: "",
+            value: "action",
+            sortable: false,
+            align: "end",
+        },
     ];
-
-    openReport(reportid: string) {
-        this.$store.dispatch("modal/open", {
-            component: () => import("@/components/modal/admin/ReportModal.vue"),
-            componentPayload: {
-                reportId: reportid
-            }
-        });
-    }
 }
 </script>

@@ -1,24 +1,8 @@
 <template>
     <v-card>
-        <!-- Loading -->
-        <template v-if="report.isLoading()">
+        <template>
             <v-card-title>
-                <v-skeleton-loader type="heading" dense />
-            </v-card-title>
-
-            <v-card-text>
-                <v-skeleton-loader type="list-item" dense />
-            </v-card-text>
-
-            <v-card-actions>
-                <v-spacer />
-            </v-card-actions>
-        </template>
-
-        <!-- Data -->
-        <template v-else-if="report.isSuccess()">
-            <v-card-title>
-                Report for {{ report.location.name }}
+                Report for {{ payload.report.location.name }}
 
                 <v-spacer />
 
@@ -28,17 +12,14 @@
             </v-card-title>
 
             <v-card-text>
-                {{ report.id }}
+                <p>Reason: {{ payload.report.reason }}</p>
+                <p>{{ payload.report.message }}</p>
+                <img :src="getImageURL(payload.report)" />
             </v-card-text>
 
             <v-card-actions>
                 <v-spacer />
             </v-card-actions>
-        </template>
-
-        <!-- Error -->
-        <template v-else-if="reports.isError()">
-            <error-placeholder error-id="report" />
         </template>
     </v-card>
 </template>
@@ -47,6 +28,8 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import AdminService from "@/api/services/AdminService";
 import { RequestHandler } from "@/api/RequestHandler";
+import Report from "@/api/models/Report.ts";
+import { ImageUtil } from "@/util/ImageUtil.ts";
 
 @Component
 export default class ReportModal extends Vue {
@@ -54,15 +37,14 @@ export default class ReportModal extends Vue {
      * Payload, passed when opening the modal.
      */
     @Prop()
-    payload: { reportId: string };
+    payload: { report: Report };
 
-    report = RequestHandler.handle(
-        AdminService.getReport(this.payload.reportId),
-        {
-            id: "report",
-            style: "SNACKBAR"
+    getImageURL(report: Report): string {
+        if (report.image != null) {
+            return ImageUtil.getById(report.image.id);
         }
-    );
+        return "";
+    }
 
     /**
      * Close the modal.

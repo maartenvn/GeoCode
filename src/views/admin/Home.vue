@@ -13,10 +13,6 @@ import { HandleRequest } from "@/api/decorators/HandleRequestDecorator";
 import { EchoPromise } from "echofetch";
 import { RequestHandler } from "@/api/RequestHandler";
 
-@Component({
-    components: {
-        AdminNavigation
-    }
-})
+@Component
 export default class Home extends Vue {}
 </script>
