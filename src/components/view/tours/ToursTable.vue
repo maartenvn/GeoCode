@@ -49,7 +49,7 @@
 
                 <template v-slot:item.totalDistance="{ item }">
                     <v-chip
-                        :color="getDistanceColor(item)"
+                        :color="getDistanceColor(item.totalDistance)"
                         text-color="white"
                         small
                     >
