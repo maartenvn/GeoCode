@@ -9,22 +9,30 @@
 
             <!-- Data -->
             <v-row v-else-if="stats.isSuccess()">
-                <statistics-card
-                    title="VISITS"
-                    :value="stats.data.visitsCount"
-                />
-
-                <statistics-card
-                    title="LOCATIONS"
-                    :value="stats.data.locationsCount"
-                />
-
-                <statistics-card
-                    title="COUNTRIES"
-                    :value="stats.data.countriesCount"
-                />
-
-                <statistics-card title="USERS" :value="stats.data.usersCount" />
+                <v-col cols="12" sm="6" md="3">
+                    <statistics-card
+                        title="VISITS"
+                        :value="stats.data.visitsCount"
+                    />
+                </v-col>
+                <v-col cols="12" sm="6" md="3">
+                    <statistics-card
+                        title="LOCATIONS"
+                        :value="stats.data.locationsCount"
+                    />
+                </v-col>
+                <v-col cols="12" sm="6" md="3">
+                    <statistics-card
+                        title="COUNTRIES"
+                        :value="stats.data.countriesCount"
+                    />
+                </v-col>
+                <v-col cols="12" sm="6" md="3">
+                    <statistics-card
+                        title="USERS"
+                        :value="stats.data.usersCount"
+                    />
+                </v-col>
             </v-row>
         </v-row>
     </v-container>
