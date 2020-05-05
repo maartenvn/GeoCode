@@ -6,6 +6,7 @@ export default class Report {
     id: number;
     message: string;
     reason: string;
+    resolved: boolean;
     image: ImageIdWrapper;
     creator: UserIdWrapper;
     location: LocationIdWrapper;
