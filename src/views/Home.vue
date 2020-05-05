@@ -100,30 +100,44 @@
         <section class="statistics">
             <!-- Loading -->
             <v-row v-if="statistics.isLoading()">
-                <statistics-card :loading="true" :flat="true" />
-                <statistics-card :loading="true" :flat="true" />
-                <statistics-card :loading="true" :flat="true" />
+                <v-col cols="12" sm="6" md="4">
+                    <statistics-card :loading="true" :flat="true" />
+                </v-col>
+
+                <v-col cols="12" sm="6" md="4">
+                    <statistics-card :loading="true" :flat="true" />
+                </v-col>
+
+                <v-col cols="12" sm="6" md="4">
+                    <statistics-card :loading="true" :flat="true" />
+                </v-col>
             </v-row>
 
             <!-- Data -->
             <v-row v-else-if="statistics.isSuccess()">
-                <statistics-card
-                    title="Different locations"
-                    :value="statistics.data.locationsCount"
-                    :flat="true"
-                />
+                <v-col cols="12" sm="6" md="4">
+                    <statistics-card
+                        title="Different locations"
+                        :value="statistics.data.locationsCount"
+                        :flat="true"
+                    />
+                </v-col>
 
-                <statistics-card
-                    title="Different countries"
-                    :value="statistics.data.countriesCount"
-                    :flat="true"
-                />
+                <v-col cols="12" sm="6" md="4">
+                    <statistics-card
+                        title="Different countries"
+                        :value="statistics.data.countriesCount"
+                        :flat="true"
+                    />
+                </v-col>
 
-                <statistics-card
-                    title="Active users"
-                    :value="statistics.data.usersCount"
-                    :flat="true"
-                />
+                <v-col cols="12" sm="6" md="4">
+                    <statistics-card
+                        title="Active users"
+                        :value="statistics.data.usersCount"
+                        :flat="true"
+                    />
+                </v-col>
             </v-row>
 
             <!-- Error -->
