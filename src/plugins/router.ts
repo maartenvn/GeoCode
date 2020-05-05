@@ -95,7 +95,7 @@ const routes = [
 
     {
         path: "/admin/",
-        name: "Admin Page",
+        name: "Admin Home Page",
         component: () => import("../views/admin/Home.vue"),
     },
 
