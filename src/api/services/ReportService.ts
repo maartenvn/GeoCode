@@ -5,12 +5,16 @@ import {
     EchoServiceBuilder,
     FormField,
     FormMultipart,
+    PATCH,
     Path,
     POST,
 } from "echofetch";
 import config from "@/config";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
-import { ReportCreateWrapper } from "@/api/wrappers/ReportWrapper";
+import {
+    ReportCreateWrapper,
+    ReportUpdateWrapper,
+} from "@/api/wrappers/ReportWrapper";
 
 class ReportService extends EchoService {
     /**
@@ -35,6 +39,14 @@ class ReportService extends EchoService {
     @POST("/reports/image")
     uploadImage(@FormField("image") image: File): EchoPromise<number> {
         return {} as EchoPromise<number>;
+    }
+
+    @PATCH("/reports/{reportId}")
+    update(
+        @Path("reportId") reportId: string,
+        @Body() body: ReportUpdateWrapper
+    ): EchoPromise<void> {
+        return {} as EchoPromise<void>;
     }
 }
 
