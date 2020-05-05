@@ -17,8 +17,15 @@
                 <img :src="getImageURL(payload.report)" />
             </v-card-text>
 
-            <v-card-actions>
+            <v-card-actions v-if="!payload.report.resolved">
                 <v-spacer />
+                <!-- Cancel -->
+                <v-btn color="error" text @click="close">
+                    Cancel
+                </v-btn>
+                <v-btn color="green" @click="resolveReport">
+                    Resolve
+                </v-btn>
             </v-card-actions>
         </template>
     </v-card>
@@ -30,6 +37,8 @@ import AdminService from "@/api/services/AdminService";
 import { RequestHandler } from "@/api/RequestHandler";
 import Report from "@/api/models/Report.ts";
 import { ImageUtil } from "@/util/ImageUtil.ts";
+import ReportService from "@/api/services/ReportService";
+import { ErrorHandler } from "@/api/error/ErrorHandler";
 
 @Component
 export default class ReportModal extends Vue {
@@ -47,6 +56,27 @@ export default class ReportModal extends Vue {
     }
 
     /**
+     * Resolve report.
+     */
+    resolveReport() {
+        ReportService.update(this.payload.report.id, { resolved: true })
+            .then(() => {
+                // set report to resolved so it hides it
+                this.payload.report.resolved = true;
+                this.$store.dispatch("modal/close");
+            })
+            .catch((error) => {
+                ErrorHandler.handle(error, {
+                    id: "reportModal",
+                    style: "SNACKBAR",
+                });
+            });
+    }
+    // resolve() {
+
+    //}
+
+    /**
      * Close the modal.
      */
     close() {
@@ -54,3 +84,9 @@ export default class ReportModal extends Vue {
     }
 }
 </script>
+
+<style lang="scss">
+img {
+    max-width: 100%;
+}
+</style>
