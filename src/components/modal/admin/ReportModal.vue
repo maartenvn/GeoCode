@@ -25,6 +25,7 @@
                 <v-btn
                     v-if="!payload.report.resolved"
                     dark
+                    depressed
                     color="primary"
                     @click="resolveReport(true)"
                 >
@@ -34,6 +35,7 @@
                 <v-btn
                     v-else
                     dark
+                    depressed
                     color="warning"
                     @click="resolveReport(false)"
                 >

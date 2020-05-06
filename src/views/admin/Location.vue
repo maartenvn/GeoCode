@@ -47,15 +47,49 @@
                     </v-btn>
                 </v-col>
             </v-row>
+            <template>
+                <div>
+                    <v-expansion-panels v-model="panel" flat class="mt-3">
+                        <v-expansion-panel>
+                            <v-expansion-panel-header
+                                >Description</v-expansion-panel-header
+                            >
+                            <v-expansion-panel-content>
+                                <p
+                                    class="mt-2 text--secondary"
+                                    v-html="location.data.description"
+                                />
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                    </v-expansion-panels>
+                </div>
+            </template>
 
-            <p v-html="location.data.description"></p>
+            <v-divider class="mb-3" />
+            <div class="section__title">Reports</div>
 
             <v-data-table :headers="headers" :items="reports.data">
+                <template v-slot:item.createdAt="{ item }">
+                    {{ createdAtFormat(item.createdAt) }}
+                </template>
                 <template v-slot:item.action="{ item }">
                     <v-btn @click="openReport(item)" color="primary" text>
                         Show details
                         <v-icon right>mdi-arrow-right</v-icon>
                     </v-btn>
+                </template>
+                <template v-slot:item.resolved="{ item }">
+                    <template v-if="item.resolved">
+                        <v-chip color="success" text-color="white" small>
+                            Resolved
+                        </v-chip>
+                    </template>
+
+                    <template v-else>
+                        <v-chip color="error" text-color="white" small>
+                            Unresolved
+                        </v-chip>
+                    </template>
                 </template>
             </v-data-table>
         </template>
@@ -86,10 +120,6 @@ export default class LocationReports extends Vue {
 
     headers = [
         {
-            text: "Location",
-            value: "location.name",
-        },
-        {
             text: "Creator",
             value: "creator.username",
         },
@@ -98,7 +128,7 @@ export default class LocationReports extends Vue {
             value: "createdAt",
         },
         {
-            text: "Resolved?",
+            text: "",
             value: "resolved",
         },
         {
@@ -123,6 +153,15 @@ export default class LocationReports extends Vue {
             displayFullpage: true,
         }
     );
+
+    /**
+     * Get the createdAt as a string.
+     */
+    createdAtFormat(dateString: string): string {
+        const date = new Date(dateString);
+
+        return date.toLocaleString();
+    }
 
     setLocationActive(value: boolean) {
         LocationService.update(this.secretId, { active: value })

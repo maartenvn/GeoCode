@@ -12,6 +12,8 @@
             <v-toolbar-title @click="$router.push('/admin')">
                 Admin Panel
             </v-toolbar-title>
+
+            <v-spacer />
         </v-app-bar>
 
         <!-- Drawer (SIDE) -->
@@ -57,6 +59,7 @@ export default class AdminNavigation extends Vue {
         super();
 
         this.drawer = false;
+
         this.links = [
             {
                 title: "Home",
