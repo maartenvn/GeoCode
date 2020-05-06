@@ -1,5 +1,6 @@
 <template>
     <v-container class="container--small">
+        <div class="section__title">All Reports</div>
         <!-- Loading -->
         <template v-if="reports.isLoading()">
             <v-skeleton-loader type="table" dense />

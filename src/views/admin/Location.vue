@@ -1,29 +1,55 @@
 ²<template>
     <v-container class="container--small">
-        <h2>Reports for {{ location.data.name }}</h2>
-        <p v-html="location.data.description"></p>
-
-        <v-btn
-            v-if="location.data.active"
-            color="orange"
-            @click="setLocationActive(false)"
-        >
-            make inactive
-        </v-btn>
-        <v-btn v-else color="green" @click="setLocationActive(true)">
-            make active
-        </v-btn>
-        <v-btn color="red" @click="openConfirmDelete(location.data)"
-            >delete</v-btn
-        >
-
         <!-- Loading -->
         <template v-if="reports.isLoading()">
+            <v-skeleton-loader type="heading" />
             <v-skeleton-loader type="table" dense />
         </template>
 
         <!-- Data -->
         <template v-else-if="reports.isSuccess()">
+            <v-row no-gutters justify="space-between">
+                <v-col cols="auto" align-self="center">
+                    <h2>Reports for {{ location.data.name }}</h2>
+                </v-col>
+
+                <v-col cols="auto" align-self="center">
+                    <v-btn
+                        v-if="location.data.active"
+                        color="warning"
+                        dark
+                        depressed
+                        @click="setLocationActive(false)"
+                        class="mx-2"
+                    >
+                        make inactive
+                    </v-btn>
+
+                    <v-btn
+                        v-else
+                        color="primary"
+                        dark
+                        depressed
+                        @click="setLocationActive(true)"
+                        class="mx-2"
+                    >
+                        make active
+                    </v-btn>
+
+                    <v-btn
+                        color="error"
+                        dark
+                        depressed
+                        @click="openConfirmDelete(location.data)"
+                        class="mx-2"
+                    >
+                        delete
+                    </v-btn>
+                </v-col>
+            </v-row>
+
+            <p v-html="location.data.description"></p>
+
             <v-data-table :headers="headers" :items="reports.data">
                 <template v-slot:item.action="{ item }">
                     <v-btn @click="openReport(item)" color="primary" text>
@@ -58,6 +84,31 @@ export default class LocationReports extends Vue {
     @Prop()
     secretId: string;
 
+    headers = [
+        {
+            text: "Location",
+            value: "location.name",
+        },
+        {
+            text: "Creator",
+            value: "creator.username",
+        },
+        {
+            text: "Created at",
+            value: "createdAt",
+        },
+        {
+            text: "Resolved?",
+            value: "resolved",
+        },
+        {
+            text: "",
+            value: "action",
+            sortable: false,
+            align: "end",
+        },
+    ];
+
     location = RequestHandler.handle(LocationService.get(this.secretId), {
         id: "location",
         style: "SECTION",
@@ -73,25 +124,9 @@ export default class LocationReports extends Vue {
         }
     );
 
-    // getUnresolvedReports(): EchoPromise<T> {
-    //     const reports = RequestHandler.handle(
-    //         AdminService.getLocationReports(this.secretId),
-    //         {
-    //             id: "locationReports",
-    //             style: "SECTION",
-    //             displayFullpage: true,
-    //         }
-    //     );
-
-    //     if (reports) {
-    //         return reports.data.filter((report: Report) => report.resolved === true);
-    //     }
-    //     return reports
-    // }
-
     setLocationActive(value: boolean) {
         LocationService.update(this.secretId, { active: value })
-            .then(() => (this.location.data.active = value))
+            .then(() => (this.location.requireData().active = value))
             .catch((error) => {
                 ErrorHandler.handle(error, {
                     id: "locationActivate",
@@ -142,30 +177,5 @@ export default class LocationReports extends Vue {
             },
         });
     }
-
-    headers = [
-        {
-            text: "Location",
-            value: "location.name",
-        },
-        {
-            text: "Creator",
-            value: "creator.username",
-        },
-        {
-            text: "Created at",
-            value: "createdAt",
-        },
-        {
-            text: "Resolved?",
-            value: "resolved",
-        },
-        {
-            text: "",
-            value: "action",
-            sortable: false,
-            align: "end",
-        },
-    ];
 }
 </script>

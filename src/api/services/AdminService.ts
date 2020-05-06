@@ -7,28 +7,30 @@ import {
     EchoServiceBuilder,
 } from "echofetch";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
+import Report from "@/api/models/Report.ts";
+import GeneralStatistics from "../models/GeneralStatistics";
 
 class AdminService extends EchoService {
     @GET("/reports")
-    getAll(): EchoPromise<string> {
-        return {} as EchoPromise<string>;
+    getAll(): EchoPromise<Array<Report>> {
+        return {} as EchoPromise<Array<Report>>;
     }
 
     @GET("/reports/{reportId}")
-    getReport(@Path("reportId") reportId: string): EchoPromise<string> {
-        return {} as EchoPromise<string>;
+    getReport(@Path("reportId") reportId: string): EchoPromise<Report> {
+        return {} as EchoPromise<Report>;
     }
 
     @GET("locations/{secretId}/reports")
     getLocationReports(
         @Path("secretId") secretId: string
-    ): EchoPromise<string> {
-        return {} as EchoPromise<string>;
+    ): EchoPromise<Array<Report>> {
+        return {} as EchoPromise<Array<Report>>;
     }
 
     @GET("/statistics")
-    getStats(): EchoPromise<string> {
-        return {} as EchoPromise<string>;
+    getStats(): EchoPromise<GeneralStatistics> {
+        return {} as EchoPromise<GeneralStatistics>;
     }
 }
 

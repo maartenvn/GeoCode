@@ -43,7 +43,7 @@ class ReportService extends EchoService {
 
     @PATCH("/reports/{reportId}")
     update(
-        @Path("reportId") reportId: string,
+        @Path("reportId") reportId: number,
         @Body() body: ReportUpdateWrapper
     ): EchoPromise<void> {
         return {} as EchoPromise<void>;

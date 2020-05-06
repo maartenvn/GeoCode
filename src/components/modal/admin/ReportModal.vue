@@ -13,18 +13,31 @@
 
             <v-card-text>
                 <p>Reason: {{ payload.report.reason }}</p>
+
                 <p>{{ payload.report.message }}</p>
+
                 <img :src="getImageURL(payload.report)" />
             </v-card-text>
 
-            <v-card-actions v-if="!payload.report.resolved">
+            <v-card-actions>
                 <v-spacer />
-                <!-- Cancel -->
-                <v-btn color="error" text @click="close">
-                    Cancel
-                </v-btn>
-                <v-btn color="green" @click="resolveReport">
+
+                <v-btn
+                    v-if="!payload.report.resolved"
+                    dark
+                    color="primary"
+                    @click="resolveReport(true)"
+                >
                     Resolve
+                </v-btn>
+
+                <v-btn
+                    v-else
+                    dark
+                    color="warning"
+                    @click="resolveReport(false)"
+                >
+                    Unresolve
                 </v-btn>
             </v-card-actions>
         </template>
@@ -58,11 +71,11 @@ export default class ReportModal extends Vue {
     /**
      * Resolve report.
      */
-    resolveReport() {
-        ReportService.update(this.payload.report.id, { resolved: true })
+    resolveReport(value: boolean) {
+        ReportService.update(this.payload.report.id, { resolved: value })
             .then(() => {
-                // set report to resolved so it hides it
-                this.payload.report.resolved = true;
+                // set report to correts resolve status so it shows in the table
+                this.payload.report.resolved = value;
                 this.$store.dispatch("modal/close");
             })
             .catch((error) => {
@@ -72,9 +85,6 @@ export default class ReportModal extends Vue {
                 });
             });
     }
-    // resolve() {
-
-    //}
 
     /**
      * Close the modal.
