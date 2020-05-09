@@ -48,8 +48,6 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import AdminService from "@/api/services/AdminService";
-import { RequestHandler } from "@/api/RequestHandler";
 import Report from "@/api/models/Report.ts";
 import { ImageUtil } from "@/util/ImageUtil.ts";
 import ReportService from "@/api/services/ReportService";

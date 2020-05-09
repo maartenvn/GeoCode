@@ -28,7 +28,6 @@ import RouterViewWrapper from "@/components/util/RouterViewWrapper.vue";
 import Snackbar from "@/components/layout/Snackbar.vue";
 import Modal from "@/components/layout/Modal.vue";
 import ErrorBus from "@/api/error/ErrorBus";
-import AdminNavigation from "@/components/admin/AdminNavigation.vue";
 
 @Component({
     components: {

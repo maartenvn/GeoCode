@@ -98,11 +98,8 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 import AdminService from "@/api/services/AdminService";
 import LocationService from "@/api/services/LocationService";
-import { HandleRequest } from "@/api/decorators/HandleRequestDecorator";
-import { EchoPromise } from "echofetch";
 import { RequestHandler } from "@/api/RequestHandler";
 import Report from "@/api/models/Report.ts";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
@@ -185,7 +182,7 @@ export default class LocationReports extends Vue {
                 message: `Are you sure you want to delete '${location.name}?'`,
                 action: () =>
                     LocationService.delete(location.secretId)
-                        .then((data) => {
+                        .then(() => {
                             // Close the modal.
                             this.$store.dispatch("modal/close");
 

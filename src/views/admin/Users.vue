@@ -60,14 +60,8 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
-import AdminNavigation from "@/components/admin/AdminNavigation.vue";
 import UsersService from "@/api/services/UsersService";
-import AdminService from "@/api/services/AdminService";
-import { HandleRequest } from "@/api/decorators/HandleRequestDecorator";
-import { EchoPromise } from "echofetch";
 import { RequestHandler } from "@/api/RequestHandler";
-import StatisticsCard from "@/components/statistics/StatisticsCard.vue";
 import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 import { ImageUtil } from "@/util/ImageUtil.ts";
 import User from "@/api/models/User";
@@ -104,13 +98,13 @@ export default class Home extends Vue {
         },
     ];
 
-    removeImage(user: User) {
-        // patch user so image is -1
-    }
+    // removeImage(user: User) {
+    //     patch user so image is -1
+    // }
 
-    deleteUser(user: User) {
-        // delete user
-    }
+    // deleteUser(user: User) {
+    //     delete user
+    // }
 
     getImageURL(user: User): string {
         if (user.avatar != null && user.avatar.id > 0) {
