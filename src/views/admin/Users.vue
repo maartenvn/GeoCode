@@ -10,21 +10,22 @@
             <v-card flat>
                 <v-card-title>
                     Users
-                    <v-spacer />
-                    <v-text-field
-                        v-model="tableSearch"
-                        append-icon="mdi-magnify"
-                        label="Search users"
-                        single-line
-                        outlined
-                        dense
-                    ></v-text-field>
                 </v-card-title>
                 <v-data-table
                     :headers="headers"
                     :items="users.data"
                     :search="tableSearch"
                 >
+                    <template v-slot:top>
+                        <v-text-field
+                            v-model="tableSearch"
+                            prepend-icon="mdi-database-search"
+                            label="Search for a user"
+                            single-line
+                            outlined
+                            dense
+                        />
+                    </template>
                     <template v-slot:item.avatar="{ item }">
                         <v-btn
                             depressed

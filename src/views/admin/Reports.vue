@@ -9,16 +9,7 @@
         <template v-else-if="reports.isSuccess()">
             <v-card flat>
                 <v-card-title>
-                    All Reports
-                    <v-spacer></v-spacer>
-                    <v-text-field
-                        v-model="tableSearch"
-                        append-icon="mdi-magnify"
-                        label="Search reported locations"
-                        single-line
-                        outlined
-                        dense
-                    ></v-text-field>
+                    Reported Locations
                 </v-card-title>
                 <v-data-table
                     :headers="headers"
@@ -27,6 +18,16 @@
                     sort-desc
                     :search="tableSearch"
                 >
+                    <template v-slot:top>
+                        <v-text-field
+                            v-model="tableSearch"
+                            prepend-icon="mdi-database-search"
+                            label="Search for a reported location"
+                            single-line
+                            outlined
+                            dense
+                        />
+                    </template>
                     <template v-slot:item.createdAt="{ item }">
                         {{ createdAtFormat(item.createdAt) }}
                     </template>
