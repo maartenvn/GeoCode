@@ -33,7 +33,7 @@ import AdminNavigation from "@/components/admin/AdminNavigation.vue";
 @Component({
     components: {
         Navigation,
-        AdminNavigation,
+        AdminNavigation: () => import("@/components/admin/AdminNavigation.vue"),
         RouterViewWrapper,
         Snackbar,
         Modal,
