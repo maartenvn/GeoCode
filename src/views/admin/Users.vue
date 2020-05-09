@@ -9,7 +9,7 @@
         <template v-else-if="users.isSuccess()">
             <v-card flat>
                 <v-card-title>
-                    Data
+                    Users
                     <v-spacer></v-spacer>
                     <v-text-field
                         v-model="search"
