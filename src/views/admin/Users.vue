@@ -10,13 +10,12 @@
             <v-card flat>
                 <v-card-title>
                     Users
-                    <v-spacer></v-spacer>
+                    <v-spacer />
                     <v-text-field
                         v-model="tableSearch"
                         append-icon="mdi-magnify"
-                        label="Search"
+                        label="Search users"
                         single-line
-                        hide-details
                         outlined
                         dense
                     ></v-text-field>

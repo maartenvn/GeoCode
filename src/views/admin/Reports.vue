@@ -14,9 +14,10 @@
                     <v-text-field
                         v-model="tableSearch"
                         append-icon="mdi-magnify"
-                        label="Search"
+                        label="Search reported locations"
                         single-line
-                        hide-details
+                        outlined
+                        dense
                     ></v-text-field>
                 </v-card-title>
                 <v-data-table
@@ -56,7 +57,11 @@ import AdminService from "@/api/services/AdminService";
 import { RequestHandler } from "@/api/RequestHandler";
 import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 
-@Component
+@Component({
+    components: {
+        ErrorPlaceholder,
+    },
+})
 export default class Home extends Vue {
     tableSearch = "";
 
