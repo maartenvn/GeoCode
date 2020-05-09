@@ -12,17 +12,19 @@
                     Users
                     <v-spacer></v-spacer>
                     <v-text-field
-                        v-model="search"
+                        v-model="tableSearch"
                         append-icon="mdi-magnify"
                         label="Search"
                         single-line
                         hide-details
+                        outlined
+                        dense
                     ></v-text-field>
                 </v-card-title>
                 <v-data-table
                     :headers="headers"
                     :items="users.data"
-                    :search="search"
+                    :search="tableSearch"
                 >
                     <template v-slot:item.avatar="{ item }">
                         <v-btn
@@ -66,9 +68,16 @@ import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 import { ImageUtil } from "@/util/ImageUtil.ts";
 import User from "@/api/models/User";
 
-@Component
-export default class Home extends Vue {
-    search = "";
+@Component({
+    components: {
+        ErrorPlaceholder,
+    },
+})
+export default class AdminUsers extends Vue {
+    /*
+     *   variable for search field
+     */
+    tableSearch = "";
 
     users = RequestHandler.handle(UsersService.getAll(), {
         id: "users",
@@ -106,6 +115,9 @@ export default class Home extends Vue {
     //     delete user
     // }
 
+    /*
+     *   use the image id to make a usable image url
+     */
     getImageURL(user: User): string {
         if (user.avatar != null && user.avatar.id > 0) {
             return ImageUtil.getById(user.avatar.id);
@@ -113,6 +125,9 @@ export default class Home extends Vue {
         return "";
     }
 
+    /*
+     *   open a modal to show the avatar
+     */
     openImage(user: User) {
         this.$store.dispatch("modal/open", {
             component: () => import("@/components/modal/admin/ImageModal.vue"),

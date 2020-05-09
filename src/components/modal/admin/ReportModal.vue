@@ -61,6 +61,9 @@ export default class ReportModal extends Vue {
     @Prop()
     payload: { report: Report };
 
+    /*
+     *   use the image id to make a usable image url
+     */
     getImageURL(report: Report): string {
         if (report.image != null) {
             return ImageUtil.getById(report.image.id);

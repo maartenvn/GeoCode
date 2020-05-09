@@ -38,6 +38,9 @@ export default class ConfirmModal extends Vue {
         this.$store.dispatch("modal/close");
     }
 
+    /*
+     *   use the image id to make a usable image url
+     */
     getImageURL(user: User): string {
         if (user.avatar != null && user.avatar.id > 0) {
             return ImageUtil.getById(user.avatar.id);

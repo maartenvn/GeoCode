@@ -160,6 +160,9 @@ export default class LocationReports extends Vue {
         return date.toLocaleString();
     }
 
+    /*
+     *   set location active or inactive depending on the value passed
+     */
     setLocationActive(value: boolean) {
         LocationService.update(this.secretId, { active: value })
             .then(() => (this.location.requireData().active = value))
@@ -205,6 +208,9 @@ export default class LocationReports extends Vue {
         });
     }
 
+    /*
+     *   Open a modal to show report details
+     */
     openReport(report: Report) {
         this.$store.dispatch("modal/open", {
             component: () => import("@/components/modal/admin/ReportModal.vue"),

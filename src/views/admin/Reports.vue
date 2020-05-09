@@ -12,7 +12,7 @@
                     All Reports
                     <v-spacer></v-spacer>
                     <v-text-field
-                        v-model="search"
+                        v-model="tableSearch"
                         append-icon="mdi-magnify"
                         label="Search"
                         single-line
@@ -24,7 +24,7 @@
                     :items="reports.data"
                     sort-by="createdAt"
                     sort-desc
-                    :search="search"
+                    :search="tableSearch"
                 >
                     <template v-slot:item.createdAt="{ item }">
                         {{ createdAtFormat(item.createdAt) }}
@@ -58,7 +58,7 @@ import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 
 @Component
 export default class Home extends Vue {
-    search = "";
+    tableSearch = "";
 
     reports = RequestHandler.handle(AdminService.getAll(), {
         id: "admin",
