@@ -71,6 +71,11 @@ export default class AdminNavigation extends Vue {
                 to: "/admin/reports",
                 icon: "mdi-alert-octagon",
             },
+            {
+                title: "Users",
+                to: "/admin/users",
+                icon: "mdi-account",
+            },
         ];
     }
 

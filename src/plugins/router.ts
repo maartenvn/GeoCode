@@ -111,6 +111,12 @@ const routes = [
         component: () => import("../views/admin/Location.vue"),
         props: true,
     },
+
+    {
+        path: "/admin/users",
+        name: "Admin User List",
+        component: () => import("../views/admin/Users.vue"),
+    },
 ];
 
 const router = new VueRouter({
