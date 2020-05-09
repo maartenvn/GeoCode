@@ -11,6 +11,14 @@ import User from "@/api/models/User";
 
 class UsersService extends EchoService {
     /**
+     * Get a list of all users
+     */
+    @GET("/users")
+    getAll(): EchoPromise<User> {
+        return {} as EchoPromise<User>;
+    }
+
+    /**
      * Get a location by its secret id
      * @param secretId Secret id of the location.
      */
