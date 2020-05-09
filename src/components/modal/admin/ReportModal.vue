@@ -76,7 +76,7 @@ export default class ReportModal extends Vue {
     resolveReport(value: boolean) {
         ReportService.update(this.payload.report.id, { resolved: value })
             .then(() => {
-                // set report to correts resolve status so it shows in the table
+                // set report to correct resolve status so it shows in the table
                 this.payload.report.resolved = value;
                 this.$store.dispatch("modal/close");
             })

@@ -1,4 +1,4 @@
-²<template>
+<template>
     <v-container class="container--small">
         <!-- Loading -->
         <template v-if="reports.isLoading()">
