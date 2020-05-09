@@ -1,6 +1,5 @@
 <template>
     <v-container class="container--small">
-        <div class="section__title">All Reports</div>
         <!-- Loading -->
         <template v-if="reports.isLoading()">
             <v-skeleton-loader type="table" dense />
@@ -8,18 +7,40 @@
 
         <!-- Data -->
         <template v-else-if="reports.isSuccess()">
-            <v-data-table :headers="headers" :items="reports.data">
-                <template v-slot:item.action="{ item }">
-                    <v-btn
-                        :to="`/admin/reports/${item.location.secretId}`"
-                        color="primary"
-                        text
-                    >
-                        Show reports
-                        <v-icon right>mdi-arrow-right</v-icon>
-                    </v-btn>
-                </template>
-            </v-data-table>
+            <v-card flat>
+                <v-card-title>
+                    All Reports
+                    <v-spacer></v-spacer>
+                    <v-text-field
+                        v-model="search"
+                        append-icon="mdi-magnify"
+                        label="Search"
+                        single-line
+                        hide-details
+                    ></v-text-field>
+                </v-card-title>
+                <v-data-table
+                    :headers="headers"
+                    :items="reports.data"
+                    sort-by="createdAt"
+                    sort-desc
+                    :search="search"
+                >
+                    <template v-slot:item.createdAt="{ item }">
+                        {{ createdAtFormat(item.createdAt) }}
+                    </template>
+                    <template v-slot:item.action="{ item }">
+                        <v-btn
+                            :to="`/admin/reports/${item.location.secretId}`"
+                            color="primary"
+                            text
+                        >
+                            Show reports
+                            <v-icon right>mdi-arrow-right</v-icon>
+                        </v-btn>
+                    </template>
+                </v-data-table>
+            </v-card>
         </template>
 
         <!-- Error -->
@@ -38,9 +59,12 @@ import { HandleRequest } from "@/api/decorators/HandleRequestDecorator";
 import { EchoPromise } from "echofetch";
 import { RequestHandler } from "@/api/RequestHandler";
 import Report from "@/api/models/Report.ts";
+import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 
 @Component
 export default class Home extends Vue {
+    search = "";
+
     reports = RequestHandler.handle(AdminService.getAll(), {
         id: "admin",
         style: "SECTION",
@@ -67,5 +91,14 @@ export default class Home extends Vue {
             align: "end",
         },
     ];
+
+    /**
+     * Get the createdAt as a string.
+     */
+    createdAtFormat(dateString: string): string {
+        const date = new Date(dateString);
+
+        return date.toLocaleString();
+    }
 }
 </script>
