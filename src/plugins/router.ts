@@ -33,6 +33,12 @@ const routes = [
     },
 
     {
+        path: "/achievements",
+        name: "Achievements",
+        component: () => import("../views/Achievements.vue"),
+    },
+      
+    {
         path: "/leaderboards",
         name: "Leaderboards",
         component: () => import("../views/Leaderboards.vue"),
@@ -73,6 +79,12 @@ const routes = [
         path: "/profile",
         name: "Profile",
         component: () => import("../views/profile/Profile.vue"),
+    },
+
+    {
+        path: "/profile/achievements/",
+        name: "Your achievements",
+        component: () => import("../views/profile/ProfileAchievements.vue"),
     },
 
     {

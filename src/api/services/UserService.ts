@@ -17,6 +17,7 @@ import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
 import { InputFields } from "@/types/fields/InputFields";
 import Visit from "@/api/models/Visit";
 import UserStatistics from "@/api/models/UserStatistics";
+import Achievement from "@/api/models/Achievement";
 import Tour from "@/api/models/Tour";
 
 class UserService extends EchoService {
@@ -69,6 +70,14 @@ class UserService extends EchoService {
     @GET("/user/statistics")
     getStatistics(): EchoPromise<UserStatistics> {
         return {} as EchoPromise<UserStatistics>;
+    }
+
+    /**
+     * Get achievements for the logged in user.
+     */
+    @GET("/user/achievements")
+    getAchievements(): EchoPromise<Array<Achievement>> {
+        return {} as EchoPromise<Array<Achievement>>;
     }
 
     /**

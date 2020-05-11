@@ -51,6 +51,12 @@ export default class Navigation extends Vue {
         },
 
         {
+            title: "Achievements",
+            to: "/achievements",
+            icon: "mdi-trophy",
+        },
+        
+        {
             title: "Tours",
             to: "/tours",
             icon: "mdi-routes",
@@ -71,6 +77,12 @@ export default class Navigation extends Vue {
             title: "My profile",
             to: "/profile",
             icon: "mdi-account-box",
+        },
+
+        {
+            title: "My Achievements",
+            to: "/profile/achievements",
+            icon: "mdi-trophy",
         },
 
         {
