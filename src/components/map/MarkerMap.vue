@@ -336,6 +336,11 @@ export default class MarkerMap extends Vue {
                         message: error.message,
                         color: "error",
                     });
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0,
                 }
             );
         } else {
