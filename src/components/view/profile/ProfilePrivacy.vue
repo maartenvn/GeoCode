@@ -3,49 +3,46 @@
         <!-- Account details -->
         <v-col cols="12">
             <div class="section__title">
-                Privacy & Data settings
+                Privacy & Data
             </div>
 
             <v-card outlined>
                 <v-card-text>
+                    <h3>Select data to delete:</h3>
+
                     <v-row>
-                        <v-col cols="auto">
-                            <h2>Select what data you want to delete:</h2>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-container fluid>
+                        <v-col>
                             <v-checkbox
                                 v-model="selected"
-                                label="All your comments"
+                                label="Comments"
                                 value="COMMENTS"
                                 :disabled="loading"
                             />
                             <v-checkbox
                                 v-model="selected"
-                                label="All your ratings"
+                                label="Ratings"
                                 value="RATINGS"
                                 :disabled="loading"
                             />
                             <v-checkbox
                                 v-model="selected"
-                                label="All your locations"
+                                label="Locations"
                                 value="LOCATIONS"
                                 :disabled="loading"
                             />
                             <v-checkbox
                                 v-model="selected"
-                                label="All your tours"
+                                label="Tours"
                                 value="TOURS"
                                 :disabled="loading"
                             />
                             <v-checkbox
                                 v-model="selected"
-                                label="All your visits to locations"
+                                label="Visits to locations"
                                 value="VISITS"
                                 :disabled="loading"
                             />
-                        </v-container>
+                        </v-col>
                     </v-row>
 
                     <v-row>
@@ -66,11 +63,13 @@
 
                     <v-row>
                         <v-col cols="auto">
-                            <h2>
-                                If you want to permanently delete your account:
-                            </h2>
+                            <h3>
+                                Permanently delete your account
+                            </h3>
                         </v-col>
+
                         <v-spacer />
+
                         <v-col cols="auto">
                             <v-btn color="error" depressed @click="deleteUser">
                                 Delete Account
@@ -83,9 +82,9 @@
                     <v-row>
                         <v-col cols="auto">
                             <p>
-                                View our Privacy Policy
+                                View our
                                 <a href="/privacypolicy" target="_blank">
-                                    here
+                                    Privacy Policy
                                 </a>
                             </p>
                         </v-col>
