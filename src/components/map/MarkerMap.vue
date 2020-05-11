@@ -1,25 +1,40 @@
 <template>
     <div>
-        <!-- Search bar -->
-        <v-autocomplete
-            v-if="searchEnabled"
-            v-model="searchSelected"
-            :search-input.sync="searchValue"
-            :items="searchEntries"
-            :loading="searchLoading"
-            return-object
-            prepend-icon="mdi-database-marker"
-            label="Search for a place on the map"
-            outlined
-            dense
-        />
+        <v-row no-gutters justify="end" align-items="center">
+            <!-- Search bar -->
+            <v-autocomplete
+                v-if="searchEnabled"
+                v-model="searchSelected"
+                :search-input.sync="searchValue"
+                :items="searchEntries"
+                :loading="searchLoading"
+                return-object
+                prepend-icon="mdi-database-marker"
+                label="Search for a place on the map"
+                outlined
+                dense
+            />
+
+            <!-- Use current location -->
+            <v-col cols="auto">
+                <v-btn
+                    v-if="centerByGeo"
+                    class="ml-3"
+                    color="primary"
+                    text
+                    @click="handleCenterByGeo"
+                >
+                    Use current location
+                </v-btn>
+            </v-col>
+        </v-row>
 
         <!-- Map -->
         <l-map
             ref="map"
             id="map"
             :zoom="zoom"
-            :center="center"
+            :center="_center"
             :options="mapOptions"
             :style="`height: ${height}; width: ${width}; z-index: 1; margin: auto;`"
             gestureHandling
@@ -62,7 +77,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Emit, Prop, Vue, Watch } from "vue-property-decorator";
+import {
+    Component,
+    Emit,
+    Prop,
+    PropSync,
+    Vue,
+    Watch,
+} from "vue-property-decorator";
 import {
     LMap,
     LMarker,
@@ -72,9 +94,17 @@ import {
     LPolyline,
 } from "vue2-leaflet";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
-import { LeafletMouseEvent, Map, MapOptions } from "leaflet";
+import {
+    LatLng,
+    LatLngTuple,
+    LeafletMouseEvent,
+    Map,
+    MapOptions,
+} from "leaflet";
 import { MapMarker } from "@/types/map/MapMarker";
 import { MapLine } from "@/types/map/MapLine";
+import CurrentLocationService from "@/api/services/CurrentLocationService";
+import ErrorModal from "@/components/modal/ErrorModal.vue";
 
 @Component({
     components: {
@@ -102,8 +132,23 @@ export default class MarkerMap extends Vue {
     /**
      * Center of the map.
      */
-    @Prop()
-    center: Array<number>;
+    @PropSync("center")
+    _center: Array<number>;
+
+    /**
+     * Should the users IP-address be used as center for the map.
+     * @var center will be used as initial center & fallback.
+     */
+    @Prop({ default: false })
+    centerByIp: boolean;
+
+    /**
+     * Should the users geolocation be used as center for the map.
+     * This will add a button allowing the user to center the map using its location.
+     * @var center will be used as initial center & fallback.
+     */
+    @Prop({ default: false })
+    centerByGeo: boolean;
 
     /**
      * Zoom level of the map.
@@ -243,6 +288,71 @@ export default class MarkerMap extends Vue {
     @Emit("mapClick")
     handleMapClick(event: LeafletMouseEvent) {
         this.$emit("mapClick", event, this.map);
+    }
+
+    /**
+     * Use the users IP address for determining the center.
+     */
+    @Watch("centerByIp", { immediate: true })
+    handleCenterByIp() {
+        if (this.centerByIp) {
+            CurrentLocationService.getCurrentLocation()
+                .then((data) => {
+                    // Update the center.
+                    this._center = [data.latitude, data.longitude];
+
+                    // Go to the new center on the map.
+                    this.map?.panTo(new LatLng(data.latitude, data.longitude));
+                })
+                .catch(() => void 0);
+        }
+    }
+
+    /**
+     * Use the users GeoLocation for determining the center.
+     */
+    handleCenterByGeo() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    // Update the center.
+                    this._center = [
+                        position.coords.latitude,
+                        position.coords.longitude,
+                    ];
+
+                    // Update the center on the map.
+                    // Go to the new center on the map.
+                    this.map?.flyTo(
+                        new LatLng(
+                            position.coords.latitude,
+                            position.coords.longitude
+                        ),
+                        10
+                    );
+                },
+                (error) => {
+                    this.$store.dispatch("snackbar/open", {
+                        message: error.message,
+                        color: "error",
+                    });
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0,
+                }
+            );
+        } else {
+            this.$store.dispatch("modal/open", {
+                component: ErrorModal,
+                componentPayload: {
+                    title: "Unable to get location",
+                    message:
+                        "You are using a very old browser. We are unable to get your location. Please update your browser!",
+                },
+            });
+        }
     }
 }
 </script>

@@ -12,7 +12,7 @@
                 :search="tableSearch"
                 :items="users.data"
                 sort-field="position"
-                sort-desc="true"
+                :sort-desc="true"
             >
                 <template v-slot:top>
                     <v-text-field

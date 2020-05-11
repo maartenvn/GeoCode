@@ -92,6 +92,7 @@
                             height="400px"
                             width="100%"
                             :zoom="2"
+                            :center-by-geo="true"
                             :searchEnabled="true"
                             :tour-locations.sync="fields.locations.value"
                             :show-select="true"
