@@ -86,6 +86,16 @@
                         </v-col>
                     </v-row>
 
+                    <v-row style="padding-left: 12px;">
+                        <v-checkbox v-model="privacy_agree" />
+                        <p style="align-self: center; margin: 0px;">
+                            I agree with the
+                            <a href="privacypolicy" target="_blank"
+                                >Privacy Policy</a
+                            >
+                        </p>
+                    </v-row>
+
                     <v-card-actions>
                         <v-btn
                             @click="$emit('loginClick')"
@@ -101,7 +111,7 @@
                             color="primary"
                             depressed
                             @click="register"
-                            :disabled="_loading"
+                            :disabled="_loading || privacy_agree == false"
                             type="submit"
                         >
                             Create account
@@ -135,6 +145,7 @@ import { ErrorHandler } from "@/api/error/ErrorHandler";
 export default class Register extends Vue {
     @Prop({ default: false })
     showImage: boolean;
+    privacy_agree = false;
 
     /**
      * If the form is loading.
