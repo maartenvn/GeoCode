@@ -75,7 +75,7 @@ import User from "@/api/models/User";
 })
 export default class AdminUsers extends Vue {
     /*
-     *   variable for search field
+     * Variable for search field
      */
     tableSearch = "";
 
@@ -107,16 +107,8 @@ export default class AdminUsers extends Vue {
         },
     ];
 
-    // removeImage(user: User) {
-    //     patch user so image is -1
-    // }
-
-    // deleteUser(user: User) {
-    //     delete user
-    // }
-
     /*
-     *   use the image id to make a usable image url
+     * Use the image id to make a usable image url
      */
     getImageURL(user: User): string {
         if (user.avatar != null && user.avatar.id > 0) {
@@ -126,7 +118,7 @@ export default class AdminUsers extends Vue {
     }
 
     /*
-     *   open a modal to show the avatar
+     * Open a modal to show the avatar
      */
     openImage(user: User) {
         this.$store.dispatch("modal/open", {

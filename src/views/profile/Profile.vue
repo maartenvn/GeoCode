@@ -48,10 +48,16 @@ import { EchoPromise } from "echofetch";
 import User from "@/api/models/User";
 import ProfileAccount from "@/components/view/profile/ProfileAccount.vue";
 import ProfilePassword from "@/components/view/profile/ProfilePassword.vue";
+import ProfilePrivacy from "@/components/view/profile/ProfilePrivacy.vue";
 import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 
 @Component({
-    components: { ErrorPlaceholder, ProfileAccount, ProfilePassword },
+    components: {
+        ErrorPlaceholder,
+        ProfileAccount,
+        ProfilePassword,
+        ProfilePrivacy,
+    },
 })
 export default class Profile extends Vue {
     /**

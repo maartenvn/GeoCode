@@ -111,7 +111,7 @@
                             color="primary"
                             depressed
                             @click="register"
-                            :disabled="_loading || privacy_agree == false"
+                            :disabled="_loading || privacyAgree == false"
                             type="submit"
                         >
                             Create account
@@ -145,7 +145,8 @@ import { ErrorHandler } from "@/api/error/ErrorHandler";
 export default class Register extends Vue {
     @Prop({ default: false })
     showImage: boolean;
-    privacy_agree = false;
+
+    privacyAgree = false;
 
     /**
      * If the form is loading.
