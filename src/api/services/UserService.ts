@@ -5,6 +5,7 @@ import {
     EchoServiceBuilder,
     FormField,
     FormMultipart,
+    DELETE,
     GET,
     PATCH,
     Path,
@@ -18,6 +19,7 @@ import { InputFields } from "@/types/fields/InputFields";
 import Visit from "@/api/models/Visit";
 import UserStatistics from "@/api/models/UserStatistics";
 import Tour from "@/api/models/Tour";
+import { UserDataWrapper } from "@/api/wrappers/UserWrapper.ts";
 
 class UserService extends EchoService {
     /**
@@ -87,6 +89,16 @@ class UserService extends EchoService {
     @POST("/user/avatar")
     updateAvatar(@FormField("image") image: File): EchoPromise<number> {
         return {} as EchoPromise<number>;
+    }
+
+    @DELETE("/user")
+    delete(): EchoPromise<void> {
+        return {} as EchoPromise<void>;
+    }
+
+    @DELETE("user/data")
+    deleteData(@Body() body: UserDataWrapper): EchoPromise<void> {
+        return {} as EchoPromise<void>;
     }
 }
 

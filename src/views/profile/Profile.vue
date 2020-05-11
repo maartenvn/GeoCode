@@ -20,7 +20,7 @@
 
                 <v-tab class="justify-start">
                     <v-icon left>mdi-shield</v-icon>
-                    Privacy
+                    Privacy & data
                 </v-tab>
 
                 <v-tab-item class="ml-md-4">
@@ -34,7 +34,7 @@
                 </v-tab-item>
 
                 <v-tab-item class="ml-md-4">
-                    Privacy
+                    <profile-privacy />
                 </v-tab-item>
             </v-tabs>
         </template>
