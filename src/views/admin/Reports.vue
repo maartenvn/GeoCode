@@ -28,9 +28,11 @@
                             dense
                         />
                     </template>
+
                     <template v-slot:item.createdAt="{ item }">
                         {{ createdAtFormat(item.createdAt) }}
                     </template>
+
                     <template v-slot:item.action="{ item }">
                         <v-btn
                             :to="`/admin/reports/${item.location.secretId}`"
@@ -44,11 +46,6 @@
                 </v-data-table>
             </v-card>
         </template>
-
-        <!-- Error -->
-        <template v-else-if="reports.isError()">
-            <error-placeholder error-id="reports" />
-        </template>
     </v-container>
 </template>
 
@@ -56,18 +53,13 @@
 import { Component, Vue } from "vue-property-decorator";
 import AdminService from "@/api/services/AdminService";
 import { RequestHandler } from "@/api/RequestHandler";
-import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 
-@Component({
-    components: {
-        ErrorPlaceholder,
-    },
-})
+@Component
 export default class Home extends Vue {
     tableSearch = "";
 
     reports = RequestHandler.handle(AdminService.getAll(), {
-        id: "admin",
+        id: "reports",
         style: "SECTION",
         displayFullpage: true,
     });

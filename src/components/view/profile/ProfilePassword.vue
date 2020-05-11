@@ -66,7 +66,7 @@
 
                     <v-btn
                         color="primary"
-                        @click="register"
+                        @click="changePassword"
                         :disabled="loading"
                         depressed
                     >
@@ -121,7 +121,7 @@ export default class ProfilePassword extends Vue {
             "Passwords didn't match, try again.";
     }
 
-    register(): void {
+    changePassword(): void {
         // Set loading.
         this.loading = true;
 

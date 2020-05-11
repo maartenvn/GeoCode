@@ -37,10 +37,8 @@ class AuthService extends EchoService {
     }
 
     @PATCH("/user/passwordreset")
-    changePassword(
-        @Body() body: AuthPasswordUpdateWrapper
-    ): EchoPromise<string> {
-        return {} as EchoPromise<string>;
+    changePassword(@Body() body: AuthPasswordUpdateWrapper): EchoPromise<void> {
+        return {} as EchoPromise<void>;
     }
 
     /**
