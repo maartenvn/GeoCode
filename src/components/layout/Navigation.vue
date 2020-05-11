@@ -92,6 +92,13 @@ export default class Navigation extends Vue {
         },
 
         {
+            title: "Admin panel",
+            to: "/admin",
+            icon: "mdi-monitor-dashboard",
+            admin: true,
+        },
+
+        {
             title: "Logout",
             to: "/logout",
             icon: "mdi-logout",
