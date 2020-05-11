@@ -87,7 +87,7 @@
                     </v-row>
 
                     <v-row style="padding-left: 12px;">
-                        <v-checkbox v-model="privacy_agree" />
+                        <v-checkbox v-model="privacyAgree" />
                         <p style="align-self: center; margin: 0;">
                             I agree with the
                             <a href="/privacypolicy" target="_blank">

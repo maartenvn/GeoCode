@@ -3,7 +3,7 @@
         <!-- Account details -->
         <v-col cols="12">
             <div class="section__title">
-                Update Password
+                Privacy & Data settings
             </div>
 
             <v-card outlined>
@@ -77,6 +77,19 @@
                             </v-btn>
                         </v-col>
                     </v-row>
+
+                    <v-divider class="mb-3" />
+
+                    <v-row>
+                        <v-col cols="auto">
+                            <p>
+                                View our Privacy Policy
+                                <a href="/privacypolicy" target="_blank">
+                                    here
+                                </a>
+                            </p>
+                        </v-col>
+                    </v-row>
                 </v-card-text>
             </v-card>
         </v-col>
@@ -103,31 +116,36 @@ export default class ProfilePrivacy extends Vue {
 
     loading = false;
 
-    deleteData(selected: Array<string>) {
+    deleteData() {
         this.$store.dispatch("modal/open", {
             component: ConfirmModal,
             componentPayload: {
                 message: `Are you sure you want to delete this data? This is non-reversable!`,
-                action: () => {
-                    selected.forEach((element) => {
-                        console.log(element);
-                        // UserService.deleteData({type: element})
-                        //     .then(() => {
-                        //         // Close the modal.
-                        //         this.$store.dispatch("modal/close");
+                action: (instance: Vue) => {
+                    instance.$set(instance, "loading", true);
+                    this.selected.forEach((element) => {
+                        UserService.deleteData({ type: element })
+                            .then(() => {
+                                // Close the modal.
+                                this.$store.dispatch("modal/close");
 
-                        //         // Send confirmation
-                        //         this.$store.dispatch("snackbar/open", {
-                        //             message: "The data you selected has been deleted",
-                        //             color: "success",
-                        //         });
-                        //     })
-                        //     .catch((error) => {
-                        //         ErrorHandler.handle(error, {
-                        //             style: "SNACKBAR",
-                        //             id: "userDataDelete",
-                        //         });
-                        //     })
+                                // Send confirmation
+                                this.$store.dispatch("snackbar/open", {
+                                    message:
+                                        "The data you selected has been deleted",
+                                    color: "success",
+                                });
+                            })
+                            .catch((error) => {
+                                ErrorHandler.handle(error, {
+                                    style: "SNACKBAR",
+                                    id: "userDataDelete",
+                                });
+                            })
+                            .finally(() => {
+                                // Finish loading
+                                instance.$set(instance, "loading", false);
+                            });
                     });
                 },
             },
@@ -139,11 +157,16 @@ export default class ProfilePrivacy extends Vue {
             component: ConfirmModal,
             componentPayload: {
                 message: `Are you sure you want to delete your account? This is non-reversable!`,
-                action: () =>
+                action: (instance: Vue) => {
+                    // set loading
+                    instance.$set(instance, "loading", true);
                     UserService.delete()
                         .then(() => {
                             // Close the modal.
                             this.$store.dispatch("modal/close");
+
+                            // Refetch the profile information.
+                            this.$store.dispatch("session/fetch");
 
                             // Redirect back to list of reported locations
                             this.$router.push({ name: "Home" });
@@ -159,7 +182,12 @@ export default class ProfilePrivacy extends Vue {
                                 style: "SNACKBAR",
                                 id: "userDelete",
                             });
-                        }),
+                        })
+                        .finally(() => {
+                            // Finish loading
+                            instance.$set(instance, "loading", false);
+                        });
+                },
             },
         });
     }
