@@ -1,34 +1,27 @@
 <template>
-    <v-col cols="12" sm="6" md="4">
-        <v-card class="statistics__card" :color="color" :flat="flat" dark>
-            <!-- Loading -->
-            <template v-if="loading">
-                <div class="statistics__card__stat">
-                    <v-skeleton-loader
-                        width="100"
-                        height="50"
-                        type="text"
-                        dense
-                    />
-                </div>
+    <v-card class="statistics__card" :color="color" :flat="flat" dark>
+        <!-- Loading -->
+        <template v-if="loading">
+            <div class="statistics__card__stat">
+                <v-skeleton-loader width="100" height="50" type="text" dense />
+            </div>
 
-                <div class="statistics__card__title">
-                    <v-skeleton-loader width="200" type="text" dense />
-                </div>
-            </template>
+            <div class="statistics__card__title">
+                <v-skeleton-loader width="200" type="text" dense />
+            </div>
+        </template>
 
-            <!-- Data -->
-            <template v-else>
-                <div class="statistics__card__stat">
-                    {{ value }}
-                </div>
+        <!-- Data -->
+        <template v-else>
+            <div class="statistics__card__stat">
+                {{ value }}
+            </div>
 
-                <div class="statistics__card__title">
-                    {{ title }}
-                </div>
-            </template>
-        </v-card>
-    </v-col>
+            <div class="statistics__card__title">
+                {{ title }}
+            </div>
+        </template>
+    </v-card>
 </template>
 
 <script lang="ts">

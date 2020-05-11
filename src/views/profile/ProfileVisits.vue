@@ -4,25 +4,41 @@
         <div class="section">
             <!-- Loading -->
             <v-row v-if="statistics.isLoading()">
-                <statistics-card :loading="true" />
-                <statistics-card :loading="true" />
-                <statistics-card :loading="true" />
+                <v-col cols="12" sm="6" md="4">
+                    <statistics-card :loading="true" />
+                </v-col>
+
+                <v-col cols="12" sm="6" md="4">
+                    <statistics-card :loading="true" />
+                </v-col>
+
+                <v-col cols="12" sm="6" md="4">
+                    <statistics-card :loading="true" />
+                </v-col>
             </v-row>
 
             <!-- Data -->
             <v-row v-else-if="statistics.isSuccess()">
-                <statistics-card
-                    :value="statistics.data.visitedLocationsCount"
-                    title="Visited Locations"
-                />
-                <statistics-card
-                    :value="statistics.data.visitedCountriesCount"
-                    title="Different countries"
-                />
-                <statistics-card
-                    :value="statistics.data.visitedCount"
-                    title="Scans"
-                />
+                <v-col cols="12" sm="6" md="4">
+                    <statistics-card
+                        :value="statistics.data.visitedLocationsCount"
+                        title="Visited Locations"
+                    />
+                </v-col>
+
+                <v-col cols="12" sm="6" md="4">
+                    <statistics-card
+                        :value="statistics.data.visitedCountriesCount"
+                        title="Different countries"
+                    />
+                </v-col>
+
+                <v-col cols="12" sm="6" md="4">
+                    <statistics-card
+                        :value="statistics.data.visitedCount"
+                        title="Scans"
+                    />
+                </v-col>
             </v-row>
 
             <!-- Error -->

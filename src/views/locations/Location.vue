@@ -9,6 +9,44 @@
         </template>
 
         <template v-else>
+            <!-- Warnings -->
+            <template v-if="location.isSuccess() && statistics.isSuccess()">
+                <!-- Warning: low ratings (lower than 2) -->
+                <template
+                    v-if="
+                        statistics.data.ratingsCount > 1 &&
+                        location.data.rating <= 2
+                    "
+                >
+                    <v-alert type="error" border="left">
+                        This location has a very low rating! It could
+                        potentially be no longer valid or spam. Proceed with
+                        extreme caution
+                    </v-alert>
+                </template>
+
+                <!-- Warning: low ratings (lower than 2.5) -->
+                <template
+                    v-else-if="
+                        statistics.data.ratingsCount > 1 &&
+                        location.data.rating < 2.5
+                    "
+                >
+                    <v-alert type="warning" border="left">
+                        This location has a low rating! It may be damaged or no
+                        longer available. Proceed with caution.
+                    </v-alert>
+                </template>
+
+                <!-- Warning: no scans -->
+                <template v-if="statistics.data.visitsCount < 1">
+                    <v-alert type="warning" text border="left">
+                        This location has not been visited yet! Proceed with
+                        caution.
+                    </v-alert>
+                </template>
+            </template>
+
             <!-- General information -->
             <v-row>
                 <v-col cols="12">
@@ -81,7 +119,9 @@
                                 </v-tab-item>
 
                                 <!-- Nearby -->
-                                <v-tab-item value="tab-nearby"> </v-tab-item>
+                                <v-tab-item value="tab-nearby">
+                                    <location-nearby :location="location" />
+                                </v-tab-item>
                             </v-tabs-items>
                         </v-col>
                     </v-row>
@@ -94,23 +134,25 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { RequestHandler } from "@/api/RequestHandler";
+import { LateRequest } from "@/api/decorators/LateRequestDecorator";
+import { ErrorHandler } from "@/api/error/ErrorHandler";
+import { EchoError, EchoPromise } from "echofetch";
+import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
+import UsersService from "@/api/services/UsersService";
+import UserService from "@/api/services/UserService";
+import User from "@/api/models/User";
+import ErrorSection from "@/components/error/placeholders/ErrorSection.vue";
 import LocationService from "@/api/services/LocationService";
 import LocationHeader from "@/components/view/location/LocationHeader.vue";
 import LocationInformation from "@/components/view/location/LocationInformation.vue";
 import LocationRatings from "@/components/view/location/LocationRatings.vue";
-import Setup from "@/components/view/locations/setup/Setup.vue";
-import UserService from "@/api/services/UserService";
 import LocationGuestbook from "@/components/view/location/LocationGuestbook.vue";
-import { LateRequest } from "@/api/decorators/LateRequestDecorator";
-import UsersService from "@/api/services/UsersService";
-import { EchoError, EchoPromise } from "echofetch";
-import User from "@/api/models/User";
-import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
-import ErrorSection from "@/components/error/placeholders/ErrorSection.vue";
-import { ErrorHandler } from "@/api/error/ErrorHandler";
+import Setup from "@/components/view/locations/setup/Setup.vue";
+import LocationNearby from "@/components/view/location/LocationNearby.vue";
 
 @Component({
     components: {
+        LocationNearby,
         ErrorSection,
         LocationGuestbook,
         Setup,

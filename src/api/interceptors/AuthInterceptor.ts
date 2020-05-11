@@ -1,10 +1,35 @@
-import { EchoServiceInterceptor } from "echofetch/dist/types/service/EchoServiceInterceptor";
-import { EchoError, EchoRequest, EchoResponse } from "echofetch";
+import {
+    EchoError,
+    EchoRequest,
+    EchoResponse,
+    EchoServiceInterceptor,
+} from "echofetch";
+import { setupCache } from "axios-cache-adapter";
+
+/**
+ * Setup the cache.
+ */
+function setupCacheStore() {
+    return setupCache({
+        maxAge: 15 * 60 * 1000,
+    });
+}
+
+// Create a cache for storing the network results.
+let cache = setupCacheStore();
 
 export class AuthInterceptor implements EchoServiceInterceptor {
     onRequest(request: EchoRequest): EchoRequest {
         // Send credentials with every request.
         request.withCredentials = true;
+
+        // Clear the cache when logging out.
+        if (request.url?.includes("logout")) {
+            cache = setupCacheStore();
+        }
+
+        // Cache every request.
+        request.adapter = cache.adapter;
 
         return request;
     }

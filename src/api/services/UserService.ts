@@ -18,6 +18,7 @@ import { InputFields } from "@/types/fields/InputFields";
 import Visit from "@/api/models/Visit";
 import UserStatistics from "@/api/models/UserStatistics";
 import Achievement from "@/api/models/Achievement";
+import Tour from "@/api/models/Tour";
 
 class UserService extends EchoService {
     /**
@@ -34,6 +35,14 @@ class UserService extends EchoService {
     @GET("/user/locations")
     getLocations(): EchoPromise<Array<Location>> {
         return {} as EchoPromise<Array<Location>>;
+    }
+
+    /**
+     * Get a list with tours of the logged in user.
+     */
+    @GET("/user/tours")
+    getTours(): EchoPromise<Array<Tour>> {
+        return {} as EchoPromise<Array<Tour>>;
     }
 
     /**
