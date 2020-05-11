@@ -1,5 +1,9 @@
-import { EchoServiceInterceptor } from "echofetch/dist/types/service/EchoServiceInterceptor";
-import { EchoError, EchoRequest, EchoResponse } from "echofetch";
+import {
+    EchoError,
+    EchoRequest,
+    EchoResponse,
+    EchoServiceInterceptor,
+} from "echofetch";
 import { setupCache } from "axios-cache-adapter";
 
 /**
