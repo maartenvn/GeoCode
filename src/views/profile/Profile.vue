@@ -18,10 +18,23 @@
                     Password
                 </v-tab>
 
+                <v-tab class="justify-start">
+                    <v-icon left>mdi-shield</v-icon>
+                    Privacy
+                </v-tab>
+
                 <v-tab-item class="ml-md-4">
                     <profile-account
                         :current-user="currentUser.requireData()"
                     />
+                </v-tab-item>
+
+                <v-tab-item class="ml-md-4">
+                    <profile-password />
+                </v-tab-item>
+
+                <v-tab-item class="ml-md-4">
+                    Privacy
                 </v-tab-item>
             </v-tabs>
         </template>
@@ -34,10 +47,11 @@ import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 import { EchoPromise } from "echofetch";
 import User from "@/api/models/User";
 import ProfileAccount from "@/components/view/profile/ProfileAccount.vue";
+import ProfilePassword from "@/components/view/profile/ProfilePassword.vue";
 import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 
 @Component({
-    components: { ErrorPlaceholder, ProfileAccount },
+    components: { ErrorPlaceholder, ProfileAccount, ProfilePassword },
 })
 export default class Profile extends Vue {
     /**
