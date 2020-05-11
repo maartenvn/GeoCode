@@ -14,6 +14,17 @@
             </v-toolbar-title>
 
             <v-spacer />
+
+            <!-- Back to site -->
+            <v-toolbar-items>
+                <v-btn to="/" exact text>
+                    Back to website
+
+                    <v-icon right>
+                        mdi-chevron-right
+                    </v-icon>
+                </v-btn>
+            </v-toolbar-items>
         </v-app-bar>
 
         <!-- Drawer (SIDE) -->
