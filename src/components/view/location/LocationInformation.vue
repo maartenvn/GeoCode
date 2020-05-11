@@ -79,7 +79,9 @@
 
                     <v-spacer />
 
-                    <v-btn color="primary" text>Open in maps</v-btn>
+                    <v-btn color="primary" text @click="openMaps"
+                        >Open in maps</v-btn
+                    >
                 </div>
 
                 <div class="section__content">
@@ -116,6 +118,8 @@ import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 import LocationService from "@/api/services/LocationService";
 import InlineEdit from "@/components/util/InlineEdit.vue";
 import LocationStatistics from "@/api/models/LocationStatistics";
+import { LatLng } from "leaflet";
+import { MapUtil } from "@/util/MapUtil";
 
 @Component({
     components: {
@@ -228,6 +232,19 @@ export default class LocationInformation extends Vue {
         return LocationService.update(this.location.requireData().secretId, {
             description: value,
         });
+    }
+
+    /**
+     * Open the current location in an external maps app.
+     */
+    openMaps() {
+        if (this.location.isSuccess()) {
+            const location = this.location.requireData();
+
+            MapUtil.openInMaps(
+                new LatLng(location.latitude, location.longitude)
+            );
+        }
     }
 }
 </script>

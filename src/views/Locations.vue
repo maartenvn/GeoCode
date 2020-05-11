@@ -65,7 +65,8 @@
                                         height="55vh"
                                         width="100%"
                                         :locations="locations"
-                                        :zoom="2"
+                                        :center-by-ip="true"
+                                        :zoom="10"
                                         :searchEnabled="true"
                                     />
                                 </v-tab-item>
