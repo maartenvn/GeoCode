@@ -48,35 +48,83 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
+import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
+import { EchoPromise } from "echofetch";
+import User from "@/api/models/User";
 
 @Component
 export default class AdminNavigation extends Vue {
-    drawer: boolean;
-    links: Array<{ title: string; to: string; icon: string }>;
+    /**
+     * If the drawer is open or not.
+     */
+    drawer = false;
 
-    constructor() {
-        super();
+    /**
+     * Links for the sidebar.
+     */
+    links = [
+        {
+            title: "Home",
+            to: "/admin",
+            icon: "mdi-home",
+        },
+        {
+            title: "Reports",
+            to: "/admin/reports",
+            icon: "mdi-alert-octagon",
+        },
+        {
+            title: "Users",
+            to: "/admin/users",
+            icon: "mdi-account",
+        },
+    ];
 
-        this.drawer = false;
+    /**
+     * Current logged in user.
+     */
+    @StoreGetter("session/currentUser")
+    currentUser: EchoPromise<User>;
 
-        this.links = [
-            {
-                title: "Home",
-                to: "/admin",
-                icon: "mdi-home",
-            },
-            {
-                title: "Reports",
-                to: "/admin/reports",
-                icon: "mdi-alert-octagon",
-            },
-            {
-                title: "Users",
-                to: "/admin/users",
-                icon: "mdi-account",
-            },
-        ];
+    /**
+     * If the user is logged in.
+     */
+    @StoreGetter("session/isAuthenticated")
+    isAuthenticated: boolean;
+
+    /**
+     * If the user is an admin.
+     */
+    @StoreGetter("session/isAdmin")
+    isAdmin: boolean;
+
+    /**
+     * Navigate to the homepage when the user has no permission to see the admin panel.
+     */
+    @Watch("currentUser", { immediate: true })
+    checkAdmin() {
+        if (this.currentUser.isSuccess() || this.currentUser.isError()) {
+            // Check if the user is logged in.
+            if (!this.isAuthenticated) {
+                this.$router.push("/");
+
+                this.$store.dispatch("snackbar/open", {
+                    message: "You are not logged in!",
+                    color: "error",
+                });
+            }
+
+            // Check if the user is an admin.
+            if (!this.isAdmin) {
+                this.$router.push("/");
+
+                this.$store.dispatch("snackbar/open", {
+                    message: "You are not an admin!",
+                    color: "error",
+                });
+            }
+        }
     }
 
     /**
