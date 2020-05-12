@@ -11,6 +11,7 @@
                 <v-card-title>
                     Reported Locations
                 </v-card-title>
+
                 <v-data-table
                     :headers="headers"
                     :items="reportedLocations.data"

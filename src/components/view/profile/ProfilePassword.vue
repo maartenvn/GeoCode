@@ -68,6 +68,7 @@
                         color="primary"
                         @click="changePassword"
                         :disabled="loading"
+                        :loading="loading"
                         depressed
                     >
                         Update Password

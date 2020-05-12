@@ -11,6 +11,7 @@
                 <v-card-title>
                     Users
                 </v-card-title>
+
                 <v-data-table
                     :headers="headers"
                     :items="users.data"
@@ -42,12 +43,14 @@
                             icon
                             @click="removeImage(item)"
                             :disabled="getImageURL(item) === '' || loading"
+                            :loading="loading"
                         >
                             <v-icon color="error">mdi-image-remove</v-icon>
                         </v-btn>
 
                         <v-btn
                             :disabled="item.id < 0 || loading"
+                            :loading="loading"
                             icon
                             @click="deleteUser(item)"
                         >
@@ -74,6 +77,7 @@ import { ImageUtil } from "@/util/ImageUtil.ts";
 import User from "@/api/models/User";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
 import { ErrorHandler } from "@/api/error/ErrorHandler";
+import { ArrayUtil } from "../../util/ArrayUtil";
 
 @Component({
     components: {
@@ -140,13 +144,8 @@ export default class AdminUsers extends Vue {
                             // Close the modal.
                             this.$store.dispatch("modal/close");
 
-                            // Remove the location from the table.
-                            this.users
-                                .requireData()
-                                .splice(
-                                    this.users.requireData().indexOf(user),
-                                    1
-                                );
+                            // Remove the user from the table.
+                            ArrayUtil.delete(this.users.requireData(), user);
 
                             // Send confirmation
                             this.$store.dispatch("snackbar/open", {

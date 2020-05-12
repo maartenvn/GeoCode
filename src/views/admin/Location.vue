@@ -41,6 +41,7 @@
                         dark
                         depressed
                         @click="openConfirmDelete(location.data)"
+                        :loading="loading"
                         class="mx-2"
                     >
                         delete
@@ -72,6 +73,7 @@
                 <template v-slot:item.createdAt="{ item }">
                     {{ createdAtFormat(item.createdAt) }}
                 </template>
+
                 <template v-slot:item.action="{ item }">
                     <v-btn @click="openReport(item)" color="primary" text>
                         Show details
@@ -115,6 +117,8 @@ export default class LocationReports extends Vue {
     secretId: string;
 
     panel = [];
+
+    loading = false;
 
     headers = [
         {
@@ -186,7 +190,8 @@ export default class LocationReports extends Vue {
                 message: `Are you sure you want to delete '${
                     this.location.requireData().name
                 }?'`,
-                action: () =>
+                action: (instance: Vue) => {
+                    instance.$set(instance, "loading", true);
                     LocationService.delete(this.secretId)
                         .then(() => {
                             // Close the modal.
@@ -206,7 +211,12 @@ export default class LocationReports extends Vue {
                                 style: "SNACKBAR",
                                 id: "locationDelete",
                             });
-                        }),
+                        })
+                        .finally(() => {
+                            // Finish loading
+                            instance.$set(instance, "loading", false);
+                        });
+                },
             },
         });
     }
