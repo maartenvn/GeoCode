@@ -108,6 +108,7 @@ import ProfileAccountAvatar from "@/components/view/profile/ProfileAccountAvatar
 import { EchoError } from "echofetch";
 import { UserUtil } from "@/util/UserUtil";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
+import { ArrayUtil } from "@/util/ArrayUtil";
 
 @Component
 export default class ProfilePrivacy extends Vue {
@@ -115,36 +116,39 @@ export default class ProfilePrivacy extends Vue {
 
     loading = false;
 
-    deleteData() {
-        this.$store.dispatch("modal/open", {
+    async deleteData() {
+        await this.$store.dispatch("modal/open", {
             component: ConfirmModal,
             componentPayload: {
                 message: `Are you sure you want to delete this data? This is non-reversable!`,
                 action: (instance: Vue) => {
                     instance.$set(instance, "loading", true);
-                    this.selected.forEach((element) => {
-                        UserService.deleteData({ type: element })
-                            .then(() => {
-                                // Close the modal.
-                                this.$store.dispatch("modal/close");
 
-                                // Send confirmation
-                                this.$store.dispatch("snackbar/open", {
-                                    message:
-                                        "The data you selected has been deleted",
-                                    color: "success",
-                                });
-                            })
-                            .catch((error) => {
-                                ErrorHandler.handle(error, {
-                                    style: "SNACKBAR",
-                                    id: "userDataDelete",
-                                });
-                            })
-                            .finally(() => {
-                                // Finish loading
-                                instance.$set(instance, "loading", false);
+                    this.selected.forEach(async (element) => {
+                        try {
+                            await UserService.deleteData({ type: element });
+
+                            // Finish loading
+                            instance.$set(instance, "loading", false);
+
+                            // Close the modal.
+                            await this.$store.dispatch("modal/close");
+
+                            // Send confirmation
+                            await this.$store.dispatch("snackbar/open", {
+                                message:
+                                    "The data you selected has been deleted",
+                                color: "success",
                             });
+
+                            // Clear selected.
+                            this.selected = [];
+                        } catch (error) {
+                            ErrorHandler.handle(error, {
+                                style: "SNACKBAR",
+                                id: "userDataDelete",
+                            });
+                        }
                     });
                 },
             },
