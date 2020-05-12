@@ -100,11 +100,17 @@ class UserService extends EchoService {
         return {} as EchoPromise<number>;
     }
 
+    /**
+     * Delete the logged in user.
+     */
     @DELETE("/user")
     delete(): EchoPromise<void> {
         return {} as EchoPromise<void>;
     }
 
+    /**
+     * Delete specific data for the logged in user.
+     */
     @DELETE("user/data")
     deleteData(@Body() body: UserDataWrapper): EchoPromise<void> {
         return {} as EchoPromise<void>;

@@ -37,7 +37,7 @@ const routes = [
         name: "Achievements",
         component: () => import("../views/Achievements.vue"),
     },
-      
+
     {
         path: "/leaderboards",
         name: "Leaderboards",
@@ -55,6 +55,12 @@ const routes = [
         name: "Tour",
         component: () => import("../views/tours/Tour.vue"),
         props: true,
+    },
+
+    {
+        path: "/privacyagreement",
+        name: "Privacy Agreement",
+        component: () => import("../views/PrivacyAgreement.vue"),
     },
 
     {
