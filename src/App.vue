@@ -1,8 +1,11 @@
 <template>
     <v-app>
         <v-content>
+            <!-- Admin Panel Navigation -->
+            <admin-navigation v-if="$route.fullPath.startsWith('/admin')" />
+
             <!-- Navigation -->
-            <Navigation />
+            <navigation v-else />
 
             <!-- Content -->
             <router-view-wrapper />
@@ -29,6 +32,7 @@ import ErrorBus from "@/api/error/ErrorBus";
 @Component({
     components: {
         Navigation,
+        AdminNavigation: () => import("@/components/admin/AdminNavigation.vue"),
         RouterViewWrapper,
         Snackbar,
         Modal,

@@ -37,7 +37,7 @@ const routes = [
         name: "Achievements",
         component: () => import("../views/Achievements.vue"),
     },
-      
+
     {
         path: "/leaderboards",
         name: "Leaderboards",
@@ -55,6 +55,12 @@ const routes = [
         name: "Tour",
         component: () => import("../views/tours/Tour.vue"),
         props: true,
+    },
+
+    {
+        path: "/privacyagreement",
+        name: "Privacy Agreement",
+        component: () => import("../views/PrivacyAgreement.vue"),
     },
 
     {
@@ -103,6 +109,31 @@ const routes = [
         path: "/profile/visits/",
         name: "Your visits",
         component: () => import("../views/profile/ProfileVisits.vue"),
+    },
+
+    {
+        path: "/admin/",
+        name: "Admin Home Page",
+        component: () => import("../views/admin/Home.vue"),
+    },
+
+    {
+        path: "/admin/reports",
+        name: "Admin Reports List",
+        component: () => import("../views/admin/Reports.vue"),
+    },
+
+    {
+        path: "/admin/reports/:secretId",
+        name: "Admin Location Reports",
+        component: () => import("../views/admin/Location.vue"),
+        props: true,
+    },
+
+    {
+        path: "/admin/users",
+        name: "Admin User List",
+        component: () => import("../views/admin/Users.vue"),
     },
 ];
 

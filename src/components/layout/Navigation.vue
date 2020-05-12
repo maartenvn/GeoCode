@@ -55,7 +55,7 @@ export default class Navigation extends Vue {
             to: "/achievements",
             icon: "mdi-trophy",
         },
-        
+
         {
             title: "Tours",
             to: "/tours",
@@ -101,6 +101,13 @@ export default class Navigation extends Vue {
             title: "My Visits",
             to: "/profile/visits",
             icon: "mdi-map-marker-check",
+        },
+
+        {
+            title: "Admin panel",
+            to: "/admin",
+            icon: "mdi-monitor-dashboard",
+            admin: true,
         },
 
         {

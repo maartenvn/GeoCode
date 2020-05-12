@@ -50,5 +50,17 @@ export const session = {
         isAuthenticated(state: any): boolean {
             return state.currentUser.isSuccess();
         },
+
+        /**
+         * Get if the client is admin (logged in).
+         *
+         * @param state
+         */
+        isAdmin(state: any): boolean {
+            return (
+                state.currentUser.isSuccess() &&
+                state.currentUser.requireData().admin
+            );
+        },
     },
 };

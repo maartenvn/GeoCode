@@ -55,24 +55,26 @@
 
                     <!-- Items -->
                     <v-list dense nav>
-                        <v-list-item
-                            v-for="(userLink, index) in userLinks"
-                            :key="index"
-                            :to="userLink.to"
-                            exact
-                        >
-                            <!-- Icon -->
-                            <v-list-item-icon>
-                                <v-icon>{{ userLink.icon }}</v-icon>
-                            </v-list-item-icon>
+                        <template v-for="(userLink, index) in userLinks">
+                            <v-list-item
+                                v-if="!userLink.admin || isAdmin"
+                                :key="index"
+                                :to="userLink.to"
+                                exact
+                            >
+                                <!-- Icon -->
+                                <v-list-item-icon>
+                                    <v-icon>{{ userLink.icon }}</v-icon>
+                                </v-list-item-icon>
 
-                            <!-- Text -->
-                            <v-list-item-content>
-                                <v-list-item-title>
-                                    {{ userLink.title }}
-                                </v-list-item-title>
-                            </v-list-item-content>
-                        </v-list-item>
+                                <!-- Text -->
+                                <v-list-item-content>
+                                    <v-list-item-title>
+                                        {{ userLink.title }}
+                                    </v-list-item-title>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </template>
                     </v-list>
                 </v-menu>
             </template>
@@ -125,6 +127,12 @@ export default class NavigationBar extends Vue {
      */
     @StoreGetter("session/currentUser")
     currentUser: EchoPromise<User>;
+
+    /**
+     * If the user is an admin.
+     */
+    @StoreGetter("session/isAdmin")
+    isAdmin: boolean;
 
     /**
      * Toggle the drawer visible/invisible.
