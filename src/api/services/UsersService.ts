@@ -2,12 +2,16 @@ import {
     EchoPromise,
     EchoService,
     EchoServiceBuilder,
+    Body,
     GET,
     Path,
+    PATCH,
+    DELETE,
 } from "echofetch";
 import config from "@/config";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
 import User from "@/api/models/User";
+import { UserUpdateWrapper } from "@/api/wrappers/UserUpdateWrapper";
 
 class UsersService extends EchoService {
     /**
@@ -25,6 +29,19 @@ class UsersService extends EchoService {
     @GET("/users/{id}")
     get(@Path("id") id: number): EchoPromise<User> {
         return {} as EchoPromise<User>;
+    }
+
+    @DELETE("/users/{id}")
+    delete(@Path("id") id: number): EchoPromise<void> {
+        return {} as EchoPromise<void>;
+    }
+
+    @PATCH("/users/{id}")
+    patch(
+        @Path("id") id: number,
+        @Body() body: UserUpdateWrapper
+    ): EchoPromise<void> {
+        return {} as EchoPromise<void>;
     }
 }
 

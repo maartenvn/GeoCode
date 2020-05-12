@@ -1,20 +1,20 @@
 <template>
     <v-container class="container--small">
         <!-- Loading -->
-        <template v-if="reports.isLoading()">
+        <template v-if="reportedLocations.isLoading()">
             <v-skeleton-loader type="table" dense />
         </template>
 
         <!-- Data -->
-        <template v-else-if="reports.isSuccess()">
+        <template v-else-if="reportedLocations.isSuccess()">
             <v-card flat>
                 <v-card-title>
                     Reported Locations
                 </v-card-title>
                 <v-data-table
                     :headers="headers"
-                    :items="reports.data"
-                    sort-by="createdAt"
+                    :items="reportedLocations.data"
+                    sort-by="reportsCount"
                     sort-desc
                     :search="tableSearch"
                 >
@@ -27,10 +27,6 @@
                             outlined
                             dense
                         />
-                    </template>
-
-                    <template v-slot:item.createdAt="{ item }">
-                        {{ createdAtFormat(item.createdAt) }}
                     </template>
 
                     <template v-slot:item.action="{ item }">
@@ -53,16 +49,20 @@
 import { Component, Vue } from "vue-property-decorator";
 import AdminService from "@/api/services/AdminService";
 import { RequestHandler } from "@/api/RequestHandler";
+import ReportService from "../../api/services/ReportService";
 
 @Component
 export default class Home extends Vue {
     tableSearch = "";
 
-    reports = RequestHandler.handle(AdminService.getAll(), {
-        id: "reports",
-        style: "SECTION",
-        displayFullpage: true,
-    });
+    reportedLocations = RequestHandler.handle(
+        ReportService.reportedLocations(),
+        {
+            id: "reports",
+            style: "SECTION",
+            displayFullpage: true,
+        }
+    );
 
     headers = [
         {
@@ -70,12 +70,8 @@ export default class Home extends Vue {
             value: "location.name",
         },
         {
-            text: "Creator",
-            value: "creator.username",
-        },
-        {
-            text: "Created at",
-            value: "createdAt",
+            text: "# of Reports",
+            value: "reportsCount",
         },
         {
             text: "",

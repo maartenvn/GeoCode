@@ -103,7 +103,6 @@ import LocationService from "@/api/services/LocationService";
 import { RequestHandler } from "@/api/RequestHandler";
 import Report from "@/api/models/Report.ts";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
-import Location from "@/api/models/Location";
 import { ErrorHandler } from "@/api/error/ErrorHandler";
 
 @Component
@@ -114,6 +113,8 @@ export default class LocationReports extends Vue {
      */
     @Prop()
     secretId: string;
+
+    panel = [];
 
     headers = [
         {
@@ -178,13 +179,15 @@ export default class LocationReports extends Vue {
      * Open a model to confirm the delete of a location.
      * @param location Location to delete.
      */
-    openConfirmDelete(location: Location) {
+    openConfirmDelete() {
         this.$store.dispatch("modal/open", {
             component: ConfirmModal,
             componentPayload: {
-                message: `Are you sure you want to delete '${location.name}?'`,
+                message: `Are you sure you want to delete '${
+                    this.location.requireData().name
+                }?'`,
                 action: () =>
-                    LocationService.delete(location.secretId)
+                    LocationService.delete(this.secretId)
                         .then(() => {
                             // Close the modal.
                             this.$store.dispatch("modal/close");

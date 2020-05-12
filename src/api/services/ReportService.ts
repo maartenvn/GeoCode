@@ -5,12 +5,14 @@ import {
     EchoServiceBuilder,
     FormField,
     FormMultipart,
+    GET,
     PATCH,
     Path,
     POST,
 } from "echofetch";
 import config from "@/config";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
+import ReportLocation from "@/api/models/ReportLocation";
 import {
     ReportCreateWrapper,
     ReportUpdateWrapper,
@@ -47,6 +49,11 @@ class ReportService extends EchoService {
         @Body() body: ReportUpdateWrapper
     ): EchoPromise<void> {
         return {} as EchoPromise<void>;
+    }
+
+    @GET("/reports/locations")
+    reportedLocations(): EchoPromise<ReportLocation> {
+        return {} as EchoPromise<ReportLocation>;
     }
 }
 
