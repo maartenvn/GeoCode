@@ -1,7 +1,6 @@
 import { EchoPromise, EchoService, EchoServiceBuilder, GET } from "echofetch";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
 import config from "@/config";
-import CurrentLocation from "@/api/models/CurrentLocation";
 
 class PrivacyService extends EchoService {
     /**

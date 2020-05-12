@@ -25,7 +25,7 @@ import PrivacyService from "@/api/services/PrivacyService";
 import { RequestHandler } from "@/api/RequestHandler";
 
 @Component
-export default class PrivacyAgreement extends Vue {
+export default class PrivacyPolicy extends Vue {
     privacyAgreement = RequestHandler.handle(
         PrivacyService.getPrivacyAgreement(),
         {
