@@ -244,40 +244,7 @@ export default class LocationCreateModal extends Vue {
     async createLocation() {
         this.loading = true;
 
-        let address = "";
-        let country = "";
-
-        // Find the country & address for a given coordinate.
-        try {
-            const results: Array<any> = await this.searchProvider.search({
-                query: `${this.fields.latitude.value} ${this.fields.longitude.value}`,
-            });
-
-            if (results.length > 0) {
-                const displayName = results[0]["raw"]["display_name"];
-
-                address = displayName;
-                country = displayName.substr(displayName.lastIndexOf(", ") + 2);
-            }
-        } catch (err) {
-            const error = {
-                message: "Unable to connect to Open Street Maps.",
-                stack: err,
-            } as EchoError;
-
-            ErrorHandler.handle(error, {
-                id: "locationCreateAddress",
-                style: "SNACKBAR",
-            });
-        }
-
-        const body = {
-            ...InputFieldUtil.getValues(this.fields),
-            address,
-            country,
-        };
-
-        LocationService.create(body)
+        LocationService.create(InputFieldUtil.getValues(this.fields))
             .then((response) => {
                 this.$store.dispatch("snackbar/open", {
                     message: "Location was successfully created",
