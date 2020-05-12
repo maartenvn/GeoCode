@@ -328,7 +328,7 @@ export default class MarkerMap extends Vue {
                             position.coords.latitude,
                             position.coords.longitude
                         ),
-                        10
+                        15
                     );
                 },
                 (error) => {
