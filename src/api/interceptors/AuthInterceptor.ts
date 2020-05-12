@@ -24,7 +24,11 @@ export class AuthInterceptor implements EchoServiceInterceptor {
         request.withCredentials = true;
 
         // Clear the cache when logging out.
-        if (request.url?.includes("logout")) {
+        // Clear the cache when deleting data.
+        if (
+            request.url?.includes("logout") ||
+            request.method?.toLowerCase() === "DELETE"
+        ) {
             cache = setupCacheStore();
         }
 
