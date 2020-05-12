@@ -11,7 +11,7 @@
             <router-view-wrapper class="content" />
 
             <!-- Footer -->
-            <Footer />
+            <Footer v-if="!$route.fullPath.startsWith('/admin')" />
 
             <!-- Snackbar -->
             <snackbar />
