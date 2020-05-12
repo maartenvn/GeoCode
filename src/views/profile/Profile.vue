@@ -27,6 +27,10 @@
                     <profile-account
                         :current-user="currentUser.requireData()"
                     />
+
+                    <profile-account-achievements
+                        :current-user="currentUser.requireData()"
+                    />
                 </v-tab-item>
 
                 <v-tab-item class="ml-md-4">
@@ -50,6 +54,7 @@ import ProfileAccount from "@/components/view/profile/ProfileAccount.vue";
 import ProfilePassword from "@/components/view/profile/ProfilePassword.vue";
 import ProfilePrivacy from "@/components/view/profile/ProfilePrivacy.vue";
 import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
+import ProfileAccountAchievements from "@/components/view/profile/ProfileAccountAchievements.vue";
 
 @Component({
     components: {
@@ -57,6 +62,7 @@ import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
         ProfileAccount,
         ProfilePassword,
         ProfilePrivacy,
+        ProfileAccountAchievements,
     },
 })
 export default class Profile extends Vue {
