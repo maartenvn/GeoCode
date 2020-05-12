@@ -24,6 +24,18 @@
                     </a>
                 </li>
 
+                <!-- MDI Icons -->
+                <li>
+                    Material icons made by
+                    <a
+                        href="https://materialdesignicons.com/"
+                        title="Material Design Icons"
+                        target="_blank"
+                    >
+                        Material Design Icons
+                    </a>
+                </li>
+
                 <!-- Open Street Map -->
                 <li>
                     Map data by
