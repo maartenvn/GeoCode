@@ -52,7 +52,7 @@ class ReportService extends EchoService {
     }
 
     @GET("/reports/locations")
-    reportedLocations(): EchoPromise<ReportLocation> {
+    getReportedLocations(): EchoPromise<ReportLocation> {
         return {} as EchoPromise<ReportLocation>;
     }
 }

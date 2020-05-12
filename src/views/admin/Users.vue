@@ -41,13 +41,13 @@
                         <v-btn
                             icon
                             @click="removeImage(item)"
-                            :disabled="getImageURL(item) === ''"
+                            :disabled="getImageURL(item) === '' || loading"
                         >
                             <v-icon color="error">mdi-image-remove</v-icon>
                         </v-btn>
 
                         <v-btn
-                            :disabled="item.id < 0"
+                            :disabled="item.id < 0 || loading"
                             icon
                             @click="deleteUser(item)"
                         >
@@ -86,6 +86,8 @@ export default class AdminUsers extends Vue {
      */
     tableSearch = "";
 
+    loading = false;
+
     users = RequestHandler.handle(UsersService.getAll(), {
         id: "users",
         style: "SECTION",
@@ -114,14 +116,6 @@ export default class AdminUsers extends Vue {
         },
     ];
 
-    refreshUsertable() {
-        this.users = RequestHandler.handle(UsersService.getAll(), {
-            id: "users",
-            style: "SECTION",
-            displayFullpage: true,
-        });
-    }
-
     /*
      * Use the image id to make a usable image url
      */
@@ -137,13 +131,22 @@ export default class AdminUsers extends Vue {
             component: ConfirmModal,
             componentPayload: {
                 message: `Are you sure you want to delete ${user.username}'s account?`,
-                action: () =>
+                action: (instance: Vue) => {
+                    instance.$set(instance, "loading", true);
                     UsersService.delete(user.id)
                         .then(() => {
                             user.id = -1;
 
                             // Close the modal.
                             this.$store.dispatch("modal/close");
+
+                            // Remove the location from the table.
+                            this.users
+                                .requireData()
+                                .splice(
+                                    this.users.requireData().indexOf(user),
+                                    1
+                                );
 
                             // Send confirmation
                             this.$store.dispatch("snackbar/open", {
@@ -156,7 +159,12 @@ export default class AdminUsers extends Vue {
                                 style: "SNACKBAR",
                                 id: "locationDelete",
                             });
-                        }),
+                        })
+                        .finally(() => {
+                            // Finish loading
+                            instance.$set(instance, "loading", false);
+                        });
+                },
             },
         });
     }
@@ -165,9 +173,10 @@ export default class AdminUsers extends Vue {
         this.$store.dispatch("modal/open", {
             component: ConfirmModal,
             componentPayload: {
-                message: `Are you sure you want to delete '${user.username}'s account?'`,
-                action: () =>
-                    UsersService.patch(user.id, { avatarId: -1 })
+                message: `Are you sure you want to remove ${user.username}'s profile picture?`,
+                action: (instance: Vue) => {
+                    instance.$set(instance, "loading", true);
+                    UsersService.update(user.id, { avatarId: -1 })
                         .then(() => {
                             user.avatar.id = -1;
 
@@ -186,7 +195,12 @@ export default class AdminUsers extends Vue {
                                 style: "SNACKBAR",
                                 id: "locationDelete",
                             });
-                        }),
+                        })
+                        .finally(() => {
+                            // Finish loading
+                            instance.$set(instance, "loading", false);
+                        });
+                },
             },
         });
     }

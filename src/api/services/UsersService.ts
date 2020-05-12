@@ -18,8 +18,8 @@ class UsersService extends EchoService {
      * Get a list of all users
      */
     @GET("/users")
-    getAll(): EchoPromise<User> {
-        return {} as EchoPromise<User>;
+    getAll(): EchoPromise<Array<User>> {
+        return {} as EchoPromise<Array<User>>;
     }
 
     /**
@@ -37,7 +37,7 @@ class UsersService extends EchoService {
     }
 
     @PATCH("/users/{id}")
-    patch(
+    update(
         @Path("id") id: number,
         @Body() body: UserUpdateWrapper
     ): EchoPromise<void> {

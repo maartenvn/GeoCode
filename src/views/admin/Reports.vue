@@ -56,7 +56,7 @@ export default class Home extends Vue {
     tableSearch = "";
 
     reportedLocations = RequestHandler.handle(
-        ReportService.reportedLocations(),
+        ReportService.getReportedLocations(),
         {
             id: "reports",
             style: "SECTION",
