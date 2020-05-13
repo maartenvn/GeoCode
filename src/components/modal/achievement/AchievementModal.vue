@@ -12,16 +12,15 @@
             <v-img
                 :style="!payload.isAchieved ? 'filter: grayscale(100%);' : ''"
                 class="badge"
-                :src="image"
+                :src="imageURL"
                 width="150"
                 height="150"
             />
 
             <h2 class="pb-2">{{ payload.achievement.name }}</h2>
 
-            <p>
-                {{ payload.achievement.description }}
-            </p>
+            <!-- Description -->
+            <div v-html="payload.achievement.description" />
 
             <!-- Achieved -->
             <p v-if="payload.isAchieved" style="color: green;">
@@ -39,6 +38,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import Achievement from "@/api/models/Achievement";
+import { ImageUtil } from "@/util/ImageUtil";
 
 @Component
 export default class AchievementModal extends Vue {
@@ -61,14 +61,12 @@ export default class AchievementModal extends Vue {
     /**
      * Get the image URL for the given achievement.
      */
-    get image(): string {
-        return "https://image.flaticon.com/icons/svg/1411/1411219.svg";
-
-        /*return ImageUtil.getById(
+    get imageURL(): string {
+        return ImageUtil.getById(
             this.payload.achievement.image
                 ? this.payload.achievement.image.id
                 : -1
-        );*/
+        );
     }
 
     get achievedDate(): string {

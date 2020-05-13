@@ -25,7 +25,7 @@
 
         <v-row>
             <!-- Loading -->
-            <template v-if="achievements.isLoading()">
+            <template v-if="loading">
                 <achievement-badge
                     v-for="index of 20"
                     :key="index"
@@ -34,9 +34,9 @@
             </template>
 
             <!-- Data -->
-            <template v-else-if="achievements.isSuccess()">
+            <template v-else-if="success">
                 <!-- Empty -->
-                <template v-if="achievements.requireData().length === 0">
+                <template v-if="achievementsData.length === 0">
                     <v-col class="text-center">
                         <h3>No achievements available</h3>
 
@@ -49,31 +49,28 @@
                 <!-- Not empty -->
                 <template v-else>
                     <achievement-badge
-                        v-for="(achievement,
-                        index) of achievements.requireData()"
+                        v-for="(achievement, index) of achievementsData"
                         :key="index"
                         :achievement="achievement"
-                        :is-achieved="true"
+                        :is-achieved="achievement.achievedAt !== null"
                     />
                 </template>
-            </template>
-
-            <!-- Error -->
-            <template v-else-if="achievements.isError()">
-                <v-col>
-                    <error-placeholder error-id="achievements" />
-                </v-col>
             </template>
         </v-row>
     </v-container>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import { RequestHandler } from "@/api/RequestHandler";
 import AchievementBadge from "@/components/achievements/AchievementBadge.vue";
 import AchievementService from "@/api/services/AchievementService";
 import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
+import UserService from "@/api/services/UserService";
+import Achievement from "@/api/models/Achievement";
+import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
+import { EchoPromise } from "echofetch";
+import { Optional } from "@/types/Optional";
 
 @Component({
     components: { ErrorPlaceholder, AchievementBadge },
@@ -85,6 +82,92 @@ export default class Achievements extends Vue {
     achievements = RequestHandler.handle(AchievementService.getAll(), {
         id: "achievements",
         style: "SECTION",
+        displayFullpage: true,
     });
+
+    /**
+     * List with all the user achievements.
+     */
+    userAchievements: Optional<EchoPromise<Array<Achievement>>> = null;
+
+    /**
+     * If the user is authenticated.
+     */
+    @StoreGetter("session/isAuthenticated")
+    isAuthenticated: boolean;
+
+    /**
+     * Load user achievements when the user is authenticated.
+     */
+    @Watch("isAuthenticated", { immediate: true })
+    handleAuthenticated() {
+        if (this.isAuthenticated) {
+            this.userAchievements = RequestHandler.handle(
+                UserService.getAchievements(),
+                {
+                    id: "userAchievements",
+                    style: "SECTION",
+                    displayFullpage: true,
+                }
+            );
+        }
+    }
+
+    /**
+     * Get if the achievements are loading.
+     */
+    get loading(): boolean {
+        if (this.isAuthenticated && this.userAchievements) {
+            return (
+                this.achievements.isLoading() ||
+                this.userAchievements?.isLoading()
+            );
+        } else {
+            return this.achievements.isLoading();
+        }
+    }
+
+    /**
+     * Get if the achievements requests have succeeded.
+     */
+    get success(): boolean {
+        if (this.isAuthenticated && this.userAchievements) {
+            return (
+                this.achievements.isSuccess() &&
+                this.userAchievements?.isSuccess()
+            );
+        } else {
+            return this.achievements.isSuccess();
+        }
+    }
+
+    /**
+     * Get both user achievements & achievements together when success
+     */
+    get achievementsData(): Array<Achievement> {
+        const achievementsList: Array<Achievement> = [];
+
+        // Add the user achievements.
+        if (this.userAchievements && this.userAchievements.isSuccess()) {
+            achievementsList.push(...this.userAchievements?.requireData());
+        }
+
+        // Add all other achievements.
+        if (this.achievements.isSuccess()) {
+            // Only add the achievements that are not already in the list.
+            achievementsList.push(
+                ...this.achievements
+                    .requireData()
+                    .filter(
+                        (value) =>
+                            !achievementsList.find(
+                                (ach: Achievement) => ach.id === value.id
+                            )
+                    )
+            );
+        }
+
+        return achievementsList;
+    }
 }
 </script>
