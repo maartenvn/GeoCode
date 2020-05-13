@@ -21,7 +21,7 @@
                         :is-editor="true"
                     >
                         <div
-                            class="section__content text--secondary"
+                            class="section__content text--secondary wrap--word"
                             v-html="tour.data.description"
                         />
                     </inline-edit>
@@ -46,6 +46,7 @@
                             <li
                                 v-for="(location, index) of tour.data.locations"
                                 :key="index"
+                                class="wrap--all"
                             >
                                 <router-link
                                     :to="`/locations/${location.secretId}`"

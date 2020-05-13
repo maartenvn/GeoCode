@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-row justify="center">
-            <b class="pb-5 pt-2">{{ payload.location.name }}</b>
+            <b class="pb-5 pt-2 wrap--all">{{ payload.location.name }}</b>
 
             <v-btn
                 :to="`/locations/${payload.location.secretId}`"
