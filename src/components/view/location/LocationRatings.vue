@@ -5,7 +5,12 @@
 
             <v-spacer />
 
-            <v-btn color="primary" text @click="openCreateRating">
+            <v-btn
+                v-if="isAuthenticated"
+                color="primary"
+                text
+                @click="openCreateRating"
+            >
                 Leave a review
                 <v-icon right>mdi-plus-circle-outline</v-icon>
             </v-btn>
@@ -66,6 +71,7 @@ import { ErrorHandler } from "@/api/error/ErrorHandler";
 import { InputFields } from "@/types/fields/InputFields";
 import { InputFieldUtil } from "@/util/InputFieldUtil";
 import { ArrayUtil } from "@/util/ArrayUtil";
+import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
 
 @Component({
     components: { ErrorPlaceholder, LocationRatingCard },
@@ -81,6 +87,12 @@ export default class LocationRatings extends Vue {
         id: "ratings",
         style: "SECTION",
     });
+
+    /**
+     * If the client is logged in.
+     */
+    @StoreGetter("session/isAuthenticated")
+    isAuthenticated: boolean;
 
     /**
      * Open the create rating modal.
