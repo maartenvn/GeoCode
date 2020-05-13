@@ -31,6 +31,12 @@
                     No locations found with the given parameters
                 </template>
 
+                <template v-slot:item.name="{ item }">
+                    <div class="wrap--all">
+                        {{ item.name }}
+                    </div>
+                </template>
+
                 <template v-slot:item.active="{ item }">
                     <template v-if="activeEnabled">
                         <template v-if="!item.active">
