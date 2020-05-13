@@ -53,7 +53,6 @@ export default class ConfirmModal extends Vue {
 <style lang="scss">
 img {
     max-width: 25rem;
-    max-heigth: 25rem;
     display: block;
     margin-left: auto;
     margin-right: auto;
