@@ -149,7 +149,6 @@ import LocationService from "@/api/services/LocationService";
 import Editor from "@/components/Editor.vue";
 import LocationSetMap from "@/components/map/location/LocationSetMap.vue";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
-import { EchoError } from "echofetch";
 
 @Component({
     components: {

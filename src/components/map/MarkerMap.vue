@@ -86,21 +86,15 @@ import {
     Watch,
 } from "vue-property-decorator";
 import {
+    LControlAttribution,
     LMap,
     LMarker,
+    LPolyline,
     LPopup,
     LTileLayer,
-    LControlAttribution,
-    LPolyline,
 } from "vue2-leaflet";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
-import {
-    LatLng,
-    LatLngTuple,
-    LeafletMouseEvent,
-    Map,
-    MapOptions,
-} from "leaflet";
+import { LatLng, LeafletMouseEvent, Map, MapOptions } from "leaflet";
 import { MapMarker } from "@/types/map/MapMarker";
 import { MapLine } from "@/types/map/MapLine";
 import CurrentLocationService from "@/api/services/CurrentLocationService";

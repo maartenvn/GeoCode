@@ -150,7 +150,6 @@ import Editor from "@/components/Editor.vue";
 import TourMap from "@/components/map/tour/TourMap.vue";
 import Location from "@/api/models/Location";
 import { ArrayUtil } from "@/util/ArrayUtil";
-import LocationService from "@/api/services/LocationService";
 import { ErrorHandler } from "@/api/error/ErrorHandler";
 import TourService from "@/api/services/TourService";
 import { InputFieldUtil } from "@/util/InputFieldUtil";

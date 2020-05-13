@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import Report from "@/api/models/Report.ts";
 import { ImageUtil } from "@/util/ImageUtil.ts";
 import ReportService from "@/api/services/ReportService";

@@ -1,12 +1,12 @@
 import {
+    Body,
+    DELETE,
     EchoPromise,
     EchoService,
     EchoServiceBuilder,
-    Body,
     GET,
-    Path,
     PATCH,
-    DELETE,
+    Path,
 } from "echofetch";
 import config from "@/config";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";

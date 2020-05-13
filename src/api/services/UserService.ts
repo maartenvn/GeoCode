@@ -1,11 +1,11 @@
 import {
     Body,
+    DELETE,
     EchoPromise,
     EchoService,
     EchoServiceBuilder,
     FormField,
     FormMultipart,
-    DELETE,
     GET,
     PATCH,
     Path,

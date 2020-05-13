@@ -121,7 +121,6 @@ import ConfirmModal from "@/components/modal/ConfirmModal.vue";
 import { ErrorHandler } from "@/api/error/ErrorHandler";
 import { RouterUtil } from "@/util/RouterUtil";
 import LocationStatistics from "@/api/models/LocationStatistics";
-import { Store } from "vuex";
 
 @Component({
     components: {

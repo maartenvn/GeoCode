@@ -49,11 +49,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { StoreGetter } from "@/store/decorators/StoreGetterDecorator";
-import AdminNavigation from "@/components/admin/AdminNavigation.vue";
 import AdminService from "@/api/services/AdminService";
-import { HandleRequest } from "@/api/decorators/HandleRequestDecorator";
-import { EchoPromise } from "echofetch";
 import { RequestHandler } from "@/api/RequestHandler";
 import StatisticsCard from "@/components/statistics/StatisticsCard.vue";
 

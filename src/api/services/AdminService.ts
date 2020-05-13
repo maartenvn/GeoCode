@@ -1,10 +1,10 @@
 import config from "@/config";
 import {
-    GET,
-    Path,
     EchoPromise,
     EchoService,
     EchoServiceBuilder,
+    GET,
+    Path,
 } from "echofetch";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
 import Report from "@/api/models/Report.ts";
