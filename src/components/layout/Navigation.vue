@@ -51,15 +51,15 @@ export default class Navigation extends Vue {
         },
 
         {
-            title: "Achievements",
-            to: "/achievements",
-            icon: "mdi-trophy",
-        },
-
-        {
             title: "Tours",
             to: "/tours",
             icon: "mdi-routes",
+        },
+
+        {
+            title: "Achievements",
+            to: "/achievements",
+            icon: "mdi-trophy",
         },
 
         {

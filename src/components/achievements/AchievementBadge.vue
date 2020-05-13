@@ -9,13 +9,13 @@
         <template v-else>
             <!-- Tooltip -->
             <v-tooltip top>
-                <span>Visit Australia</span>
+                <span>{{ achievement.name }}</span>
 
                 <template v-slot:activator="{ on }">
                     <v-img
                         class="badge"
                         v-on="on"
-                        src="https://image.flaticon.com/icons/svg/1411/1411219.svg"
+                        :src="imageURL"
                         height="100"
                         width="100"
                         @click="openAchievement()"
@@ -39,6 +39,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import AchievementModal from "@/components/modal/achievement/AchievementModal.vue";
 import Achievement from "@/api/models/Achievement";
+import { ImageUtil } from "@/util/ImageUtil";
 
 @Component
 export default class AchievementBadge extends Vue {
@@ -59,6 +60,15 @@ export default class AchievementBadge extends Vue {
      */
     @Prop({ default: false })
     isAchieved: boolean;
+
+    /**
+     * Get the image URL of the achievement.
+     */
+    get imageURL(): string {
+        return ImageUtil.getById(
+            this.achievement.image ? this.achievement.image.id : -1
+        );
+    }
 
     /**
      * Open a modal containing the achievement information.
