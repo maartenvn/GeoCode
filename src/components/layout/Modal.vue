@@ -1,7 +1,6 @@
 <template>
     <v-dialog
         v-model="open"
-        persistent
         :max-width="modalData.width"
         :fullscreen="modalData.fullscreen"
         :transition="
