@@ -210,6 +210,8 @@ export default class TourCreateModal extends Vue {
             locations: locationIds,
         };
 
+        this.loading = true;
+
         TourService.create(body)
             .then((response) => {
                 this.$store.dispatch("snackbar/open", {
