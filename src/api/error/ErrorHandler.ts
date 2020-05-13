@@ -31,6 +31,13 @@ const globalCustomErrors: Array<CustomErrorMessage> = [
     },
 
     {
+        code: "502",
+        message: "Server is currently offline.",
+        description:
+            "We are having issues with the server. Please try again later.",
+    },
+
+    {
         code: "network_error",
         message: "Unable to connect to server",
         description:
