@@ -52,7 +52,7 @@
                         v-for="(achievement, index) of achievementsData"
                         :key="index"
                         :achievement="achievement"
-                        :is-achieved="achievement.achievedAt !== null"
+                        :is-achieved="achievement.achievedAt"
                     />
                 </template>
             </template>
