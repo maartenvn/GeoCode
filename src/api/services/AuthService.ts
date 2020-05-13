@@ -8,8 +8,8 @@ import {
 } from "echofetch";
 import {
     AuthLoginWrapper,
-    AuthRegisterWrapper,
     AuthPasswordUpdateWrapper,
+    AuthRegisterWrapper,
 } from "@/api/wrappers/AuthWrapper";
 import { ErrorHandler } from "@/api/error/ErrorHandler";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";

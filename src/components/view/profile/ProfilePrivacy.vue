@@ -96,19 +96,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { InputField } from "@/types/fields/InputField";
-import { InputFields } from "@/types/fields/InputFields";
-import { InputFieldUtil } from "@/util/InputFieldUtil";
+import { Component, Vue } from "vue-property-decorator";
 import { ErrorHandler } from "@/api/error/ErrorHandler";
-import AuthService from "@/api/services/AuthService";
-import User from "@/api/models/User";
 import UserService from "@/api/services/UserService";
-import ProfileAccountAvatar from "@/components/view/profile/ProfileAccountAvatar.vue";
-import { EchoError } from "echofetch";
-import { UserUtil } from "@/util/UserUtil";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
-import { ArrayUtil } from "@/util/ArrayUtil";
 
 @Component
 export default class ProfilePrivacy extends Vue {

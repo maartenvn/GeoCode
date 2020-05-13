@@ -99,7 +99,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import AdminService from "@/api/services/AdminService";
 import LocationService from "@/api/services/LocationService";
 import { RequestHandler } from "@/api/RequestHandler";
