@@ -16,6 +16,7 @@
                         class="badge"
                         v-on="on"
                         :src="imageURL"
+                        :style="!isAchieved ? 'filter: grayscale(100%);' : ''"
                         height="100"
                         width="100"
                         @click="openAchievement()"
