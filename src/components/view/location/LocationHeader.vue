@@ -55,7 +55,12 @@
                 </v-col>
 
                 <v-col cols="auto" align-self="center">
-                    <v-btn color="error" text @click="openCreateReport">
+                    <v-btn
+                        v-if="isAuthenticated"
+                        color="error"
+                        text
+                        @click="openCreateReport"
+                    >
                         <v-icon left>
                             mdi-alert-octagon
                         </v-icon>
@@ -141,6 +146,12 @@ export default class LocationHeader extends Vue {
      */
     @Prop()
     statistics: EchoPromise<LocationStatistics>;
+
+    /**
+     * If the user is authenticated.
+     */
+    @StoreGetter("session/isAuthenticated")
+    isAuthenticated: boolean;
 
     /**
      * Current user

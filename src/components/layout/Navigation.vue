@@ -49,6 +49,24 @@ export default class Navigation extends Vue {
             to: "/locations",
             icon: "mdi-map-marker",
         },
+
+        {
+            title: "Tours",
+            to: "/tours",
+            icon: "mdi-routes",
+        },
+
+        {
+            title: "Achievements",
+            to: "/achievements",
+            icon: "mdi-trophy",
+        },
+
+        {
+            title: "Leaderboards",
+            to: "/leaderboards",
+            icon: "mdi-arrow-up-bold-circle-outline",
+        },
     ];
 
     /**
@@ -62,15 +80,34 @@ export default class Navigation extends Vue {
         },
 
         {
+            title: "My Achievements",
+            to: "/profile/achievements",
+            icon: "mdi-trophy",
+        },
+
+        {
             title: "My Locations",
             to: "/profile/locations",
             icon: "mdi-database-marker",
         },
 
         {
+            title: "My Tours",
+            to: "/profile/tours",
+            icon: "mdi-routes",
+        },
+
+        {
             title: "My Visits",
             to: "/profile/visits",
             icon: "mdi-map-marker-check",
+        },
+
+        {
+            title: "Admin panel",
+            to: "/admin",
+            icon: "mdi-monitor-dashboard",
+            admin: true,
         },
 
         {

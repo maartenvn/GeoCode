@@ -13,6 +13,8 @@
                 :width="width"
                 :zoom="zoom"
                 :center="center"
+                :center-by-ip="centerByIp"
+                :center-by-geo="centerByGeo"
                 :markers="markers"
                 :popupComponent="popupComponent"
                 :searchEnabled="searchEnabled"
@@ -22,7 +24,7 @@
 
         <!-- Error -->
         <template v-else>
-            <error-handler id="locations" />
+            <error-placeholder error-id="locations" />
         </template>
     </div>
 </template>
@@ -36,10 +38,12 @@ import { LocationPopupPayload } from "@/types/map/location/LocationPopup";
 import Location from "@/api/models/Location";
 import MarkerMap from "@/components/map/MarkerMap.vue";
 import LocationPopup from "@/components/map/popup/LocationPopup.vue";
+import ErrorPlaceholder from "@/components/error/ErrorPlaceholder.vue";
 
 @Component({
     components: {
         MarkerMap,
+        ErrorPlaceholder,
     },
 })
 export default class LocationMap extends Vue {
@@ -74,6 +78,21 @@ export default class LocationMap extends Vue {
     center: Array<number>;
 
     /**
+     * Should the users IP-address be used as center for the map.
+     * @var center will be used as initial center & fallback.
+     */
+    @Prop({ default: false })
+    centerByIp: boolean;
+
+    /**
+     * Should the users geolocation be used as center for the map.
+     * This will add a button allowing the user to center the map using its location.
+     * @var center will be used as initial center & fallback.
+     */
+    @Prop({ default: false })
+    centerByGeo: boolean;
+
+    /**
      * Zoom level of the map.
      */
     @Prop()
@@ -81,11 +100,6 @@ export default class LocationMap extends Vue {
 
     @Prop({ default: false })
     searchEnabled: boolean;
-
-    /**
-     * URL of the tile provider server.
-     */
-    tileServer: string;
 
     /**
      * Component to display inside the popup of a marker.

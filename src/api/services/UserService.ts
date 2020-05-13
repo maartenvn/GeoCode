@@ -1,5 +1,6 @@
 import {
     Body,
+    DELETE,
     EchoPromise,
     EchoService,
     EchoServiceBuilder,
@@ -17,6 +18,9 @@ import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
 import { InputFields } from "@/types/fields/InputFields";
 import Visit from "@/api/models/Visit";
 import UserStatistics from "@/api/models/UserStatistics";
+import Achievement from "@/api/models/Achievement";
+import Tour from "@/api/models/Tour";
+import { UserDataWrapper } from "@/api/wrappers/UserWrapper.ts";
 
 class UserService extends EchoService {
     /**
@@ -33,6 +37,14 @@ class UserService extends EchoService {
     @GET("/user/locations")
     getLocations(): EchoPromise<Array<Location>> {
         return {} as EchoPromise<Array<Location>>;
+    }
+
+    /**
+     * Get a list with tours of the logged in user.
+     */
+    @GET("/user/tours")
+    getTours(): EchoPromise<Array<Tour>> {
+        return {} as EchoPromise<Array<Tour>>;
     }
 
     /**
@@ -63,6 +75,14 @@ class UserService extends EchoService {
     }
 
     /**
+     * Get achievements for the logged in user.
+     */
+    @GET("/user/achievements")
+    getAchievements(): EchoPromise<Array<Achievement>> {
+        return {} as EchoPromise<Array<Achievement>>;
+    }
+
+    /**
      * Update the current user
      */
     @PATCH("/user")
@@ -78,6 +98,22 @@ class UserService extends EchoService {
     @POST("/user/avatar")
     updateAvatar(@FormField("image") image: File): EchoPromise<number> {
         return {} as EchoPromise<number>;
+    }
+
+    /**
+     * Delete the logged in user.
+     */
+    @DELETE("/user")
+    delete(): EchoPromise<void> {
+        return {} as EchoPromise<void>;
+    }
+
+    /**
+     * Delete specific data for the logged in user.
+     */
+    @DELETE("user/data")
+    deleteData(@Body() body: UserDataWrapper): EchoPromise<void> {
+        return {} as EchoPromise<void>;
     }
 }
 

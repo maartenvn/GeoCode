@@ -17,6 +17,7 @@ import {
     LocationUpdateWrapper,
 } from "@/api/wrappers/LocationWrapper";
 import { AuthInterceptor } from "@/api/interceptors/AuthInterceptor";
+import LocationStatistics from "@/api/models/LocationStatistics";
 
 class LocationService extends EchoService {
     /**
@@ -41,8 +42,10 @@ class LocationService extends EchoService {
      * @param secretId Secret id of the location.
      */
     @GET("/locations/{secretId}/statistics")
-    getStatistics(@Path("secretId") secretId: string): EchoPromise<Location> {
-        return {} as EchoPromise<Location>;
+    getStatistics(
+        @Path("secretId") secretId: string
+    ): EchoPromise<LocationStatistics> {
+        return {} as EchoPromise<LocationStatistics>;
     }
 
     /**

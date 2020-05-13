@@ -1,4 +1,4 @@
-import { LatLng, latLng, LatLngExpression } from "leaflet";
+import { Icon, LatLng, latLng, LatLngExpression } from "leaflet";
 
 export class MapMarker {
     /**
@@ -7,16 +7,22 @@ export class MapMarker {
     private latLng: LatLng;
 
     /**
+     * Icon of the marker.
+     */
+    private icon: Icon | Icon.Default;
+
+    /**
      * Payload to pass to the component inside the popup.
      */
     private popupPayload: unknown;
 
     /**
      * Constructor
-     * @param latlng Latitude/longitude object
+     * @param latLng Latitude/longitude object
      */
-    constructor(latlng: LatLng) {
-        this.latLng = latlng;
+    constructor(latLng: LatLng) {
+        this.latLng = latLng;
+        this.icon = new Icon.Default();
     }
 
     /**
@@ -32,6 +38,21 @@ export class MapMarker {
      */
     public setLatLng(latlng: LatLngExpression) {
         this.latLng = latLng(latlng);
+    }
+
+    /**
+     * Get the icon for the marker.
+     */
+    public getIcon(): Icon | Icon.Default {
+        return this.icon;
+    }
+
+    /**
+     * Set the icon for the marker.
+     * @param icon Icon object
+     */
+    public setIcon(icon: Icon) {
+        this.icon = icon;
     }
 
     /**

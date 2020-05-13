@@ -1,11 +1,17 @@
 <template>
     <v-app>
         <v-content>
+            <!-- Admin Panel Navigation -->
+            <admin-navigation v-if="$route.fullPath.startsWith('/admin')" />
+
             <!-- Navigation -->
-            <Navigation />
+            <navigation v-else />
 
             <!-- Content -->
-            <router-view-wrapper />
+            <router-view-wrapper class="content" />
+
+            <!-- Footer -->
+            <Footer v-if="!$route.fullPath.startsWith('/admin')" />
 
             <!-- Snackbar -->
             <snackbar />
@@ -25,11 +31,14 @@ import RouterViewWrapper from "@/components/util/RouterViewWrapper.vue";
 import Snackbar from "@/components/layout/Snackbar.vue";
 import Modal from "@/components/layout/Modal.vue";
 import ErrorBus from "@/api/error/ErrorBus";
+import Footer from "@/components/layout/Footer.vue";
 
 @Component({
     components: {
         Navigation,
+        AdminNavigation: () => import("@/components/admin/AdminNavigation.vue"),
         RouterViewWrapper,
+        Footer,
         Snackbar,
         Modal,
     },
@@ -123,5 +132,9 @@ label {
 
 .grecaptcha-badge {
     display: none !important;
+}
+
+.content {
+    margin-bottom: 123px;
 }
 </style>

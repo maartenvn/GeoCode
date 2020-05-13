@@ -3,10 +3,12 @@ import {
     EchoPromise,
     EchoService,
     EchoServiceBuilder,
+    PATCH,
     POST,
 } from "echofetch";
 import {
     AuthLoginWrapper,
+    AuthPasswordUpdateWrapper,
     AuthRegisterWrapper,
 } from "@/api/wrappers/AuthWrapper";
 import { ErrorHandler } from "@/api/error/ErrorHandler";
@@ -32,6 +34,11 @@ class AuthService extends EchoService {
     @POST("/auth/register")
     register(@Body() body: AuthLoginWrapper): EchoPromise<string> {
         return {} as EchoPromise<string>;
+    }
+
+    @PATCH("/user/passwordreset")
+    changePassword(@Body() body: AuthPasswordUpdateWrapper): EchoPromise<void> {
+        return {} as EchoPromise<void>;
     }
 
     /**

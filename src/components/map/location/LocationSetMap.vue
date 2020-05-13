@@ -5,6 +5,8 @@
         :width="width"
         :zoom="zoom"
         :center="center"
+        :center-by-ip="centerByIp"
+        :center-by-geo="centerByGeo"
         :markers="[marker]"
         :searchEnabled="true"
         @mapClick="onMapClick"
@@ -41,6 +43,21 @@ export default class LocationSetMap extends Vue {
      */
     @Prop()
     center: Array<number>;
+
+    /**
+     * Should the users IP-address be used as center for the map.
+     * @var center will be used as initial center & fallback.
+     */
+    @Prop({ default: false })
+    centerByIp: boolean;
+
+    /**
+     * Should the users geolocation be used as center for the map.
+     * This will add a button allowing the user to center the map using its location.
+     * @var center will be used as initial center & fallback.
+     */
+    @Prop({ default: false })
+    centerByGeo: boolean;
 
     /**
      * Zoom level of the map.
