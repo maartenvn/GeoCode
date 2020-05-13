@@ -188,7 +188,11 @@ export default class InlineEdit extends Vue {
 .edit {
     &__field {
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
+        max-width: 100%;
+        word-break: break-word;
+        overflow-wrap: anywhere;
 
         &__button {
             margin-left: 15px;

@@ -21,7 +21,7 @@
                         :is-editor="true"
                     >
                         <div
-                            class="section__content text--secondary"
+                            class="section__content text--secondary wrap--word"
                             v-html="location.data.description"
                         />
                     </inline-edit>
@@ -46,6 +46,7 @@
                         <span class="li__title">
                             Created by
                         </span>
+
                         <span class="li__content">
                             <template v-if="creator && creator.isLoading()">
                                 <v-skeleton-loader dense type="text" />
@@ -79,9 +80,9 @@
 
                     <v-spacer />
 
-                    <v-btn color="primary" text @click="openMaps"
-                        >Open in maps</v-btn
-                    >
+                    <v-btn color="primary" text @click="openMaps">
+                        Open in maps
+                    </v-btn>
                 </div>
 
                 <div class="section__content">

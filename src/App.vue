@@ -137,4 +137,16 @@ label {
 .content {
     margin-bottom: 123px;
 }
+
+.wrap {
+    &--all {
+        word-break: break-word;
+        overflow-wrap: anywhere;
+    }
+
+    &--word {
+        overflow-wrap: break-word;
+        overflow: hidden;
+    }
+}
 </style>

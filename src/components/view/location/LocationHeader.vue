@@ -16,42 +16,44 @@
                             :enabled="isOwner"
                         />
                     </div>
+                </v-col>
+            </v-row>
 
-                    <div class="location__info">
-                        <!-- Loading -->
-                        <template v-if="statistics.isLoading()">
-                            <v-skeleton-loader
-                                class="mt-2"
-                                type="text"
-                                width="300"
+            <v-row justify="space-between" no-gutters>
+                <v-col cols="auto" class="location__info">
+                    <!-- Loading -->
+                    <template v-if="statistics.isLoading()">
+                        <v-skeleton-loader
+                            class="mt-2"
+                            type="text"
+                            width="300"
+                        />
+                    </template>
+
+                    <!-- Data -->
+                    <v-row v-else-if="statistics.isSuccess()">
+                        <v-col cols="auto" class="d-flex">
+                            <v-rating
+                                class="pr-2"
+                                :value="location.requireData().rating"
+                                color="primary"
+                                background-color="primary"
+                                half-increments
+                                half-icon="mdi-star-half-full"
+                                dense
+                                small
+                                readonly
                             />
-                        </template>
+                            {{ statistics.data.ratingsCount }} reviews
+                        </v-col>
 
-                        <!-- Data -->
-                        <v-row v-else-if="statistics.isSuccess()">
-                            <v-col cols="auto" class="d-flex">
-                                <v-rating
-                                    class="pr-2"
-                                    :value="location.requireData().rating"
-                                    color="primary"
-                                    background-color="primary"
-                                    half-increments
-                                    half-icon="mdi-star-half-full"
-                                    dense
-                                    small
-                                    readonly
-                                />
-                                {{ statistics.data.ratingsCount }} reviews
-                            </v-col>
+                        <v-divider class="divider--vertical" vertical />
 
-                            <v-divider class="divider--vertical" vertical />
-
-                            <v-col cols="auto" class="d-flex">
-                                <v-icon left>mdi-qrcode-scan</v-icon>
-                                {{ statistics.data.visitsCount }} scans
-                            </v-col>
-                        </v-row>
-                    </div>
+                        <v-col cols="auto" class="d-flex">
+                            <v-icon left>mdi-qrcode-scan</v-icon>
+                            {{ statistics.data.visitsCount }} scans
+                        </v-col>
+                    </v-row>
                 </v-col>
 
                 <v-col cols="auto" align-self="center">

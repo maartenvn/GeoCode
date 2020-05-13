@@ -1,6 +1,6 @@
 <template>
     <v-row justify="center">
-        <b class="pb-5 pt-2">{{ payload.location.name }}</b>
+        <b class="pb-5 pt-2 wrap--all">{{ payload.location.name }}</b>
 
         <!-- Add to tour button -->
         <v-btn
