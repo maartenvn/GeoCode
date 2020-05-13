@@ -25,9 +25,13 @@ export class AuthInterceptor implements EchoServiceInterceptor {
 
         // Clear the cache when logging out.
         // Clear the cache when deleting data.
+        // Clear the cache when posting data.
+        // Clear the cache when patching data.
         if (
             request.url?.includes("logout") ||
-            request.method?.toLowerCase() === "DELETE"
+            request.method?.toLowerCase() === "DELETE" ||
+            request.method?.toLowerCase() === "POST" ||
+            request.method?.toLowerCase() === "PATCH"
         ) {
             cache = setupCacheStore();
         }
