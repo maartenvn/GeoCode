@@ -42,6 +42,7 @@
         >
             <l-tile-layer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                :noWrap="true"
             />
 
             <l-control-attribution
