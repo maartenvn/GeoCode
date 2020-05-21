@@ -17,7 +17,7 @@ jobs:
     - stage: docs
       if: branch = master
       script:
-        - npm run build
+        - npm run build --mode pages
       deploy:
         provider: pages
         skip_cleanup: true
