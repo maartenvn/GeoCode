@@ -1,5 +1,6 @@
 # GeoCode Frontend
-[![build status](https://img.shields.io/travis/maartenvn/geocode-frontend)](https://travis-ci.org/maartenvn/GeoCode-Frontend)
+[![build status](https://img.shields.io/travis/maartenvn/geocode)](https://travis-ci.org/maartenvn/GeoCode)
+[![license](https://img.shields.io/github/license/maartenvn/geocode)](https://github.com/maartenvn/GeoCode/blob/master/LICENSE)
 
 Frontend for GeoCode written in Vue 2 and Typescript. GeoCode was written as project for the course Web Development 2020 at the [University of Ghent](https://ugent.be)
 
