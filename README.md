@@ -4,6 +4,8 @@
 
 Frontend for GeoCode written in Vue 2 and Typescript. GeoCode was written as project for the course Web Development 2020 at the [University of Ghent](https://ugent.be)
 
+**Backend Repository**: [GeoCode Backend](https://github.com/FKD13/geocode_backend)
+
 ## What is GeoCode?
 Find & create amazing locations to explore and share with others. GeoCode is the new way of Geocaching you have been dreaming of.
 
